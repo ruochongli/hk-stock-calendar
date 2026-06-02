@@ -909,6 +909,80 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
             font-size: 12px;
             color: #94a3b8;
         }}
+        /* 侧边栏 */
+        .sidebar-overlay {{
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.35);
+            backdrop-filter: blur(2px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            z-index: 998;
+        }}
+        .sidebar-overlay.active {{
+            opacity: 1;
+            visibility: visible;
+        }}
+        .sidebar {{
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 520px;
+            max-width: 90vw;
+            height: 100vh;
+            background: #fff;
+            box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+        }}
+        .sidebar.active {{
+            transform: translateX(0);
+        }}
+        .sidebar-header {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }}
+        .sidebar-title {{
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+        }}
+        .sidebar-close {{
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f1f5f9;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }}
+        .sidebar-close:hover {{
+            background: #e2e8f0;
+            color: #0f172a;
+        }}
+        .sidebar-body {{
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }}
+        .sidebar-iframe {{
+            width: 100%;
+            height: 100%;
+            border: none;
+        }}
         /* 响应式 */
         @media (max-width: 768px) {{
             .calendar-grid {{
@@ -986,6 +1060,18 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
         <footer>
             数据来源：东方财富 · 港交所披露易同步
         </footer>
+    </div>
+
+    <!-- 侧边栏 -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-title">公告详情</span>
+            <button class="sidebar-close" onclick="closeSidebar()">×</button>
+        </div>
+        <div class="sidebar-body">
+            <iframe class="sidebar-iframe" id="sidebarIframe" src=""></iframe>
+        </div>
     </div>
 
     <script>
@@ -1191,7 +1277,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
                 let cardsHtml = "";
                 if (anns.length > 0) {{
                     cardsHtml = anns.map(a => `
-                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.url}}')window.open('${{a.url}}','_blank')">
+                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.url}}')openSidebar('${{a.url}}')">
                             <div class="fund-tag" style="background-color: ${{a.fundColor}}15; color: ${{a.fundColor}};">${{a.fund}}</div>
                             <div class="stock-tag">
                                 <span class="stock-code" style="background-color: ${{a.color}}20; color: ${{a.color}}; border: 1px solid ${{a.color}}40; border-radius: 4px;">${{a.code}}</span>
@@ -1215,6 +1301,30 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
                 grid.appendChild(cell);
             }}
         }}
+
+        // 侧边栏
+        function openSidebar(url) {{
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const iframe = document.getElementById('sidebarIframe');
+            if (!url) return;
+            iframe.src = url;
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }}
+        function closeSidebar() {{
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const iframe = document.getElementById('sidebarIframe');
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => {{ iframe.src = ''; }}, 300);
+        }}
+        document.addEventListener('keydown', e => {{
+            if (e.key === 'Escape') closeSidebar();
+        }});
 
         // 初始化
         initSelectors();
