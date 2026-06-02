@@ -39,23 +39,37 @@ DEFAULT_EXCEL_PATH = (
 )
 
 
-def load_holdings() -> list[dict]:
+def load_holdings(excel_path: str | None = None) -> list[dict]:
     """
     读取持仓配置。优先从 Excel 读取，回退到 holdings.json。
     返回每条包含 code, name, fund, account。
+
+    如果传入了 excel_path，读取后自动保存到 holdings.json。
     """
-    # 先尝试 holdings.json 中的 excel_path 配置
-    excel_path = DEFAULT_EXCEL_PATH
-    if CONFIG_PATH.exists():
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-            config = json.load(f)
-        if config.get("excel_path"):
-            excel_path = Path(config["excel_path"])
+    # 情况1：命令行传入了 Excel 路径
+    if excel_path:
+        p = Path(excel_path)
+        if not p.exists():
+            print(f"[错误] 指定的 Excel 文件不存在: {excel_path}")
+            sys.exit(1)
+        holdings = _load_from_excel(p)
+        # 保存到 holdings.json 供下次使用
+        CONFIG_PATH.parent.mkdir(exist_ok=True)
+        with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+            json.dump({"holdings": holdings, "excel_path": str(p)}, f, ensure_ascii=False, indent=2)
+        print(f"[保存] 持仓已更新并保存到 {CONFIG_PATH}")
+        return holdings
 
-    if excel_path.exists():
-        return _load_from_excel(excel_path)
+    # 情况2：先尝试默认 Excel 路径
+    if DEFAULT_EXCEL_PATH.exists():
+        holdings = _load_from_excel(DEFAULT_EXCEL_PATH)
+        # 保存到 holdings.json
+        CONFIG_PATH.parent.mkdir(exist_ok=True)
+        with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+            json.dump({"holdings": holdings, "excel_path": str(DEFAULT_EXCEL_PATH)}, f, ensure_ascii=False, indent=2)
+        return holdings
 
-    # 回退到 holdings.json
+    # 情况3：回退到 holdings.json
     if CONFIG_PATH.exists():
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
             config = json.load(f)
@@ -63,9 +77,10 @@ def load_holdings() -> list[dict]:
         for h in holdings:
             h.setdefault("fund", "默认")
             h.setdefault("account", "")
+        print(f"[JSON] 使用已保存的持仓数据（{len(holdings)} 条），如需更新请传入 --holdings")
         return holdings
 
-    print(f"[错误] 未找到持仓数据源。请创建以下之一：")
+    print(f"[错误] 未找到持仓数据源。请传入 --holdings 或创建以下之一：")
     print(f"  1. Excel 文件: {DEFAULT_EXCEL_PATH}")
     print(f"  2. JSON 配置: {CONFIG_PATH}")
     sys.exit(1)
@@ -217,34 +232,33 @@ def format_output(announcements: list[dict], holdings_map: dict[str, str]) -> li
 
 def main():
     """主入口。"""
+    import argparse
+    parser = argparse.ArgumentParser(description="港股公告爬虫")
+    parser.add_argument("--holdings", type=str, default=None, help="持仓 Excel 文件路径，不传则使用已保存的数据")
+    args = parser.parse_args()
+
     print("=" * 60)
     print("港股公告爬虫助手")
     print(f"运行时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
 
-    holdings = load_holdings()
+    holdings = load_holdings(excel_path=args.holdings)
     holdings_map = {h["code"]: h.get("name", "") for h in holdings}
 
-    # 计算数据获取范围：当前月前后各一个月（共约3个月）
+    # 计算数据获取范围：从今年4月初到未来一个月末
     today = datetime.now().date()
-    if today.month == 1:
-        prev_month_first = today.replace(year=today.year - 1, month=12, day=1)
-    else:
-        prev_month_first = today.replace(month=today.month - 1, day=1)
-
+    # 起始日期：今年4月1日
+    begin_time = today.replace(month=4, day=1).strftime("%Y-%m-%d")
+    # 结束日期：下个月的最后一天
     if today.month == 12:
-        next_month_last = today.replace(year=today.year + 1, month=1, day=1)
+        next_month_first = today.replace(year=today.year + 1, month=1, day=1)
     else:
-        next_month_last = today.replace(month=today.month + 1, day=1)
-
-    if next_month_last.month == 12:
-        next_next_month_first = next_month_last.replace(year=next_month_last.year + 1, month=1, day=1)
+        next_month_first = today.replace(month=today.month + 1, day=1)
+    if next_month_first.month == 12:
+        next_next_month_first = next_month_first.replace(year=next_month_first.year + 1, month=1, day=1)
     else:
-        next_next_month_first = next_month_last.replace(month=next_month_last.month + 1, day=1)
-    next_month_last = next_next_month_first - timedelta(days=1)
-
-    begin_time = prev_month_first.strftime("%Y-%m-%d")
-    end_time = next_month_last.strftime("%Y-%m-%d")
+        next_next_month_first = next_month_first.replace(month=next_month_first.month + 1, day=1)
+    end_time = (next_next_month_first - timedelta(days=1)).strftime("%Y-%m-%d")
     print(f"\n数据查询范围: {begin_time} ~ {end_time}")
 
     all_lines: list[str] = []
@@ -1336,6 +1350,31 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             bar.appendChild(actions);
         }}
 
+        // 初始化公告类型筛选栏
+        function initCategoryFilter() {{
+            const bar = document.getElementById("categoryFilterBar");
+            // 清空现有内容（保留标签）
+            while (bar.children.length > 1) bar.removeChild(bar.lastChild);
+
+            categoryList.forEach(c => {{
+                const item = document.createElement("label");
+                item.className = "filter-item";
+                item.innerHTML = `
+                    <input type="checkbox" checked value="${{c.name}}" onchange="onCategoryFilterChange()">
+                    <span class="filter-dot" style="background-color: ${{c.color}};"></span>
+                    <span class="filter-text">${{c.name}}</span>
+                `;
+                bar.appendChild(item);
+            }});
+            const actions = document.createElement("div");
+            actions.className = "filter-actions";
+            actions.innerHTML = `
+                <button class="filter-action-btn" onclick="selectAllCategories(true)">全选</button>
+                <button class="filter-action-btn" onclick="selectAllCategories(false)">全不选</button>
+            `;
+            bar.appendChild(actions);
+        }}
+
         function onFundFilterChange() {{
             const checkboxes = document.querySelectorAll('#fundFilterBar input[type="checkbox"]');
             selectedFunds = new Set();
@@ -1356,6 +1395,22 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             renderCalendar(currentYear, currentMonth);
         }}
 
+        function onCategoryFilterChange() {{
+            const checkboxes = document.querySelectorAll('#categoryFilterBar input[type="checkbox"]');
+            selectedCategories = new Set();
+            checkboxes.forEach(cb => {{
+                if (cb.checked) selectedCategories.add(cb.value);
+            }});
+            renderCalendar(currentYear, currentMonth);
+        }}
+            const checkboxes = document.querySelectorAll('#stockFilterBar input[type="checkbox"]');
+            selectedCodes = new Set();
+            checkboxes.forEach(cb => {{
+                if (cb.checked) selectedCodes.add(cb.value);
+            }});
+            renderCalendar(currentYear, currentMonth);
+        }}
+
         function selectAllFunds(checked) {{
             const checkboxes = document.querySelectorAll('#fundFilterBar input[type="checkbox"]');
             checkboxes.forEach(cb => cb.checked = checked);
@@ -1366,6 +1421,12 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             const checkboxes = document.querySelectorAll('#stockFilterBar input[type="checkbox"]');
             checkboxes.forEach(cb => cb.checked = checked);
             onStockFilterChange();
+        }}
+
+        function selectAllCategories(checked) {{
+            const checkboxes = document.querySelectorAll('#categoryFilterBar input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = checked);
+            onCategoryFilterChange();
         }}
 
         function onYearMonthChange() {{

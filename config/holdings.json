@@ -1,7 +1,491 @@
 {
   "holdings": [
-    {"code": "00257", "name": "光大环境"},
-    {"code": "00700", "name": "腾讯控股"},
-    {"code": "00883", "name": "中国海洋石油"}
-  ]
+    {
+      "code": "00257",
+      "name": "光大環境 EB ENVIRONMENT",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "00700",
+      "name": "騰訊控股 TENCENT",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "00883",
+      "name": "中國海洋石油 CNOOC",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "00916",
+      "name": "龍源電力 CHINA LONGYUAN",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "00939",
+      "name": "建設銀行 CCB",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "00981",
+      "name": "中芯國際 SMIC",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "01072",
+      "name": "東方電氣 DONGFANG ELEC",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "01133",
+      "name": "哈爾濱電氣 HARBIN ELECTRIC",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "01138",
+      "name": "中遠海能 COSCO SHIP ENGY",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "01347",
+      "name": "華虹半導體 HUA HONG SEMI",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "01378",
+      "name": "中國宏橋 CHINAHONGQIAO",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "01398",
+      "name": "工商銀行 ICBC",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "02050",
+      "name": "三花智控 SANHUA",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "02285",
+      "name": "泉峰控股 CHERVON",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "02388",
+      "name": "中銀香港 BOC HONG KONG",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "03323",
+      "name": "中國建材 CNBM",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "09698",
+      "name": "萬國數據－ＳＷ GDS-SW",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "09988",
+      "name": "阿里巴巴－Ｗ BABA-W",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "09999",
+      "name": "網易－Ｓ NTES-S",
+      "fund": "CDG",
+      "account": "50308215"
+    },
+    {
+      "code": "03378",
+      "name": "翰思艾泰－Ｂ HANXBIO-B",
+      "fund": "Lakeside",
+      "account": "50308228"
+    },
+    {
+      "code": "00133",
+      "name": "招商局中國基金 CHINA MERCHANTS",
+      "fund": "Park",
+      "account": "50308219"
+    },
+    {
+      "code": "00257",
+      "name": "光大環境 EB ENVIRONMENT",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00388",
+      "name": "香港交易所 HKEX",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00670",
+      "name": "中國東方航空股份 CHINA EAST AIR",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00697",
+      "name": "首程控股 SHOUCHENG",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00728",
+      "name": "中國電信 CHINA TELECOM",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00753",
+      "name": "中國國航 AIR CHINA",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00857",
+      "name": "中國石油股份 PETROCHINA",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00883",
+      "name": "中國海洋石油 CNOOC",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00939",
+      "name": "建設銀行 CCB",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "00941",
+      "name": "中國移動 CHINA MOBILE",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "01288",
+      "name": "農業銀行 ABC",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "01398",
+      "name": "工商銀行 ICBC",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "01766",
+      "name": "中國中車 CRRC",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "01772",
+      "name": "贛鋒鋰業 GANFENGLITHIUM",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "01888",
+      "name": "建滔積層板 KB LAMINATES",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "02318",
+      "name": "中國平安 PING AN",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "02338",
+      "name": "濰柴動力 WEICHAI POWER",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "02628",
+      "name": "中國人壽 CHINA LIFE",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "03898",
+      "name": "時代電氣 TIMES ELECTRIC",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "03908",
+      "name": "中金公司 CICC",
+      "fund": "DA",
+      "account": "50307207"
+    },
+    {
+      "code": "01205",
+      "name": "中信資源 CITIC RESOURCES",
+      "fund": "DA",
+      "account": "50307218"
+    },
+    {
+      "code": "00992",
+      "name": "聯想集團 LENOVO GROUP",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "01347",
+      "name": "華虹半導體 HUA HONG SEMI",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "02382",
+      "name": "舜宇光學科技 SUNNY OPTICAL",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "02476",
+      "name": "勝宏科技 VGT",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "02513",
+      "name": "智譜 KNOWLEDGE ATLAS",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "02631",
+      "name": "天岳先進 SICC",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "03750",
+      "name": "寧德時代 CATL",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "09888",
+      "name": "百度集團－ＳＷ BIDU-SW",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "09903",
+      "name": "天數智芯 ILUVATAR COREX",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "09988",
+      "name": "阿里巴巴－Ｗ BABA-W",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "601628",
+      "name": "中國人壽 CHINA LIFE INSURANCE",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "603256",
+      "name": "宏和科技 GRACE FABRIC",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "002353",
+      "name": "傑瑞股份 YANTAI JEREH OILFIELD",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "002463",
+      "name": "滬電股份 WUS PRINTED CIRCUIT",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "300438",
+      "name": "鵬輝能源 GUANGZHOU GREAT",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "300750",
+      "name": "寧德時代 CONTEMPORARY",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "301511",
+      "name": "德福科技 JIUJIANG DEFU",
+      "fund": "DA",
+      "account": "50308224"
+    },
+    {
+      "code": "01812",
+      "name": "KAJIMA CORP KAJIMA CORP",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "00285",
+      "name": "KIOXIA HOLDINGS CORP KIOXIA",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "05713",
+      "name": "SUMITOMO METAL MINING CO LTD",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "05801",
+      "name": "FURUKAWA ELECTRIC CO LTD",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "05803",
+      "name": "FUJIKURA NPV FUJIKURA NPV",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06501",
+      "name": "HITACHI LTD HITACHI LTD",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06503",
+      "name": "MITSUBISHI ELECTRIC CORP",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06506",
+      "name": "YASKAWA ELECTRIC CORP",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06752",
+      "name": "PANASONIC HOLDINGS CORP",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06857",
+      "name": "ADVANTEST CORP ADVANTEST",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06920",
+      "name": "LASERTEC CORP LASERTEC CORP",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06954",
+      "name": "FANUC CORP FANUC CORP",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "06981",
+      "name": "MURATA MANUFACTURING CO LTD",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "07011",
+      "name": "MITSUBISHI HEAVY INDUSTRIES",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "07453",
+      "name": "RYOHIN KEIKAKU CO LTD RYOHIN",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "08031",
+      "name": "MITSUI & CO LTD MITSUI & CO LTD",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "08035",
+      "name": "TOKYO ELECTRON LTD TOKYO",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "08306",
+      "name": "MITSUBISHI UFJ FINANCIAL GRO",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "08316",
+      "name": "SUMITOMO MITSUI FINANCIAL GR",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "08411",
+      "name": "MIZUHO FINANCIAL GROUP INC",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "08630",
+      "name": "SOMPO HOLDINGS INC SOMPO",
+      "fund": "JV",
+      "account": "50308216"
+    },
+    {
+      "code": "09984",
+      "name": "SOFTBANK GROUP CORP",
+      "fund": "JV",
+      "account": "50308216"
+    }
+  ],
+  "excel_path": "C:\\Users\\ellenli\\OneDrive - TFI\\From 若冲\\@@@@@2026@@@@@\\June\\CA每日监测文件 rc.xlsx"
 }
