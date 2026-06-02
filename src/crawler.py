@@ -337,6 +337,23 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
     import re as _re
     _cn_re = _re.compile(r'^[\u4e00-\u9fa5]+')
 
+    # 公告类型映射（从东方财富 column_name 映射到用户分类）
+    CATEGORY_MAP = {
+        "股东大会": ["股東周年大會通告", "股東特別大會通告", "股東周年大會的結果", "股東特別大會的結果", "委任代表表格"],
+        "业绩快报": ["季度業績", "資產淨值", "月報表"],
+        "交易披露": ["股份購回", "根據一般性授權發行股份", "發行可轉換證券", "回購股份的說明函件", "更改證券條款或隨附於證券的權利"],
+        "中期业绩": ["季度業績"],
+        "末期业绩": ["季度業績"],
+        "重大事项": ["發出通函後的重大資料", "更換董事或重要行政職能或職責的變更", "更換審核委員會成員", "更換提名委員會成員", "更換薪酬委員會成員", "董事會召開日期", "董事名單和他們的地位和作用", "憲章文件", "修訂憲章文件", "在股東批准的情況下重選或委任董事", "暫停辦理過戶登記手續或更改暫停辦理過戶日期"],
+        "关联交易": ["海外監管公告-證券發行及相關事宜", "海外監管公告-業務發展最新情況"],
+        "会议表决": ["股東周年大會的結果", "股東特別大會的結果", "委任代表表格"],
+    }
+    # 反向映射：column_name -> set of categories
+    _col_to_cats = {}
+    for cat, cols in CATEGORY_MAP.items():
+        for col in cols:
+            _col_to_cats.setdefault(col, set()).add(cat)
+
     # 准备 JS 数据
     js_date_map = {}
     for date_str, anns in date_map.items():
@@ -356,6 +373,11 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
             art_code = ann.get("art_code", "")
             url = f"https://data.eastmoney.com/notices/detail/{art_code}/{code}.html" if art_code else ""
             pdf_url = f"https://pdf.dfcfw.com/pdf/H2_{art_code}_1.pdf" if art_code else ""
+            # 计算该公告所属的分类
+            cats = set()
+            for col in ann.get("columns", []):
+                for c in _col_to_cats.get(col, []):
+                    cats.add(c)
             js_date_map[date_str].append({
                 "code": code,
                 "name": name,
@@ -367,6 +389,7 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
                 "url": url,
                 "pdf_url": pdf_url,
                 "art_code": art_code,
+                "categories": sorted(cats),
             })
 
     stocks = []
@@ -407,14 +430,32 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
         for a in anns:
             a["url"] = f"./notices/{a.get('art_code', '')}_{a['code']}.html"
 
+    # 收集所有实际出现的分类并分配颜色
+    cat_colors = {
+        "股东大会": "#ef4444",
+        "业绩快报": "#3b82f6",
+        "交易披露": "#10b981",
+        "中期业绩": "#f59e0b",
+        "末期业绩": "#8b5cf6",
+        "重大事项": "#f97316",
+        "关联交易": "#ec4899",
+        "会议表决": "#06b6d4",
+    }
+    seen_cats = set()
+    for anns in js_date_map.values():
+        for a in anns:
+            seen_cats.update(a.get("categories", []))
+    categories_list = [{"name": c, "color": cat_colors.get(c, "#64748b")} for c in sorted(seen_cats)]
+
     data_json = json.dumps(js_date_map, ensure_ascii=False)
     stocks_json = json.dumps(stocks, ensure_ascii=False)
     funds_json = json.dumps(funds_list, ensure_ascii=False)
+    categories_json = json.dumps(categories_list, ensure_ascii=False)
     today_str = datetime.now().strftime("%Y-%m-%d")
     update_time = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     html_path = PROJECT_ROOT / "index.html"
-    html_content = _build_html(data_json, stocks_json, funds_json, today_str, update_time)
+    html_content = _build_html(data_json, stocks_json, funds_json, categories_json, today_str, update_time)
 
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(html_content)
@@ -612,7 +653,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
 </html>'''
 
 
-def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: str, update_time: str) -> str:
+def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_json: str, today_str: str, update_time: str) -> str:
     """构建完整月历视图的 HTML，含年月下拉选择器、基金筛选、股票筛选。"""
 
     template = '''<!DOCTYPE html>
@@ -935,8 +976,8 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
             position: fixed;
             top: 0;
             right: 0;
-            width: 520px;
-            max-width: 90vw;
+            width: 720px;
+            max-width: 92vw;
             height: 100vh;
             background: #fff;
             box-shadow: -4px 0 24px rgba(0,0,0,0.12);
@@ -1098,8 +1139,9 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
         <div class="auth-card">
             <div class="auth-icon">🔒</div>
             <div class="auth-title">港股公告日历</div>
-            <div class="auth-subtitle">请输入访问密码</div>
-            <input type="password" class="auth-input" id="authInput" placeholder="密码" onkeydown="if(event.key==='Enter')checkAuth()">
+            <div class="auth-subtitle">请输入账号和密码</div>
+            <input type="text" class="auth-input" id="authUser" placeholder="账号" onkeydown="if(event.key==='Enter')checkAuth()" style="margin-bottom:8px;">
+            <input type="password" class="auth-input" id="authPass" placeholder="密码" onkeydown="if(event.key==='Enter')checkAuth()">
             <button class="auth-btn" onclick="checkAuth()">进入</button>
             <div class="auth-error" id="authError"></div>
         </div>
@@ -1134,6 +1176,10 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
             </div>
             <div class="filter-bar" id="stockFilterBar">
                 <span class="filter-label">显示股票：</span>
+                <!-- JS 填充 -->
+            </div>
+            <div class="filter-bar" id="categoryFilterBar">
+                <span class="filter-label">公告类型：</span>
                 <!-- JS 填充 -->
             </div>
         </div>
@@ -1171,10 +1217,12 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
 
     <script>
         // 密码验证
+        const AUTH_USER = 'tfiam';
         const AUTH_PASSWORD = 'tfi2026';
         (function() {
             const overlay = document.getElementById('authOverlay');
-            const input = document.getElementById('authInput');
+            const userInput = document.getElementById('authUser');
+            const passInput = document.getElementById('authPass');
             const error = document.getElementById('authError');
             
             // 如果已验证过，直接跳过
@@ -1183,19 +1231,20 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
                 return;
             }
             
-            // 自动聚焦输入框
-            setTimeout(() => input.focus(), 100);
+            // 自动聚焦账号输入框
+            setTimeout(() => userInput.focus(), 100);
             
             window.checkAuth = function() {
-                const val = input.value.trim();
-                if (val === AUTH_PASSWORD) {
+                const user = userInput.value.trim();
+                const pass = passInput.value.trim();
+                if (user === AUTH_USER && pass === AUTH_PASSWORD) {
                     localStorage.setItem('hkcalendar_auth', '1');
                     overlay.classList.add('hidden');
                     error.textContent = '';
                 } else {
-                    error.textContent = '密码错误，请重试';
-                    input.value = '';
-                    input.focus();
+                    error.textContent = '账号或密码错误，请重试';
+                    passInput.value = '';
+                    passInput.focus();
                 }
             };
         })();
@@ -1204,12 +1253,14 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
         const annData = {DATA_JSON};
         const stockList = {STOCKS_JSON};
         const fundList = {FUNDS_JSON};
+        const categoryList = {CATEGORIES_JSON};
         const todayStr = "{TODAY_STR}";
 
         let currentYear = new Date().getFullYear();
         let currentMonth = new Date().getMonth();
         let selectedFunds = new Set(fundList.map(f => f.name));
         let selectedCodes = new Set(stockList.map(s => s.code));
+        let selectedCategories = new Set(categoryList.map(c => c.name));
 
         const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
 
@@ -1391,10 +1442,13 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
                 const dateStr = `${{cellYear}}-${{mm}}-${{dd}}`;
                 const isToday = dateStr === todayStr;
 
-                // 过滤：选中的基金 AND 选中的股票
-                let anns = (annData[dateStr] || []).filter(a =>
-                    selectedFunds.has(a.fund) && selectedCodes.has(a.code)
-                );
+                // 过滤：选中的基金 AND 选中的股票 AND 选中的公告类型（有交集即显示）
+                let anns = (annData[dateStr] || []).filter(a => {
+                    const fundMatch = selectedFunds.has(a.fund);
+                    const codeMatch = selectedCodes.has(a.code);
+                    const catMatch = a.categories && a.categories.some(c => selectedCategories.has(c));
+                    return fundMatch && codeMatch && catMatch;
+                });
 
                 const cell = document.createElement("div");
                 cell.className = "day-cell" + (isToday ? " today" : "") + (isCurrentMonth ? "" : " other-month");
@@ -1455,6 +1509,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
         initSelectors();
         initFundFilter();
         initStockFilter();
+        initCategoryFilter();
         renderCalendar(currentYear, currentMonth);
     </script>
 </body>
@@ -1464,6 +1519,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
         .replace('{DATA_JSON}', data_json)
         .replace('{STOCKS_JSON}', stocks_json)
         .replace('{FUNDS_JSON}', funds_json)
+        .replace('{CATEGORIES_JSON}', categories_json)
         .replace('{TODAY_STR}', today_str)
         .replace('{UPDATE_TIME}', update_time)
         .replace('{{', '{')
