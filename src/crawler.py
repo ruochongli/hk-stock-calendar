@@ -364,6 +364,7 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
                 "fund": ann.get("fund", ""),
                 "fundColor": fund_to_color.get(ann.get("fund", ""), "#64748b"),
                 "url": url,
+                "art_code": art_code,
             })
 
     stocks = []
@@ -386,6 +387,24 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
     # 基金列表
     funds_list = [{"name": f, "color": fund_to_color[f]} for f in funds]
 
+    # 生成每条公告的独立详情页
+    notices_dir = PROJECT_ROOT / "notices"
+    notices_dir.mkdir(exist_ok=True)
+    for ann in announcements:
+        art_code = ann.get("art_code", "")
+        code = ann["stock_code"]
+        if not art_code:
+            continue
+        detail_path = notices_dir / f"{art_code}_{code}.html"
+        detail_html = _build_notice_detail(ann, code_to_color, fund_to_color, _cn_re)
+        with open(detail_path, "w", encoding="utf-8") as f:
+            f.write(detail_html)
+
+    # 更新 js_date_map 中的 url 为本地详情页路径
+    for date_str, anns in js_date_map.items():
+        for a in anns:
+            a["url"] = f"./notices/{a.get('art_code', '')}_{a['code']}.html"
+
     data_json = json.dumps(js_date_map, ensure_ascii=False)
     stocks_json = json.dumps(stocks, ensure_ascii=False)
     funds_json = json.dumps(funds_list, ensure_ascii=False)
@@ -399,7 +418,191 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
         f.write(html_content)
 
     print(f"\n财经日历已生成: {html_path}")
+    print(f"公告详情页已生成: {notices_dir}")
     print("可直接用浏览器打开查看。")
+
+
+def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn_re) -> str:
+    """为单条公告生成详情页 HTML。"""
+    code = ann["stock_code"]
+    name = ann.get("stock_name", "")
+    cn_match = cn_re.match(name)
+    name_cn = cn_match.group(0) if cn_match else name
+    title = ann["title"] or ann["title_ch"]
+    notice_date = ann.get("notice_date", "")
+    fund = ann.get("fund", "")
+    color = code_to_color.get(code, "#64748b")
+    fund_color = fund_to_color.get(fund, "#64748b")
+    art_code = ann.get("art_code", "")
+
+    # 外部搜索链接
+    hkex_search = f"https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh"
+    sina_url = f"https://stock.finance.sina.com.cn/hkstock/notice/{code}.html"
+    eastmoney_search = f"https://data.eastmoney.com/notices/hk/{code}.html"
+
+    return f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            padding: 24px 16px;
+        }}
+        .container {{
+            max-width: 800px;
+            margin: 0 auto;
+        }}
+        .back-link {{
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }}
+        .back-link:hover {{ text-decoration: underline; }}
+        .card {{
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            padding: 28px;
+            margin-bottom: 16px;
+        }}
+        .fund-tag {{
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+            background-color: {fund_color}15;
+            color: {fund_color};
+        }}
+        .stock-info {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }}
+        .stock-code {{
+            font-family: "SF Mono", Monaco, monospace;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background-color: {color}15;
+            color: {color};
+            border: 1px solid {color}30;
+        }}
+        .stock-name {{
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f172a;
+        }}
+        .title {{
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }}
+        .meta {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }}
+        .meta-item {{
+            font-size: 13px;
+            color: #64748b;
+        }}
+        .meta-label {{ color: #94a3b8; }}
+        .section-title {{
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }}
+        .link-list {{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }}
+        .link-item {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #334155;
+            font-size: 14px;
+            transition: background 0.15s;
+        }}
+        .link-item:hover {{ background: #f1f5f9; }}
+        .link-arrow {{
+            margin-left: auto;
+            color: #94a3b8;
+            font-size: 12px;
+        }}
+        .notice {{
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 20px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← 返回日历</a>
+        <div class="card">
+            <div class="fund-tag">{fund}</div>
+            <div class="stock-info">
+                <span class="stock-code">{code}</span>
+                <span class="stock-name">{name_cn}</span>
+            </div>
+            <div class="title">{title}</div>
+            <div class="meta">
+                <div class="meta-item"><span class="meta-label">公告日期:</span> {notice_date}</div>
+                <div class="meta-item"><span class="meta-label">股票代码:</span> {code}</div>
+                <div class="meta-item"><span class="meta-label">所属基金:</span> {fund}</div>
+            </div>
+            <div class="section-title">查看原始公告</div>
+            <div class="link-list">
+                <a class="link-item" href="{eastmoney_search}" target="_blank">
+                    <span>东方财富 - {name_cn} 公告列表</span>
+                    <span class="link-arrow">↗</span>
+                </a>
+                <a class="link-item" href="{sina_url}" target="_blank">
+                    <span>新浪财经 - {name_cn} 公告列表</span>
+                    <span class="link-arrow">↗</span>
+                </a>
+                <a class="link-item" href="{hkex_search}" target="_blank">
+                    <span>港交所披露易 - 标题搜索</span>
+                    <span class="link-arrow">↗</span>
+                </a>
+            </div>
+            <div class="notice">
+                提示：由于东方财富详情页有访问限制，建议通过上述链接在对应平台查看原始公告及 PDF 文件。
+            </div>
+        </div>
+    </div>
+</body>
+</html>'''
 
 
 def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: str, update_time: str) -> str:
