@@ -990,6 +990,82 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
             height: 100%;
             border: none;
         }}
+        /* 密码锁屏 */
+        .auth-overlay {{
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }}
+        .auth-overlay.hidden {{
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }}
+        .auth-card {{
+            background: #fff;
+            border-radius: 16px;
+            padding: 36px 32px;
+            width: 360px;
+            max-width: 90vw;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }}
+        .auth-icon {{
+            font-size: 42px;
+            margin-bottom: 12px;
+        }}
+        .auth-title {{
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }}
+        .auth-subtitle {{
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }}
+        .auth-input {{
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            margin-bottom: 12px;
+        }}
+        .auth-input:focus {{
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }}
+        .auth-btn {{
+            width: 100%;
+            padding: 12px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }}
+        .auth-btn:hover {{
+            background: #2563eb;
+        }}
+        .auth-error {{
+            font-size: 13px;
+            color: #ef4444;
+            margin-top: 10px;
+            min-height: 20px;
+        }}
         /* 响应式 */
         @media (max-width: 768px) {{
             .calendar-grid {{
@@ -1017,6 +1093,18 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
     </style>
 </head>
 <body>
+    <!-- 密码锁屏层 -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-card">
+            <div class="auth-icon">🔒</div>
+            <div class="auth-title">港股公告日历</div>
+            <div class="auth-subtitle">请输入访问密码</div>
+            <input type="password" class="auth-input" id="authInput" placeholder="密码" onkeydown="if(event.key==='Enter')checkAuth()">
+            <button class="auth-btn" onclick="checkAuth()">进入</button>
+            <div class="auth-error" id="authError"></div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <h1>📅 港股公告日历</h1>
@@ -1082,6 +1170,36 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
     </div>
 
     <script>
+        // 密码验证
+        const AUTH_PASSWORD = 'tfi2026';
+        (function() {
+            const overlay = document.getElementById('authOverlay');
+            const input = document.getElementById('authInput');
+            const error = document.getElementById('authError');
+            
+            // 如果已验证过，直接跳过
+            if (localStorage.getItem('hkcalendar_auth') === '1') {
+                overlay.classList.add('hidden');
+                return;
+            }
+            
+            // 自动聚焦输入框
+            setTimeout(() => input.focus(), 100);
+            
+            window.checkAuth = function() {
+                const val = input.value.trim();
+                if (val === AUTH_PASSWORD) {
+                    localStorage.setItem('hkcalendar_auth', '1');
+                    overlay.classList.add('hidden');
+                    error.textContent = '';
+                } else {
+                    error.textContent = '密码错误，请重试';
+                    input.value = '';
+                    input.focus();
+                }
+            };
+        })();
+
         // 嵌入数据
         const annData = {DATA_JSON};
         const stockList = {STOCKS_JSON};
