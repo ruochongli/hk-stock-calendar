@@ -1231,6 +1231,8 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
         .replace('{FUNDS_JSON}', funds_json)
         .replace('{TODAY_STR}', today_str)
         .replace('{UPDATE_TIME}', update_time)
+        .replace('{{', '{')
+        .replace('}}', '}')
     )
 
 

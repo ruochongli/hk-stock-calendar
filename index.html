@@ -5,35 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>港股公告日历</title>
     <style>
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
             min-height: 100vh;
             color: #1e293b;
-        }}
-        .container {{
+        }
+        .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 24px 16px;
-        }}
-        header {{
+        }
+        header {
             text-align: center;
             margin-bottom: 16px;
-        }}
-        header h1 {{
+        }
+        header h1 {
             font-size: 26px;
             font-weight: 700;
             color: #0f172a;
             letter-spacing: -0.5px;
-        }}
-        header .update-time {{
+        }
+        header .update-time {
             font-size: 12px;
             color: #94a3b8;
             margin-top: 4px;
-        }}
+        }
         /* 控制栏 */
-        .control-bar {{
+        .control-bar {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -44,18 +44,18 @@
             padding: 12px 16px;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }}
-        .control-group {{
+        }
+        .control-group {
             display: flex;
             align-items: center;
             gap: 6px;
-        }}
-        .control-label {{
+        }
+        .control-label {
             font-size: 13px;
             color: #64748b;
             font-weight: 500;
-        }}
-        .control-select {{
+        }
+        .control-select {
             padding: 7px 10px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -65,14 +65,14 @@
             cursor: pointer;
             outline: none;
             transition: border-color 0.15s;
-        }}
-        .control-select:hover {{
+        }
+        .control-select:hover {
             border-color: #cbd5e1;
-        }}
-        .control-select:focus {{
+        }
+        .control-select:focus {
             border-color: #3b82f6;
-        }}
-        .today-btn {{
+        }
+        .today-btn {
             padding: 7px 14px;
             background: #3b82f6;
             color: #fff;
@@ -82,18 +82,18 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
-        }}
-        .today-btn:hover {{
+        }
+        .today-btn:hover {
             background: #2563eb;
-        }}
+        }
         /* 筛选栏 */
-        .filter-section {{
+        .filter-section {
             display: flex;
             flex-direction: column;
             gap: 8px;
             margin-bottom: 12px;
-        }}
-        .filter-bar {{
+        }
+        .filter-bar {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -103,14 +103,14 @@
             padding: 10px 16px;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }}
-        .filter-label {{
+        }
+        .filter-label {
             font-size: 13px;
             color: #64748b;
             font-weight: 500;
             margin-right: 4px;
-        }}
-        .filter-item {{
+        }
+        .filter-item {
             display: flex;
             align-items: center;
             gap: 5px;
@@ -119,35 +119,35 @@
             border-radius: 6px;
             transition: background 0.12s;
             user-select: none;
-        }}
-        .filter-item:hover {{
+        }
+        .filter-item:hover {
             background: #f1f5f9;
-        }}
-        .filter-item input[type="checkbox"] {{
+        }
+        .filter-item input[type="checkbox"] {
             width: 15px;
             height: 15px;
             cursor: pointer;
             accent-color: #3b82f6;
-        }}
-        .filter-dot {{
+        }
+        .filter-dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
             flex-shrink: 0;
-        }}
-        .filter-text {{
+        }
+        .filter-text {
             font-size: 13px;
             color: #334155;
             font-weight: 500;
-        }}
-        .filter-actions {{
+        }
+        .filter-actions {
             display: flex;
             gap: 6px;
             margin-left: 8px;
             padding-left: 12px;
             border-left: 1px solid #e2e8f0;
-        }}
-        .filter-action-btn {{
+        }
+        .filter-action-btn {
             font-size: 12px;
             color: #3b82f6;
             background: none;
@@ -156,31 +156,31 @@
             padding: 3px 6px;
             border-radius: 4px;
             font-weight: 500;
-        }}
-        .filter-action-btn:hover {{
+        }
+        .filter-action-btn:hover {
             background: #eff6ff;
-        }}
+        }
         /* 星期标题 */
-        .weekday-header {{
+        .weekday-header {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
             margin-bottom: 8px;
-        }}
-        .weekday-cell {{
+        }
+        .weekday-cell {
             text-align: center;
             font-size: 13px;
             font-weight: 600;
             color: #64748b;
             padding: 8px 0;
-        }}
-        .calendar-grid {{
+        }
+        .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             grid-template-rows: repeat(6, minmax(150px, auto));
             gap: 8px;
-        }}
-        .day-cell {{
+        }
+        .day-cell {
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.04);
@@ -189,46 +189,46 @@
             flex-direction: column;
             transition: transform 0.1s, box-shadow 0.1s;
             position: relative;
-        }}
-        .day-cell:hover {{
+        }
+        .day-cell:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }}
-        .day-cell.today {{
+        }
+        .day-cell.today {
             box-shadow: 0 0 0 2px #3b82f6, 0 2px 8px rgba(59,130,246,0.12);
-        }}
-        .day-cell.other-month {{
+        }
+        .day-cell.other-month {
             background: #f8fafc;
-        }}
-        .day-cell.other-month .day-number {{
+        }
+        .day-cell.other-month .day-number {
             color: #cbd5e1;
-        }}
-        .day-header-cell {{
+        }
+        .day-header-cell {
             padding: 8px 10px 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
-        .day-number {{
+        }
+        .day-number {
             font-size: 16px;
             font-weight: 700;
             color: #0f172a;
-        }}
-        .day-cell.today .day-number {{
+        }
+        .day-cell.today .day-number {
             color: #3b82f6;
-        }}
-        .day-cell.other-month .day-number {{
+        }
+        .day-cell.other-month .day-number {
             color: #cbd5e1;
-        }}
-        .ann-count {{
+        }
+        .ann-count {
             font-size: 11px;
             color: #fff;
             background: #3b82f6;
             padding: 1px 6px;
             border-radius: 10px;
             font-weight: 600;
-        }}
-        .day-body {{
+        }
+        .day-body {
             padding: 0 8px 8px;
             flex: 1;
             display: flex;
@@ -236,27 +236,27 @@
             gap: 5px;
             overflow-y: auto;
             max-height: 220px;
-        }}
-        .ann-card {{
+        }
+        .ann-card {
             background: #f8fafc;
             border-radius: 6px;
             padding: 6px 8px;
             cursor: pointer;
             transition: background 0.12s;
             border-left: 3px solid transparent;
-        }}
-        .ann-card:hover {{
+        }
+        .ann-card:hover {
             background: #f1f5f9;
-        }}
-        .stock-tag {{
+        }
+        .stock-tag {
             display: inline-flex;
             align-items: center;
             gap: 4px;
             font-size: 10px;
             font-weight: 600;
             margin-bottom: 2px;
-        }}
-        .fund-tag {{
+        }
+        .fund-tag {
             display: inline-block;
             font-size: 9px;
             font-weight: 700;
@@ -264,16 +264,16 @@
             border-radius: 4px;
             margin-bottom: 3px;
             letter-spacing: 0.3px;
-        }}
-        .stock-code {{
+        }
+        .stock-code {
             font-family: "SF Mono", Monaco, monospace;
             padding: 1px 5px;
             border-radius: 4px;
-        }}
-        .stock-name {{
+        }
+        .stock-name {
             opacity: 0.85;
-        }}
-        .ann-title {{
+        }
+        .ann-title {
             font-size: 11.5px;
             line-height: 1.4;
             color: #475569;
@@ -282,54 +282,54 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }}
-        .empty {{
+        }
+        .empty {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #e2e8f0;
             font-size: 12px;
-        }}
-        footer {{
+        }
+        footer {
             text-align: center;
             margin-top: 20px;
             padding-top: 14px;
             border-top: 1px solid #e2e8f0;
             font-size: 12px;
             color: #94a3b8;
-        }}
+        }
         /* 响应式 */
-        @media (max-width: 768px) {{
-            .calendar-grid {{
+        @media (max-width: 768px) {
+            .calendar-grid {
                 grid-template-columns: repeat(7, 1fr);
                 grid-template-rows: repeat(6, minmax(90px, auto));
                 gap: 4px;
-            }}
-            .day-cell {{
+            }
+            .day-cell {
                 min-height: 90px;
-            }}
-            .day-body {{
+            }
+            .day-body {
                 max-height: 120px;
-            }}
-            .ann-title {{
+            }
+            .ann-title {
                 -webkit-line-clamp: 1;
                 font-size: 10px;
-            }}
-            header h1 {{
+            }
+            header h1 {
                 font-size: 20px;
-            }}
-            .control-bar, .filter-bar {{
+            }
+            .control-bar, .filter-bar {
                 padding: 10px 12px;
-            }}
-        }}
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>📅 港股公告日历</h1>
-            <div class="update-time">更新时间：2026-06-02 17:07</div>
+            <div class="update-time">更新时间：2026-06-02 17:12</div>
         </header>
 
         <!-- 年月选择 -->
@@ -393,41 +393,41 @@
         const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
 
         // 初始化年月下拉框
-        function initSelectors() {{
+        function initSelectors() {
             const yearSel = document.getElementById("yearSelect");
             const monthSel = document.getElementById("monthSelect");
             const now = new Date();
             const startYear = now.getFullYear() - 3;
             const endYear = now.getFullYear() + 3;
-            for (let y = startYear; y <= endYear; y++) {{
+            for (let y = startYear; y <= endYear; y++) {
                 const opt = document.createElement("option");
                 opt.value = y;
                 opt.textContent = y + "年";
                 if (y === currentYear) opt.selected = true;
                 yearSel.appendChild(opt);
-            }}
-            for (let m = 0; m < 12; m++) {{
+            }
+            for (let m = 0; m < 12; m++) {
                 const opt = document.createElement("option");
                 opt.value = m;
                 opt.textContent = monthNames[m];
                 if (m === currentMonth) opt.selected = true;
                 monthSel.appendChild(opt);
-            }}
-        }}
+            }
+        }
 
         // 初始化基金筛选栏
-        function initFundFilter() {{
+        function initFundFilter() {
             const bar = document.getElementById("fundFilterBar");
-            fundList.forEach(f => {{
+            fundList.forEach(f => {
                 const item = document.createElement("label");
                 item.className = "filter-item";
                 item.innerHTML = `
-                    <input type="checkbox" checked value="${{f.name}}" onchange="onFundFilterChange()">
-                    <span class="filter-dot" style="background-color: ${{f.color}};"></span>
-                    <span class="filter-text">${{f.name}}</span>
+                    <input type="checkbox" checked value="${f.name}" onchange="onFundFilterChange()">
+                    <span class="filter-dot" style="background-color: ${f.color};"></span>
+                    <span class="filter-text">${f.name}</span>
                 `;
                 bar.appendChild(item);
-            }});
+            });
             const actions = document.createElement("div");
             actions.className = "filter-actions";
             actions.innerHTML = `
@@ -435,26 +435,26 @@
                 <button class="filter-action-btn" onclick="selectAllFunds(false)">全不选</button>
             `;
             bar.appendChild(actions);
-        }}
+        }
 
         // 初始化股票筛选栏
-        function initStockFilter() {{
+        function initStockFilter() {
             const bar = document.getElementById("stockFilterBar");
             // 清空现有内容（保留标签）
             while (bar.children.length > 1) bar.removeChild(bar.lastChild);
 
             const visibleStocks = stockList.filter(s => selectedFunds.has(s.fund));
-            visibleStocks.forEach(s => {{
+            visibleStocks.forEach(s => {
                 const item = document.createElement("label");
                 item.className = "filter-item";
                 const isChecked = selectedCodes.has(s.code) ? "checked" : "";
                 item.innerHTML = `
-                    <input type="checkbox" ${{isChecked}} value="${{s.code}}" onchange="onStockFilterChange()">
-                    <span class="filter-dot" style="background-color: ${{s.color}};"></span>
-                    <span class="filter-text">${{s.code}} ${{s.name_cn}}</span>
+                    <input type="checkbox" ${isChecked} value="${s.code}" onchange="onStockFilterChange()">
+                    <span class="filter-dot" style="background-color: ${s.color};"></span>
+                    <span class="filter-text">${s.code} ${s.name_cn}</span>
                 `;
                 bar.appendChild(item);
-            }});
+            });
             const actions = document.createElement("div");
             actions.className = "filter-actions";
             actions.innerHTML = `
@@ -462,78 +462,78 @@
                 <button class="filter-action-btn" onclick="selectAllStocks(false)">全不选</button>
             `;
             bar.appendChild(actions);
-        }}
+        }
 
-        function onFundFilterChange() {{
+        function onFundFilterChange() {
             const checkboxes = document.querySelectorAll('#fundFilterBar input[type="checkbox"]');
             selectedFunds = new Set();
-            checkboxes.forEach(cb => {{
+            checkboxes.forEach(cb => {
                 if (cb.checked) selectedFunds.add(cb.value);
-            }});
+            });
             // 更新股票筛选栏（只显示选中基金下的股票）
             initStockFilter();
             renderCalendar(currentYear, currentMonth);
-        }}
+        }
 
-        function onStockFilterChange() {{
+        function onStockFilterChange() {
             const checkboxes = document.querySelectorAll('#stockFilterBar input[type="checkbox"]');
             selectedCodes = new Set();
-            checkboxes.forEach(cb => {{
+            checkboxes.forEach(cb => {
                 if (cb.checked) selectedCodes.add(cb.value);
-            }});
+            });
             renderCalendar(currentYear, currentMonth);
-        }}
+        }
 
-        function selectAllFunds(checked) {{
+        function selectAllFunds(checked) {
             const checkboxes = document.querySelectorAll('#fundFilterBar input[type="checkbox"]');
             checkboxes.forEach(cb => cb.checked = checked);
             onFundFilterChange();
-        }}
+        }
 
-        function selectAllStocks(checked) {{
+        function selectAllStocks(checked) {
             const checkboxes = document.querySelectorAll('#stockFilterBar input[type="checkbox"]');
             checkboxes.forEach(cb => cb.checked = checked);
             onStockFilterChange();
-        }}
+        }
 
-        function onYearMonthChange() {{
+        function onYearMonthChange() {
             currentYear = parseInt(document.getElementById("yearSelect").value);
             currentMonth = parseInt(document.getElementById("monthSelect").value);
             renderCalendar(currentYear, currentMonth);
-        }}
+        }
 
-        function goToday() {{
+        function goToday() {
             const now = new Date();
             currentYear = now.getFullYear();
             currentMonth = now.getMonth();
             document.getElementById("yearSelect").value = currentYear;
             document.getElementById("monthSelect").value = currentMonth;
             renderCalendar(currentYear, currentMonth);
-        }}
+        }
 
-        function prevMonth() {{
+        function prevMonth() {
             currentMonth--;
-            if (currentMonth < 0) {{
+            if (currentMonth < 0) {
                 currentMonth = 11;
                 currentYear--;
-            }}
+            }
             document.getElementById("yearSelect").value = currentYear;
             document.getElementById("monthSelect").value = currentMonth;
             renderCalendar(currentYear, currentMonth);
-        }}
+        }
 
-        function nextMonth() {{
+        function nextMonth() {
             currentMonth++;
-            if (currentMonth > 11) {{
+            if (currentMonth > 11) {
                 currentMonth = 0;
                 currentYear++;
-            }}
+            }
             document.getElementById("yearSelect").value = currentYear;
             document.getElementById("monthSelect").value = currentMonth;
             renderCalendar(currentYear, currentMonth);
-        }}
+        }
 
-        function renderCalendar(year, month) {{
+        function renderCalendar(year, month) {
             const grid = document.getElementById("calendarGrid");
             grid.innerHTML = "";
 
@@ -543,31 +543,31 @@
             const prevMonthDays = new Date(year, month, 0).getDate();
             const totalCells = 42;
 
-            for (let i = 0; i < totalCells; i++) {{
+            for (let i = 0; i < totalCells; i++) {
                 let dayNum, isCurrentMonth, cellMonth, cellYear;
 
-                if (i < startDayOfWeek) {{
+                if (i < startDayOfWeek) {
                     dayNum = prevMonthDays - startDayOfWeek + 1 + i;
                     const d = new Date(year, month, 1 - startDayOfWeek + i);
                     cellYear = d.getFullYear();
                     cellMonth = d.getMonth();
                     isCurrentMonth = false;
-                }} else if (i < startDayOfWeek + daysInMonth) {{
+                } else if (i < startDayOfWeek + daysInMonth) {
                     dayNum = i - startDayOfWeek + 1;
                     cellYear = year;
                     cellMonth = month;
                     isCurrentMonth = true;
-                }} else {{
+                } else {
                     dayNum = i - startDayOfWeek - daysInMonth + 1;
                     const d = new Date(year, month, daysInMonth + (i - startDayOfWeek - daysInMonth + 1));
                     cellYear = d.getFullYear();
                     cellMonth = d.getMonth();
                     isCurrentMonth = false;
-                }}
+                }
 
                 const mm = String(cellMonth + 1).padStart(2, "0");
                 const dd = String(dayNum).padStart(2, "0");
-                const dateStr = `${{cellYear}}-${{mm}}-${{dd}}`;
+                const dateStr = `${cellYear}-${mm}-${dd}`;
                 const isToday = dateStr === todayStr;
 
                 // 过滤：选中的基金 AND 选中的股票
@@ -579,32 +579,32 @@
                 cell.className = "day-cell" + (isToday ? " today" : "") + (isCurrentMonth ? "" : " other-month");
 
                 let cardsHtml = "";
-                if (anns.length > 0) {{
+                if (anns.length > 0) {
                     cardsHtml = anns.map(a => `
-                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.url}}')window.open('${{a.url}}','_blank')">
-                            <div class="fund-tag" style="background-color: ${{a.fundColor}}15; color: ${{a.fundColor}};">${{a.fund}}</div>
+                        <div class="ann-card" title="${a.title}" style="border-left-color: ${a.fundColor};" onclick="if('${a.url}')window.open('${a.url}','_blank')">
+                            <div class="fund-tag" style="background-color: ${a.fundColor}15; color: ${a.fundColor};">${a.fund}</div>
                             <div class="stock-tag">
-                                <span class="stock-code" style="background-color: ${{a.color}}20; color: ${{a.color}}; border: 1px solid ${{a.color}}40; border-radius: 4px;">${{a.code}}</span>
-                                <span class="stock-name" style="color: ${{a.color}}; font-size:10px;">${{a.name_cn}}</span>
+                                <span class="stock-code" style="background-color: ${a.color}20; color: ${a.color}; border: 1px solid ${a.color}40; border-radius: 4px;">${a.code}</span>
+                                <span class="stock-name" style="color: ${a.color}; font-size:10px;">${a.name_cn}</span>
                             </div>
-                            <div class="ann-title">${{a.title}} <span style="color:#94a3b8;font-size:10px;">↗</span></div>
+                            <div class="ann-title">${a.title} <span style="color:#94a3b8;font-size:10px;">↗</span></div>
                         </div>
                     `).join("");
-                }} else {{
+                } else {
                     cardsHtml = '<div class="empty"></div>';
-                }}
+                }
 
                 cell.innerHTML = `
                     <div class="day-header-cell">
-                        <span class="day-number">${{dayNum}}</span>
-                        ${{(anns.length > 0 && isCurrentMonth) ? `<span class="ann-count">${{anns.length}}</span>` : ""}
+                        <span class="day-number">${dayNum}</span>
+                        ${(anns.length > 0 && isCurrentMonth) ? `<span class="ann-count">${anns.length}</span>` : ""}
                     </div>
-                    <div class="day-body">${{cardsHtml}}</div>
+                    <div class="day-body">${cardsHtml}</div>
                 `;
 
                 grid.appendChild(cell);
-            }}
-        }}
+            }
+        }
 
         // 初始化
         initSelectors();
