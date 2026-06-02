@@ -19,3 +19,4 @@ test_*.js
 # OS
 .DS_Store
 Thumbs.db
+columns.txt
