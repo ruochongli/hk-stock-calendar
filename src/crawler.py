@@ -1408,13 +1408,6 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             }});
             renderCalendar(currentYear, currentMonth);
         }}
-            const checkboxes = document.querySelectorAll('#stockFilterBar input[type="checkbox"]');
-            selectedCodes = new Set();
-            checkboxes.forEach(cb => {{
-                if (cb.checked) selectedCodes.add(cb.value);
-            }});
-            renderCalendar(currentYear, currentMonth);
-        }}
 
         function selectAllFunds(checked) {{
             const checkboxes = document.querySelectorAll('#fundFilterBar input[type="checkbox"]');
