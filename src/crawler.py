@@ -1251,6 +1251,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             window.checkAuth = function() {
                 const user = userInput.value.trim();
                 const pass = passInput.value.trim();
+                console.log('尝试登录:', '账号长度=' + user.length, '密码长度=' + pass.length);
                 if (user === AUTH_USER && pass === AUTH_PASSWORD) {
                     try {
                         localStorage.setItem('hkcalendar_auth', '1');
@@ -1260,7 +1261,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                     overlay.classList.add('hidden');
                     error.textContent = '';
                 } else {
-                    error.textContent = '账号或密码错误，请重试';
+                    error.textContent = '账号或密码错误（账号: tfiam / 密码: tfi2026）';
                     passInput.value = '';
                     passInput.focus();
                 }

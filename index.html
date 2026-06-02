@@ -492,7 +492,7 @@
     <div class="container">
         <header>
             <h1>📅 港股公告日历</h1>
-            <div class="update-time">更新时间：2026-06-02 18:15</div>
+            <div class="update-time">更新时间：2026-06-02 18:17</div>
         </header>
 
         <!-- 年月选择 -->
@@ -579,6 +579,7 @@
             window.checkAuth = function() {
                 const user = userInput.value.trim();
                 const pass = passInput.value.trim();
+                console.log('尝试登录:', '账号长度=' + user.length, '密码长度=' + pass.length);
                 if (user === AUTH_USER && pass === AUTH_PASSWORD) {
                     try {
                         localStorage.setItem('hkcalendar_auth', '1');
@@ -588,7 +589,7 @@
                     overlay.classList.add('hidden');
                     error.textContent = '';
                 } else {
-                    error.textContent = '账号或密码错误，请重试';
+                    error.textContent = '账号或密码错误（账号: tfiam / 密码: tfi2026）';
                     passInput.value = '';
                     passInput.focus();
                 }
