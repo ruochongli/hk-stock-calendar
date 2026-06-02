@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>港股公告日历</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        header .update-time {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        /* 控制栏 */
+        .control-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .control-label {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .control-select {
+            padding: 7px 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #0f172a;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .control-select:hover {
+            border-color: #cbd5e1;
+        }
+        .control-select:focus {
+            border-color: #3b82f6;
+        }
+        .today-btn {
+            padding: 7px 14px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .today-btn:hover {
+            background: #2563eb;
+        }
+        /* 筛选栏 */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            margin-bottom: 16px;
+            background: #fff;
+            padding: 10px 16px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .filter-label {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+            margin-right: 4px;
+        }
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.12s;
+            user-select: none;
+        }
+        .filter-item:hover {
+            background: #f1f5f9;
+        }
+        .filter-item input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+        .filter-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .filter-text {
+            font-size: 13px;
+            color: #334155;
+            font-weight: 500;
+        }
+        .filter-actions {
+            display: flex;
+            gap: 6px;
+            margin-left: 8px;
+            padding-left: 12px;
+            border-left: 1px solid #e2e8f0;
+        }
+        .filter-action-btn {
+            font-size: 12px;
+            color: #3b82f6;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .filter-action-btn:hover {
+            background: #eff6ff;
+        }
+        /* 星期标题 */
+        .weekday-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .weekday-cell {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            padding: 8px 0;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(6, minmax(140px, auto));
+            gap: 8px;
+        }
+        .day-cell {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.1s, box-shadow 0.1s;
+            position: relative;
+        }
+        .day-cell:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .day-cell.today {
+            box-shadow: 0 0 0 2px #3b82f6, 0 2px 8px rgba(59,130,246,0.12);
+        }
+        .day-cell.other-month {
+            background: #f8fafc;
+        }
+        .day-cell.other-month .day-number {
+            color: #cbd5e1;
+        }
+        .day-header-cell {
+            padding: 8px 10px 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .day-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .day-cell.today .day-number {
+            color: #3b82f6;
+        }
+        .day-cell.other-month .day-number {
+            color: #cbd5e1;
+        }
+        .ann-count {
+            font-size: 11px;
+            color: #fff;
+            background: #3b82f6;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .day-body {
+            padding: 0 8px 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            overflow-y: auto;
+            max-height: 200px;
+        }
+        .ann-card {
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 6px 8px;
+            cursor: pointer;
+            transition: background 0.12s;
+        }
+        .ann-card:hover {
+            background: #f1f5f9;
+        }
+        .stock-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .stock-code {
+            font-family: "SF Mono", Monaco, monospace;
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+        .stock-name {
+            opacity: 0.85;
+        }
+        .ann-title {
+            font-size: 11.5px;
+            line-height: 1.4;
+            color: #475569;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .empty {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+            font-size: 12px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 14px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+                grid-template-rows: repeat(6, minmax(90px, auto));
+                gap: 4px;
+            }
+            .day-cell {
+                min-height: 90px;
+            }
+            .day-body {
+                max-height: 120px;
+            }
+            .ann-title {
+                -webkit-line-clamp: 1;
+                font-size: 10px;
+            }
+            header h1 {
+                font-size: 20px;
+            }
+            .control-bar, .filter-bar {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 港股公告日历</h1>
+            <div class="update-time">更新时间：2026-06-02 15:44</div>
+        </header>
+
+        <!-- 年月选择 -->
+        <div class="control-bar">
+            <div class="control-group">
+                <span class="control-label">年份</span>
+                <select class="control-select" id="yearSelect" onchange="onYearMonthChange()"></select>
+            </div>
+            <div class="control-group">
+                <span class="control-label">月份</span>
+                <select class="control-select" id="monthSelect" onchange="onYearMonthChange()"></select>
+            </div>
+            <button class="today-btn" onclick="goToday()">今天</button>
+        </div>
+
+        <!-- 股票筛选 -->
+        <div class="filter-bar" id="filterBar">
+            <span class="filter-label">显示股票：</span>
+            <!-- JS 填充 -->
+        </div>
+
+        <!-- 星期标题 -->
+        <div class="weekday-header">
+            <div class="weekday-cell">日</div>
+            <div class="weekday-cell">一</div>
+            <div class="weekday-cell">二</div>
+            <div class="weekday-cell">三</div>
+            <div class="weekday-cell">四</div>
+            <div class="weekday-cell">五</div>
+            <div class="weekday-cell">六</div>
+        </div>
+
+        <!-- 日历网格 -->
+        <div class="calendar-grid" id="calendarGrid">
+            <!-- JS 填充 -->
+        </div>
+
+        <footer>
+            数据来源：东方财富 · 港交所披露易同步
+        </footer>
+    </div>
+
+    <script>
+        // 嵌入数据
+        const annData = {"2026-06-01": [{"code": "00257", "name": "光大环境", "title": "截至2026年5月31日之股份发行人的证券变动月报表", "color": "#3b82f6"}, {"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-27": [{"code": "00257", "name": "光大环境", "title": "二零二六年五月二十七日举行之股东周年大会投票表决结果", "color": "#3b82f6"}, {"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-04": [{"code": "00257", "name": "光大环境", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#3b82f6"}], "2026-05-29": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-28": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-26": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-22": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-21": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-20": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-19": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-18": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-13": [{"code": "00700", "name": "腾讯控股", "title": "二零二六年股东周年大会投票表决结果", "color": "#ef4444"}, {"code": "00700", "name": "腾讯控股", "title": "截至二零二六年三月三十一日止三个月业绩公布", "color": "#ef4444"}], "2026-05-07": [{"code": "00700", "name": "腾讯控股", "title": "截至二零二六年四月三十日止之股份发行人的证券变动月报表", "color": "#ef4444"}, {"code": "00883", "name": "中国海洋石油", "title": "海外监管公告 2025 年度股东周年大会会议材料", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "海外监管公告 关于召开 2025年度股东周年大会的通知", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "二零二六年六月三日举行之2025年度股东周年大会之代表委任表格", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "2025年度股东周年大会说明函件", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "股东周年大会通告", "color": "#10b981"}], "2026-06-02": [{"code": "00883", "name": "中国海洋石油", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#10b981"}], "2026-05-06": [{"code": "00883", "name": "中国海洋石油", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#10b981"}]};
+        const stockList = [{"code": "00257", "name": "光大环境", "color": "#3b82f6"}, {"code": "00700", "name": "腾讯控股", "color": "#ef4444"}, {"code": "00883", "name": "中国海洋石油", "color": "#10b981"}];
+        const todayStr = "2026-06-02";
+
+        let currentYear = new Date().getFullYear();
+        let currentMonth = new Date().getMonth();
+        let selectedCodes = new Set(stockList.map(s => s.code));
+
+        const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+
+        // 初始化年月下拉框
+        function initSelectors() {
+            const yearSel = document.getElementById("yearSelect");
+            const monthSel = document.getElementById("monthSelect");
+
+            const now = new Date();
+            const startYear = now.getFullYear() - 3;
+            const endYear = now.getFullYear() + 3;
+
+            for (let y = startYear; y <= endYear; y++) {
+                const opt = document.createElement("option");
+                opt.value = y;
+                opt.textContent = y + "年";
+                if (y === currentYear) opt.selected = true;
+                yearSel.appendChild(opt);
+            }
+
+            for (let m = 0; m < 12; m++) {
+                const opt = document.createElement("option");
+                opt.value = m;
+                opt.textContent = monthNames[m];
+                if (m === currentMonth) opt.selected = true;
+                monthSel.appendChild(opt);
+            }
+        }
+
+        // 初始化股票筛选栏
+        function initFilterBar() {
+            const bar = document.getElementById("filterBar");
+
+            stockList.forEach(s => {
+                const item = document.createElement("label");
+                item.className = "filter-item";
+                item.innerHTML = `
+                    <input type="checkbox" checked value="${s.code}" onchange="onFilterChange()">
+                    <span class="filter-dot" style="background-color: ${s.color};"></span>
+                    <span class="filter-text">${s.code} ${s.name}</span>
+                `;
+                bar.appendChild(item);
+            });
+
+            const actions = document.createElement("div");
+            actions.className = "filter-actions";
+            actions.innerHTML = `
+                <button class="filter-action-btn" onclick="selectAll(true)">全选</button>
+                <button class="filter-action-btn" onclick="selectAll(false)">全不选</button>
+            `;
+            bar.appendChild(actions);
+        }
+
+        function onFilterChange() {
+            const checkboxes = document.querySelectorAll('#filterBar input[type="checkbox"]');
+            selectedCodes = new Set();
+            checkboxes.forEach(cb => {
+                if (cb.checked) selectedCodes.add(cb.value);
+            });
+            renderCalendar(currentYear, currentMonth);
+        }
+
+        function selectAll(checked) {
+            const checkboxes = document.querySelectorAll('#filterBar input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = checked);
+            onFilterChange();
+        }
+
+        function onYearMonthChange() {
+            currentYear = parseInt(document.getElementById("yearSelect").value);
+            currentMonth = parseInt(document.getElementById("monthSelect").value);
+            renderCalendar(currentYear, currentMonth);
+        }
+
+        function goToday() {
+            const now = new Date();
+            currentYear = now.getFullYear();
+            currentMonth = now.getMonth();
+            document.getElementById("yearSelect").value = currentYear;
+            document.getElementById("monthSelect").value = currentMonth;
+            renderCalendar(currentYear, currentMonth);
+        }
+
+        function renderCalendar(year, month) {
+            const grid = document.getElementById("calendarGrid");
+            grid.innerHTML = "";
+
+            const firstDay = new Date(year, month, 1);
+            const startDayOfWeek = firstDay.getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const prevMonthDays = new Date(year, month, 0).getDate();
+            const totalCells = 42;
+
+            for (let i = 0; i < totalCells; i++) {
+                let dayNum, dateStr, isCurrentMonth, cellMonth, cellYear;
+
+                if (i < startDayOfWeek) {
+                    dayNum = prevMonthDays - startDayOfWeek + 1 + i;
+                    const d = new Date(year, month, 1 - startDayOfWeek + i);
+                    cellYear = d.getFullYear();
+                    cellMonth = d.getMonth();
+                    isCurrentMonth = false;
+                } else if (i < startDayOfWeek + daysInMonth) {
+                    dayNum = i - startDayOfWeek + 1;
+                    cellYear = year;
+                    cellMonth = month;
+                    isCurrentMonth = true;
+                } else {
+                    dayNum = i - startDayOfWeek - daysInMonth + 1;
+                    const d = new Date(year, month, daysInMonth + (i - startDayOfWeek - daysInMonth + 1));
+                    cellYear = d.getFullYear();
+                    cellMonth = d.getMonth();
+                    isCurrentMonth = false;
+                }
+
+                const mm = String(cellMonth + 1).padStart(2, "0");
+                const dd = String(dayNum).padStart(2, "0");
+                dateStr = `${cellYear}-${mm}-${dd}`;
+
+                const isToday = dateStr === todayStr;
+                let anns = (annData[dateStr] || []).filter(a => selectedCodes.has(a.code));
+
+                const cell = document.createElement("div");
+                cell.className = "day-cell" + (isToday ? " today" : "") + (isCurrentMonth ? "" : " other-month");
+
+                let cardsHtml = "";
+                if (anns.length > 0) {
+                    cardsHtml = anns.map(a => `
+                        <div class="ann-card" title="${a.title}">
+                            <div class="stock-tag">
+                                <span class="stock-code" style="background-color: ${a.color}20; color: ${a.color}; border: 1px solid ${a.color}40; border-radius: 4px;">${a.code}</span>
+                                <span class="stock-name" style="color: ${a.color};">${a.name}</span>
+                            </div>
+                            <div class="ann-title">${a.title}</div>
+                        </div>
+                    `).join("");
+                } else {
+                    cardsHtml = '<div class="empty"></div>';
+                }
+
+                cell.innerHTML = `
+                    <div class="day-header-cell">
+                        <span class="day-number">${dayNum}</span>
+                        ${(anns.length > 0 && isCurrentMonth) ? `<span class="ann-count">${anns.length}</span>` : ""}
+                    </div>
+                    <div class="day-body">${cardsHtml}</div>
+                `;
+
+                grid.appendChild(cell);
+            }
+        }
+
+        // 初始化
+        initSelectors();
+        initFilterBar();
+        renderCalendar(currentYear, currentMonth);
+    </script>
+</body>
+</html>
