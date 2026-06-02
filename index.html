@@ -5,57 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>港股公告日历</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
             min-height: 100vh;
             color: #1e293b;
-        }
-        .container {
+        }}
+        .container {{
             max-width: 1400px;
             margin: 0 auto;
             padding: 24px 16px;
-        }
-        header {
+        }}
+        header {{
             text-align: center;
             margin-bottom: 16px;
-        }
-        header h1 {
+        }}
+        header h1 {{
             font-size: 26px;
             font-weight: 700;
             color: #0f172a;
             letter-spacing: -0.5px;
-        }
-        header .update-time {
+        }}
+        header .update-time {{
             font-size: 12px;
             color: #94a3b8;
             margin-top: 4px;
-        }
+        }}
         /* 控制栏 */
-        .control-bar {
+        .control-bar {{
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             background: #fff;
             padding: 12px 16px;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
-        .control-group {
+        }}
+        .control-group {{
             display: flex;
             align-items: center;
             gap: 6px;
-        }
-        .control-label {
+        }}
+        .control-label {{
             font-size: 13px;
             color: #64748b;
             font-weight: 500;
-        }
-        .control-select {
+        }}
+        .control-select {{
             padding: 7px 10px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -65,14 +65,14 @@
             cursor: pointer;
             outline: none;
             transition: border-color 0.15s;
-        }
-        .control-select:hover {
+        }}
+        .control-select:hover {{
             border-color: #cbd5e1;
-        }
-        .control-select:focus {
+        }}
+        .control-select:focus {{
             border-color: #3b82f6;
-        }
-        .today-btn {
+        }}
+        .today-btn {{
             padding: 7px 14px;
             background: #3b82f6;
             color: #fff;
@@ -82,30 +82,35 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
-        }
-        .today-btn:hover {
+        }}
+        .today-btn:hover {{
             background: #2563eb;
-        }
+        }}
         /* 筛选栏 */
-        .filter-bar {
+        .filter-section {{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }}
+        .filter-bar {{
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
             gap: 8px 14px;
-            margin-bottom: 16px;
             background: #fff;
             padding: 10px 16px;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
-        .filter-label {
+        }}
+        .filter-label {{
             font-size: 13px;
             color: #64748b;
             font-weight: 500;
             margin-right: 4px;
-        }
-        .filter-item {
+        }}
+        .filter-item {{
             display: flex;
             align-items: center;
             gap: 5px;
@@ -114,35 +119,35 @@
             border-radius: 6px;
             transition: background 0.12s;
             user-select: none;
-        }
-        .filter-item:hover {
+        }}
+        .filter-item:hover {{
             background: #f1f5f9;
-        }
-        .filter-item input[type="checkbox"] {
+        }}
+        .filter-item input[type="checkbox"] {{
             width: 15px;
             height: 15px;
             cursor: pointer;
             accent-color: #3b82f6;
-        }
-        .filter-dot {
+        }}
+        .filter-dot {{
             width: 10px;
             height: 10px;
             border-radius: 50%;
             flex-shrink: 0;
-        }
-        .filter-text {
+        }}
+        .filter-text {{
             font-size: 13px;
             color: #334155;
             font-weight: 500;
-        }
-        .filter-actions {
+        }}
+        .filter-actions {{
             display: flex;
             gap: 6px;
             margin-left: 8px;
             padding-left: 12px;
             border-left: 1px solid #e2e8f0;
-        }
-        .filter-action-btn {
+        }}
+        .filter-action-btn {{
             font-size: 12px;
             color: #3b82f6;
             background: none;
@@ -151,31 +156,31 @@
             padding: 3px 6px;
             border-radius: 4px;
             font-weight: 500;
-        }
-        .filter-action-btn:hover {
+        }}
+        .filter-action-btn:hover {{
             background: #eff6ff;
-        }
+        }}
         /* 星期标题 */
-        .weekday-header {
+        .weekday-header {{
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
             margin-bottom: 8px;
-        }
-        .weekday-cell {
+        }}
+        .weekday-cell {{
             text-align: center;
             font-size: 13px;
             font-weight: 600;
             color: #64748b;
             padding: 8px 0;
-        }
-        .calendar-grid {
+        }}
+        .calendar-grid {{
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            grid-template-rows: repeat(6, minmax(140px, auto));
+            grid-template-rows: repeat(6, minmax(150px, auto));
             gap: 8px;
-        }
-        .day-cell {
+        }}
+        .day-cell {{
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.04);
@@ -184,81 +189,91 @@
             flex-direction: column;
             transition: transform 0.1s, box-shadow 0.1s;
             position: relative;
-        }
-        .day-cell:hover {
+        }}
+        .day-cell:hover {{
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }
-        .day-cell.today {
+        }}
+        .day-cell.today {{
             box-shadow: 0 0 0 2px #3b82f6, 0 2px 8px rgba(59,130,246,0.12);
-        }
-        .day-cell.other-month {
+        }}
+        .day-cell.other-month {{
             background: #f8fafc;
-        }
-        .day-cell.other-month .day-number {
+        }}
+        .day-cell.other-month .day-number {{
             color: #cbd5e1;
-        }
-        .day-header-cell {
+        }}
+        .day-header-cell {{
             padding: 8px 10px 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .day-number {
+        }}
+        .day-number {{
             font-size: 16px;
             font-weight: 700;
             color: #0f172a;
-        }
-        .day-cell.today .day-number {
+        }}
+        .day-cell.today .day-number {{
             color: #3b82f6;
-        }
-        .day-cell.other-month .day-number {
+        }}
+        .day-cell.other-month .day-number {{
             color: #cbd5e1;
-        }
-        .ann-count {
+        }}
+        .ann-count {{
             font-size: 11px;
             color: #fff;
             background: #3b82f6;
             padding: 1px 6px;
             border-radius: 10px;
             font-weight: 600;
-        }
-        .day-body {
+        }}
+        .day-body {{
             padding: 0 8px 8px;
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 5px;
             overflow-y: auto;
-            max-height: 200px;
-        }
-        .ann-card {
+            max-height: 220px;
+        }}
+        .ann-card {{
             background: #f8fafc;
             border-radius: 6px;
             padding: 6px 8px;
             cursor: pointer;
             transition: background 0.12s;
-        }
-        .ann-card:hover {
+            border-left: 3px solid transparent;
+        }}
+        .ann-card:hover {{
             background: #f1f5f9;
-        }
-        .stock-tag {
+        }}
+        .stock-tag {{
             display: inline-flex;
             align-items: center;
             gap: 4px;
             font-size: 10px;
             font-weight: 600;
+            margin-bottom: 2px;
+        }}
+        .fund-tag {{
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
             margin-bottom: 3px;
-        }
-        .stock-code {
+            letter-spacing: 0.3px;
+        }}
+        .stock-code {{
             font-family: "SF Mono", Monaco, monospace;
             padding: 1px 5px;
             border-radius: 4px;
-        }
-        .stock-name {
+        }}
+        .stock-name {{
             opacity: 0.85;
-        }
-        .ann-title {
+        }}
+        .ann-title {{
             font-size: 11.5px;
             line-height: 1.4;
             color: #475569;
@@ -267,54 +282,54 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
-        .empty {
+        }}
+        .empty {{
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #e2e8f0;
             font-size: 12px;
-        }
-        footer {
+        }}
+        footer {{
             text-align: center;
             margin-top: 20px;
             padding-top: 14px;
             border-top: 1px solid #e2e8f0;
             font-size: 12px;
             color: #94a3b8;
-        }
+        }}
         /* 响应式 */
-        @media (max-width: 768px) {
-            .calendar-grid {
+        @media (max-width: 768px) {{
+            .calendar-grid {{
                 grid-template-columns: repeat(7, 1fr);
                 grid-template-rows: repeat(6, minmax(90px, auto));
                 gap: 4px;
-            }
-            .day-cell {
+            }}
+            .day-cell {{
                 min-height: 90px;
-            }
-            .day-body {
+            }}
+            .day-body {{
                 max-height: 120px;
-            }
-            .ann-title {
+            }}
+            .ann-title {{
                 -webkit-line-clamp: 1;
                 font-size: 10px;
-            }
-            header h1 {
+            }}
+            header h1 {{
                 font-size: 20px;
-            }
-            .control-bar, .filter-bar {
+            }}
+            .control-bar, .filter-bar {{
                 padding: 10px 12px;
-            }
-        }
+            }}
+        }}
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>📅 港股公告日历</h1>
-            <div class="update-time">更新时间：2026-06-02 15:44</div>
+            <div class="update-time">更新时间：2026-06-02 16:16</div>
         </header>
 
         <!-- 年月选择 -->
@@ -330,10 +345,16 @@
             <button class="today-btn" onclick="goToday()">今天</button>
         </div>
 
-        <!-- 股票筛选 -->
-        <div class="filter-bar" id="filterBar">
-            <span class="filter-label">显示股票：</span>
-            <!-- JS 填充 -->
+        <!-- 基金筛选 -->
+        <div class="filter-section">
+            <div class="filter-bar" id="fundFilterBar">
+                <span class="filter-label">基金/账户：</span>
+                <!-- JS 填充 -->
+            </div>
+            <div class="filter-bar" id="stockFilterBar">
+                <span class="filter-label">显示股票：</span>
+                <!-- JS 填充 -->
+            </div>
         </div>
 
         <!-- 星期标题 -->
@@ -348,9 +369,7 @@
         </div>
 
         <!-- 日历网格 -->
-        <div class="calendar-grid" id="calendarGrid">
-            <!-- JS 填充 -->
-        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
 
         <footer>
             数据来源：东方财富 · 港交所披露易同步
@@ -359,97 +378,138 @@
 
     <script>
         // 嵌入数据
-        const annData = {"2026-06-01": [{"code": "00257", "name": "光大环境", "title": "截至2026年5月31日之股份发行人的证券变动月报表", "color": "#3b82f6"}, {"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-27": [{"code": "00257", "name": "光大环境", "title": "二零二六年五月二十七日举行之股东周年大会投票表决结果", "color": "#3b82f6"}, {"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-04": [{"code": "00257", "name": "光大环境", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#3b82f6"}], "2026-05-29": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-28": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-26": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-22": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-21": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-20": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-19": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表", "color": "#ef4444"}], "2026-05-18": [{"code": "00700", "name": "腾讯控股", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444"}], "2026-05-13": [{"code": "00700", "name": "腾讯控股", "title": "二零二六年股东周年大会投票表决结果", "color": "#ef4444"}, {"code": "00700", "name": "腾讯控股", "title": "截至二零二六年三月三十一日止三个月业绩公布", "color": "#ef4444"}], "2026-05-07": [{"code": "00700", "name": "腾讯控股", "title": "截至二零二六年四月三十日止之股份发行人的证券变动月报表", "color": "#ef4444"}, {"code": "00883", "name": "中国海洋石油", "title": "海外监管公告 2025 年度股东周年大会会议材料", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "海外监管公告 关于召开 2025年度股东周年大会的通知", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "二零二六年六月三日举行之2025年度股东周年大会之代表委任表格", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "2025年度股东周年大会说明函件", "color": "#10b981"}, {"code": "00883", "name": "中国海洋石油", "title": "股东周年大会通告", "color": "#10b981"}], "2026-06-02": [{"code": "00883", "name": "中国海洋石油", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#10b981"}], "2026-05-06": [{"code": "00883", "name": "中国海洋石油", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#10b981"}]};
-        const stockList = [{"code": "00257", "name": "光大环境", "color": "#3b82f6"}, {"code": "00700", "name": "腾讯控股", "color": "#ef4444"}, {"code": "00883", "name": "中国海洋石油", "color": "#10b981"}];
+        const annData = {"2026-06-01": [{"code": "00257", "name": "光大環境 EB ENVIRONMENT", "title": "截至2026年5月31日之股份发行人的证券变动月报表", "color": "#3b82f6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "截至2026年5月31日止月份之股份发行人之证券变动月报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02388", "name": "中銀香港 BOC HONG KONG", "title": "截至2026年5月31日的股份发行人的证券变动月报表", "color": "#a855f7", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03323", "name": "中國建材 CNBM", "title": "海外监管公告2026年面向专业投资者公开发行科技创新公司债券(第三期)发行公告", "color": "#22c55e", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03323", "name": "中國建材 CNBM", "title": "截至2026年5月31日之股份发行人的证券变动月报表", "color": "#22c55e", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "公告 根据2024年计划授出奖励", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00133", "name": "招商局中國基金 CHINA MERCHANTS", "title": "截至2026年5月31日止股份发行人证券变动月报表", "color": "#8b5cf6", "fund": "Park", "fundColor": "#10b981"}, {"code": "00257", "name": "光大環境 EB ENVIRONMENT", "title": "截至2026年5月31日之股份发行人的证券变动月报表", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "截至2026年5月31日止月份之股份发行人的证券变动月报表", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "截至2026年5月31日股份发行人的证券变动月报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00728", "name": "中國電信 CHINA TELECOM", "title": "截至2026年5月31日止股份发行人的证券变动月报表", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01766", "name": "中國中車 CRRC", "title": "截至二零二六年五月三十一日止月份之股份发行人的证券变动月报表", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "01888", "name": "建滔積層板 KB LAMINATES", "title": "股份发行人的证券变动月报表", "color": "#22c55e", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "海外监管公告 - 中国平安保险(集团)股份有限公司2025年年度权益分派实施公告", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "截至二零二六年五月三十一日止之股份发行人的证券变动月报表", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02628", "name": "中國人壽 CHINA LIFE", "title": "2026年6月25日(星期四)举行之股东周年会适用之H股股东代表委任表格", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "02628", "name": "中國人壽 CHINA LIFE", "title": "股东周年会通告", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "02628", "name": "中國人壽 CHINA LIFE", "title": "2025年度董事会报告、2025年度财务报告及利润分配方案、董事及监事薪酬、2026年度审计师聘用、股东会对董事会授权方案、2025年度独立董事述职报告、2025年度关联交易整体情况报告及股东周年会通告", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "02628", "name": "中國人壽 CHINA LIFE", "title": "截至2026年5月31日止股份发行人的证券变动月报表", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "股份发行人的证券变动月报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "海外监管公告-株洲中车时代电气股份有限公司2025年年度股东会、2026年第一次A股类别股东会及2026年第一次H股类别股东会会议资料", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "(更新)截至2025年12月31日止年度之末期股息", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "适用于2026 年第一次H股类别股东会(或其任何续会)的代表委任表格", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "适用于2025年年度股东会(或其任何续会)的代表委任表格", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "2026年第一次H股类别股东会通告", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "年度股东会通告", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "(1) 2025 年度利润分配方案(2) 建议申请银行授信额度(3) 发行A股及╱或H股的一般授权(4) 回购H股的一般授权(5) 建议委任董事(6) 年度股东会通告及(7) 2026 年第一次H股类别股东会通告", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2023年面向专业机构投资者公开发行公司债券(第二期)(品种一)2026年付息公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "截至二零二六年五月三十一日股份发行人的证券变动月报表", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "截至2026年5月31日止之股份发行人的证券变动月报表", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "title": "独立非执行董事辞任及董事委员会成员变更", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "title": "董事名单及其角色与职能", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "title": "截至二零二六年五月三十一日股份发行人的证券变动月报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "提名独立非执行董事 及 董事会委员会成员变更", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "(1)建议A股发行并在科创板上市及其他附加决议案 及 (2)建议变更本公司英文名称及建议修订公司章程", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "03750", "name": "寧德時代 CATL", "title": "海外监管公告 - 关于2026年度第三期绿色科技创新债券发行完成的公告", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "公告 根据2024年计划授出奖励", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "title": "股份发行人的证券变动月报表", "color": "#a855f7", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "00285", "name": "KIOXIA HOLDINGS CORP KIOXIA", "title": "截至2026年5月31日股份发行人的证券变动月报表", "color": "#22c55e", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "08031", "name": "MITSUI & CO LTD MITSUI & CO LTD", "title": "根据一般授权配售新股份", "color": "#3b82f6", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "08031", "name": "MITSUI & CO LTD MITSUI & CO LTD", "title": "截至二零二六年五月三十一日止之股份发行人的证券变动月报表", "color": "#3b82f6", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "08411", "name": "MIZUHO FINANCIAL GROUP INC", "title": "直至2026年5月31日止月份之月报表", "color": "#f59e0b", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-05-27": [{"code": "00257", "name": "光大環境 EB ENVIRONMENT", "title": "二零二六年五月二十七日举行之股东周年大会投票表决结果", "color": "#3b82f6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00257", "name": "光大環境 EB ENVIRONMENT", "title": "二零二六年五月二十七日举行之股东周年大会投票表决结果", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "关于向特定对象发行A股股票发行情况的提示性公告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "海外市场公告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "海外监管公告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "title": "经修订及重述的组织章程大纲及第二次经修订及重述公司细则", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "title": "二零二六年五月二十七日举行之股东特别大会投票表决结果", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "title": "二零二六年五月二十七日举行之股东周年大会投票表决结果", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}], "2026-05-04": [{"code": "00257", "name": "光大環境 EB ENVIRONMENT", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#3b82f6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "股份发行人的证券变动月报表", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "截至2026年4月30日止月份之股份发行人之证券变动月报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02388", "name": "中銀香港 BOC HONG KONG", "title": "截至2026年4月30日的股份发行人的证券变动月报表", "color": "#a855f7", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03323", "name": "中國建材 CNBM", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#22c55e", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00133", "name": "招商局中國基金 CHINA MERCHANTS", "title": "截至2026年4月30日止股份发行人证券变动月报表", "color": "#8b5cf6", "fund": "Park", "fundColor": "#10b981"}, {"code": "00257", "name": "光大環境 EB ENVIRONMENT", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "截至2026年4月30日股份发行人的证券变动月报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00728", "name": "中國電信 CHINA TELECOM", "title": "截至2026年4月30日止股份发行人的证券变动月报表", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "01888", "name": "建滔積層板 KB LAMINATES", "title": "股份发行人的证券变动月报表", "color": "#22c55e", "fund": "DA", "fundColor": "#f97316"}, {"code": "02628", "name": "中國人壽 CHINA LIFE", "title": "截至2026年4月30日止股份发行人的证券变动月报表", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "08031", "name": "MITSUI & CO LTD MITSUI & CO LTD", "title": "截至二零二六年四月三十日止之股份发行人的证券变动月报表", "color": "#3b82f6", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "08316", "name": "SUMITOMO MITSUI FINANCIAL GR", "title": "股份发行人的证券变动月报表截止二零二六年四月三十日止", "color": "#10b981", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "08411", "name": "MIZUHO FINANCIAL GROUP INC", "title": "直至2026年4月30日止月份之月报表", "color": "#f59e0b", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-05-29": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "建议截至2025年12月31日止年度之末期股息(更新)", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "(1)于2026年5月29日举行的2025年年度股东会的投票表决结果;及(2)派发末期股息", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《上海市通力律师事务所关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易之补充法律意见书》《国泰海通证券股份有限公司关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易之独立财务顾问报告(修订稿)》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易报告书摘要(修订稿)》《华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易报告书(修订稿)》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《华虹半导体有限公司关于发行股份购买资产并募集配套资金暨关联交易报告书(修订稿)修订说明的公告》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《国泰海通证券股份有限公司关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易申请的审核问询函回复之核查意见》《大华会计师事务所(特殊普通合伙)关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易申请的审核问询函中有关财务事项的说明》《安永华明会计师事务所(特殊普通合伙)关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易申请的审核问询函中备考财务报表项目相关财务问题的专项核查意见》《上海东洲资产评估有限公司关于发行股份购买资产并募集配套资金暨关联交易申请的审核问询函中资产评估相关问题回复核查意见》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《关于发行股份购买资产并募集配套资金暨关联交易审核问询函回复的提示性公告》《华虹半导体有限公司关于发行股份购买资产并募集配套资金暨关联交易申请的审核问询函回复》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "01766", "name": "中國中車 CRRC", "title": "海外监管公告 - 中国中车股份有限公司第四届董事会第十次会议决议公告", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2024年面向专业投资者非公开发行公司债券(第一期)2026年提前摘牌公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《上海市通力律师事务所关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易之补充法律意见书》《国泰海通证券股份有限公司关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易之独立财务顾问报告(修订稿)》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易报告书摘要(修订稿)》《华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易报告书(修订稿)》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《华虹半导体有限公司关于发行股份购买资产并募集配套资金暨关联交易报告书(修订稿)修订说明的公告》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《国泰海通证券股份有限公司关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易申请的审核问询函回复之核查意见》《大华会计师事务所(特殊普通合伙)关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易申请的审核问询函中有关财务事项的说明》《安永华明会计师事务所(特殊普通合伙)关于华虹半导体有限公司发行股份购买资产并募集配套资金暨关联交易申请的审核问询函中备考财务报表项目相关财务问题的专项核查意见》《上海东洲资产评估有限公司关于发行股份购买资产并募集配套资金暨关联交易申请的审核问询函中资产评估相关问题回复核查意见》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《关于发行股份购买资产并募集配套资金暨关联交易审核问询函回复的提示性公告》《华虹半导体有限公司关于发行股份购买资产并募集配套资金暨关联交易申请的审核问询函回复》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "董事、高级管理人员薪酬管理制度", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "股东会议事规则", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "章程", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "2025年年度股东会投票表决结果", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}], "2026-05-28": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00916", "name": "龍源電力 CHINA LONGYUAN", "title": "公告 - 完成发行超短期融资券", "color": "#f59e0b", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00916", "name": "龍源電力 CHINA LONGYUAN", "title": "公告 - 完成发行超短期融资券", "color": "#f59e0b", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02285", "name": "泉峰控股 CHERVON", "title": "自愿公告 - 根据股份计划购入股份", "color": "#0ea5e9", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "自愿公告 股息派发流程细节", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00133", "name": "招商局中國基金 CHINA MERCHANTS", "title": "新组织章程细则", "color": "#8b5cf6", "fund": "Park", "fundColor": "#10b981"}, {"code": "00133", "name": "招商局中國基金 CHINA MERCHANTS", "title": "2026年5月28日举行之股东周年大会的投票表决结果", "color": "#8b5cf6", "fund": "Park", "fundColor": "#10b981"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "海外监管公告 关于中国东方航空股份有限公司2025年度股东会的法律意见书", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "于2026年5月28日举行的2025年度股东会的投票表决结果", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "海外市场公告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "董事名单与其角色和职能", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "二零二五年年度股东会投票表决结果及非执行董事辞任", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00941", "name": "中國移動 CHINA MOBILE", "title": "海外监管公告2025年末期利润分派人民币股份实施", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "海外监管公告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "致非登记股东之通知信函及回条", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "致登记股东之通知信函及回条", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "年度股东会及其任何续会之代理委托书", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "二零二五年年度股东会通告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "(1) 建议派付现金红利,(2) 选举董事,(3) 董事、高级管理人员薪酬管理制度,(4) 续聘核数师及聘任内部控制审计服务机构,(5) 改变部分募集资金用途,及(6) 年度股东会通告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "潍柴动力股份有限公司关于召开2025年度股东会的通知", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "潍柴动力股份有限公司独立董事候选人声明与承诺", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "潍柴动力股份有限公司独立董事提名人声明与承诺", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "潍柴动力股份有限公司关于独立非执行董事变更的公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "潍柴动力股份有限公司2026年第四次临时董事会会议决议公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "公告 建议变更独立非执行董事", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "有关重续该等金融服务协议的主要交易及持续关连交易", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "致非登记持有人 - 通知信函及申请表格", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "致登记股东 - 通知信函及回条", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "2026年6月12日(星期五)下午二时四十五分(或紧随本公司于同日在同一地点举行的股东周年大会结束(或续会或延会)后的有关时间(以较晚者为准))举行的股东特别大会(和其任何续会)适用的代表委任表格", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "股东特别大会通告", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "(1)有关重续该等金融服务协议的主要交易及持续关连交易及(2)股东特别大会通告", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "自愿公告 股息派发流程细节", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}], "2026-05-26": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海运能源运输股份有限公司董事、高级管理人员薪酬管理制度(建议稿)", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "国泰海通证券股份有限公司关于中远海运能源运输股份有限公司为全资子公司提供年度担保额度的核查意见", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能关于全资子公司出租船舶的公告", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能关于向全资子公司增资的公告", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "国泰海通证券股份有限公司关于中远海运能源运输股份有限公司向全资子公司增资的核查意见", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能关于期租租入船舶的公告", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能独立董事候选人声明与承诺", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能2026年第八次董事会会议决议公告", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能独立董事提名人声明与承诺", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "拟提供担保", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "建议委任独立非执行董事", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "有关拟议租船事项及先前租船事项的须予披露交易", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "01888", "name": "建滔積層板 KB LAMINATES", "title": "于二零二六年五月二十六日举行之股东周年大会之按股数投票表决结果", "color": "#22c55e", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "自愿性公告 2026年度核心人员持股计划完成股票购买", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "关于回购公司部分A股股份注销完成暨股份变动的公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "翌日披露报表", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02628", "name": "中國人壽 CHINA LIFE", "title": "海外监管公告 - 中国人寿保险股份有限公司第八届董事会第二十七次会议决议公告", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 关于中国中金财富证券有限公司减资事项的公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2024年面向专业投资者非公开发行公司债券(第一期)2026年债券回售实施结果公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}], "2026-05-22": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01133", "name": "哈爾濱電氣 HARBIN ELECTRIC", "title": "公司章程", "color": "#f97316", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01133", "name": "哈爾濱電氣 HARBIN ELECTRIC", "title": "二零二六年五月二十二日股东周年大会、H股类别股东大会及内资股类别股东大会投票结果", "color": "#f97316", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "海外监管公告 中国东方航空股份有限公司2025年度股东会会议资料", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "自愿公告 - 关于投资中科沌序", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行永续次级债券(第四期)发行结果公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "股东特别大会的最后登记日期及记录日期", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "00992", "name": "聯想集團 LENOVO GROUP", "title": "宣派截至二零二六年三月三十一日止年度的末期股息", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00992", "name": "聯想集團 LENOVO GROUP", "title": "二零二五/ 二六年财政年度全年业绩公布", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}], "2026-05-21": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00981", "name": "中芯國際 SMIC", "title": "海外监管公告", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "title": "2026年3月31日止第一季度股息公告", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "title": "2026年3月31日止第一季度业绩公告及第一季度股息公告", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "海外监管公告 关于中国东方航空股份有限公司控股股东增持公司股份之法律意见书", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "海外监管公告 中国东方航空股份有限公司关于控股股东增持股份实施结果的公告", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00941", "name": "中國移動 CHINA MOBILE", "title": "海外监管公告2026年股东周年大会决议", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "00941", "name": "中國移動 CHINA MOBILE", "title": "海外监管公告北京市海问律师事务所关于中国移动有限公司2026年股东周年大会的法律意见书", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "00941", "name": "中國移動 CHINA MOBILE", "title": "2026年5月21日(星期四)举行之股东周年大会投票表决结果", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01766", "name": "中國中車 CRRC", "title": "截至2025年12月31日止年度末期股息(更新)", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "01766", "name": "中國中車 CRRC", "title": "于2026年6月16日(星期二)举行的年度股东会之代表委任表格", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "01766", "name": "中國中車 CRRC", "title": "年度股东会通告", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "01766", "name": "中國中車 CRRC", "title": "年度股东会", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "自愿性公告-2026年度长期服务计划完成股票购买", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2024年面向专业投资者非公开发行公司债券(第一期)2026年付息公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}], "2026-05-20": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09698", "name": "萬國數據－ＳＷ GDS-SW", "title": "独立董事及审计委员会主席辞任及委任", "color": "#3b82f6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09698", "name": "萬國數據－ＳＷ GDS-SW", "title": "2026年第一季度业绩公告", "color": "#3b82f6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "海外监管公告", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "自愿公告 - 关于追加投资加速进化", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00941", "name": "中國移動 CHINA MOBILE", "title": "海外监管公告2025年末期利润分配方案的进展", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "海外监管公告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "(经修订) 截至2025年12月31日止年度之末期股息公告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "董事会名单与其角色和职能", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "(1)于二零二六年五月二十日举行的二零二五年股东周年大会之投票表决结果; (2)派付末期股息之进一步资料及(3)独立非执行董事之变更及董事委员会组成变更", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "海外监管公告 - 中国平安保险(集团)股份有限公司董事、高级管理人员薪酬管理制度(2026版)", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "海外监管公告 - 中国平安保险(集团)股份有限公司2025年年度股东会法律意见书", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "(I) 于2026年5月20日(星期三)举行的2025年年度股东会的投票结果 及 (II) 派付2025年度末期股息及可转换债券转换价调整", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行永续次级债券(第四期)票面利率公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "海外监管公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "title": "海外监管公告", "color": "#a855f7", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-05-19": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能关于召开2025年度暨2026年第一季度业绩说明会的公告", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "title": "中远海能二零二六年第七次董事会会议决议公告", "color": "#84cc16", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "董事名单与其角色及职能", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "于二零二六年五月十九日举行之股东周年大会之投票表决结果、董事会成员变动及董事会委员会成员变动", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09698", "name": "萬國數據－ＳＷ GDS-SW", "title": "年度股东大会登记日期", "color": "#3b82f6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "翌日披露报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00728", "name": "中國電信 CHINA TELECOM", "title": "截至2025年12月31日止年度之末期股息(更新)", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "00728", "name": "中國電信 CHINA TELECOM", "title": "海外监管公告 - 中国电信股份有限公司第九届董事会第一次会议决议公告", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "00728", "name": "中國電信 CHINA TELECOM", "title": "董事名单与其角色和职能", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "00728", "name": "中國電信 CHINA TELECOM", "title": "年度股东会投票表决结果、董事、高级管理人员、董事会专门委员会委员之委任及派发末期股息", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "关于2026年总损失吸收能力非资本债券(第二期)(债券通)发行完毕的公告", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "潍柴动力股份有限公司关于回购公司部分A股股份实施结果暨股份变动的公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "公告 以集中竞价交易方式回购A股股份的实施结果", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2023年面向专业机构投资者公开发行公司债券(第二期)(品种一)2026年票面利率调整及债券回售实施的第三次提示性公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 – 2026年面向专业投资者公开发行永续次级债券(第四期)信用评级报告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 – 2026年面向专业投资者公开发行永续次级债券(第四期)发行公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行永续次级债券(第四期)募集说明书", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "翌日披露报表", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}], "2026-05-18": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "翌日披露报表 - 已发行股份变动及股份购回", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "海外监管公告 - 关于召开2026年第一季度业绩说明会的公告", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02050", "name": "三花智控 SANHUA", "title": "海外监管公告-浙江三花智能控制股份有限公司关于举办2025年度业绩说明会的公告", "color": "#f43f5e", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02285", "name": "泉峰控股 CHERVON", "title": "有关于2026年5月18日(星期一)举行之股东周年大会之投票结果", "color": "#0ea5e9", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "title": "2026年年度股东大会之代表委任表格", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "title": "2026年年度股东大会委托投票说明书/通函", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "title": "2026年年度股东大会通告", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "翌日披露报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "海外市场公告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 第三届董事会第十八次会议决议公告及相关文件", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "展示文件", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "2026年第一次H股类别股东会议之委任代表表格", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "2026年第一次临时股东会之委任代表表格", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "2026年第一次H股类别股东会议通告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "2026年第一次临时股东会通告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "就中金公司、东兴证券及信达证券拟议合并的主要交易及发行中金A股的特别授权,2026年第一次临时股东会通告及2026年第一次H股类别股东会议通告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行公司债券(第三期)发行结果公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02476", "name": "勝宏科技 VGT", "title": "稳定价格行动及稳定价格期结束", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "于2026年5月29日(星期五)举行的年度股东会(或其任何续会)适用的经修订代表委任表格(就H股持有人而言)", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "2025年年度股东会补充通告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "本公司日期为2026年5月8日通函之补充通函(1) 有关增加外汇衍生品交易业务额度及(2) 2025年年度股东会补充通告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "09888", "name": "百度集團－ＳＷ BIDU-SW", "title": "2026 年第一季度业绩公告", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "08411", "name": "MIZUHO FINANCIAL GROUP INC", "title": "于二零二六年五月十八日举行之股东周年大会之投票表决结果", "color": "#f59e0b", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-05-13": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "二零二六年股东周年大会投票表决结果", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00700", "name": "騰訊控股 TENCENT", "title": "截至二零二六年三月三十一日止三个月业绩公布", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "(经修订)翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "致非登记股份持有人之信函及回条 - 以电子方式发布公司通讯之安排的提示信函", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "致登记股份持有人之信函及回条 - 以电子方式发布公司通讯之安排的提示信函", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "截至2025年12月31日止年度之末期股息", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "二零二五年末期股息-股息货币选择表格", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03323", "name": "中國建材 CNBM", "title": "自愿公告关于延期履行同业竞争承诺的函", "color": "#22c55e", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "截至2026年3月31日止年度的股息", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "2026年三月底止季度业绩及2026财务年度业绩公告", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "01288", "name": "農業銀行 ABC", "title": "致非登记股东之通知信函及回条 - 以电子方式发布公司通讯之安排的提示信函", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "致登记股东之通知信函及回条 - 以电子方式发布公司通讯之安排的提示信函", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "二零二五年末期股息-股息货币选择表格", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "派发截至2025年12月31日止年度之末期股息", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "致非登记股份持有人之信函及回条 - 以电子方式发布公司通讯之安排的提示信函", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "致登记股份持有人之信函及回条 - 以电子方式发布公司通讯之安排的提示信函", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "截至2025年12月31日止年度之末期股息", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "二零二五年末期股息-股息货币选择表格", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "关于参加2026年山东辖区上市公司投资者网上集体接待日活动的公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行公司债券(第三期)信用评级报告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行公司债券(第三期)募集说明书", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行公司债券(第三期)发行公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2023年面向专业机构投资者公开发行公司债券(第二期)(品种一)2026年票面利率调整及债券回售实施的第一次提示性公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "截至2026年3月31日止年度的股息", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "2026年三月底止季度业绩及2026财务年度业绩公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}], "2026-05-07": [{"code": "00700", "name": "騰訊控股 TENCENT", "title": "截至二零二六年四月三十日止之股份发行人的证券变动月报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "海外监管公告 2025 年度股东周年大会会议材料", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "海外监管公告 关于召开 2025年度股东周年大会的通知", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "二零二六年六月三日举行之2025年度股东周年大会之代表委任表格", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "2025年度股东周年大会说明函件", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "股东周年大会通告", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00916", "name": "龍源電力 CHINA LONGYUAN", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#f59e0b", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "title": "董事会会议召开日期及2026年第一季度业绩公告发布日期", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "截至2026年4月30日股份发行人的证券变动月报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "年度股东会回执", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "2025年年度股东会代表委任表格", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "年度股东会通告", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00857", "name": "中國石油股份 PETROCHINA", "title": "截至二零二六年四月三十日止月份股份发行人的证券变动月报表", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "海外监管公告 2025 年度股东周年大会会议材料", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "海外监管公告 关于召开 2025年度股东周年大会的通知", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "二零二六年六月三日举行之2025年度股东周年大会之代表委任表格", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "2025年度股东周年大会说明函件", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "股东周年大会通告", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "截至二零二六年四月三十日股份发行人的证券变动月报表", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "海外监管公告-株洲中车时代电气股份有限公司关于参加十五五 · 科创惠民-科创板企业成果转化与民生赋能之2025年度先进轨道交通行业集体业绩说明会的公告", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02476", "name": "勝宏科技 VGT", "title": "截至二零二六年四月三十日止月份之股份发行人的证券变动月报表", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "截至二零二六年四月三十日止月份之股份发行人的证券变动月报表", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "2025年年度股东会通告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "于2026年5月29日(星期五)举行的年度股东会(或其任何续会)适用的代表委任表格(就H股持有人而言)", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "于2026年5月29日(星期五)举行的年度股东会(或其任何续会)之回条", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "2025年度股东会通函", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03750", "name": "寧德時代 CATL", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "title": "海外监管公告", "color": "#a855f7", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-06-02": [{"code": "00883", "name": "中國海洋石油 CNOOC", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02285", "name": "泉峰控股 CHERVON", "title": "截至二零二六年五月三十一日止之股份发行人的证券变动月报表", "color": "#0ea5e9", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "截至二零二六年五月三十一日止股份发行人的证券变动月报表", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "2026年度股份激励计划", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "年度股东会适用之代表委任表格", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "2025年年度股东会通告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "2025年年度股东会通函", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}], "2026-05-06": [{"code": "00883", "name": "中國海洋石油 CNOOC", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00939", "name": "建設銀行 CCB", "title": "截至2026年4月30日止股份发行人的证券变动月报表", "color": "#8b5cf6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00981", "name": "中芯國際 SMIC", "title": "截至2026年4月30日之股份发行人的证券变动月报表", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01133", "name": "哈爾濱電氣 HARBIN ELECTRIC", "title": "股份发行人的证券变动月报表", "color": "#f97316", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "自愿公告 - 根据购回授权于市场上购回股份", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "海外监管公告", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02050", "name": "三花智控 SANHUA", "title": "截至2026年4月30日止之股份发行人的证券变动月报表", "color": "#f43f5e", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "02285", "name": "泉峰控股 CHERVON", "title": "截至二零二六年四月三十日止之股份发行人的证券变动月报表", "color": "#0ea5e9", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09698", "name": "萬國數據－ＳＷ GDS-SW", "title": "董事会会议召开日期", "color": "#3b82f6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "截至2026年4月30日止月份之股份发行人的证券变动月报表", "color": "#ef4444", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "截至2026年4月30日止月份之股份发行人的证券变动月报表", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "展示文件", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "年度股东会代表委任表格", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "年度股东会通告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "(1)须予披露交易及持续关连交易:金融服务协议(2)发行债务融资工具之一般性授权及年度股东会通告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "截至二零二六年四月三十日止之股份发行人的证券变动月报表", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#10b981", "fund": "DA", "fundColor": "#f97316"}, {"code": "00939", "name": "建設銀行 CCB", "title": "截至2026年4月30日止股份发行人的证券变动月报表", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "00941", "name": "中國移動 CHINA MOBILE", "title": "截至2026年4月30日止股份发行人的证券变动月报表", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "2025年年度A股分红派息实施公告", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "海外监管公告", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "01766", "name": "中國中車 CRRC", "title": "截至二零二六年四月三十日止月份之股份发行人的证券变动月报表", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "海外监管公告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "关于回购公司部分A股股份的进展公告", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "title": "截至二零二六年四月三十日止月份之股份发行人的证券变动月报表", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2024年面向专业投资者非公开发行公司债券(第一期)2026年票面利率调整及债券回售实施的第二次提示性公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "截至二零二六年四月三十日股份发行人的证券变动月报表", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "有关重续该等金融服务协议的主要交易及持续关连交易", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "title": "可能非常重大出售事项出售于美国铝业的股权的授权", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "00992", "name": "聯想集團 LENOVO GROUP", "title": "股份发行人的证券变动月报表(截至2026年4月30日)", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "title": "截至二零二六年四月三十日股份发行人的证券变动月报表", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "title": "独立非执行董事辞任", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "09903", "name": "天數智芯 ILUVATAR COREX", "title": "截至二零二六年四月三十日止月份之股份发行人的证券变动月报表", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "title": "截至2026年4月30日止月份之股份发行人的证券变动月报表", "color": "#ef4444", "fund": "DA", "fundColor": "#f97316"}, {"code": "08031", "name": "MITSUI & CO LTD MITSUI & CO LTD", "title": "有关股东周年大会通函之补充公布", "color": "#3b82f6", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "08035", "name": "TOKYO ELECTRON LTD TOKYO", "title": "截至二零二六年四月三十日止之股份发行人的证券变动月报表", "color": "#ef4444", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-05-08": [{"code": "00916", "name": "龍源電力 CHINA LONGYUAN", "title": "公告 - 二零二六年四月发电量", "color": "#f59e0b", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "建议截至2025年12月31日止年度之末期股息(更新)", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "出席2025年年度股东会之回执", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "2025年年度股东会之股东代理人委任表格", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "2025年年度股东会通告", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "title": "(1)2025年度董事会工作报告;(2)2025年年度报告;(3)2025年度利润分配;(4)聘任2026年度审计机构;(5)关于授予董事会发行股份一般性授权的议案;(6)公司《薪酬管理办法》的议案;(7)公司2026年度董事会成员薪酬方案的议案;及(8)2025年年度股东会通告", "color": "#06b6d4", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "title": "年度股东大会登记日期", "color": "#10b981", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2024年面向专业投资者非公开发行公司债券(第一期)2026年票面利率调整及债券回售实施的第三次提示性公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 关于重大资产重组的进展公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "关于召开2025年年度暨2026年第一季度业绩说明会的公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}], "2026-05-14": [{"code": "00981", "name": "中芯國際 SMIC", "title": "修订公司组织章程细则", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00981", "name": "中芯國際 SMIC", "title": "海外监管公告-《关于续聘2026年度会计师事务所的公告》《关于2026年度开展套期保值业务的公告》《关于开展套期保值业务的可行性报告》《关于董事重选的公告》", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00981", "name": "中芯國際 SMIC", "title": "海外监管公告-《2026年第一季度报告》", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00981", "name": "中芯國際 SMIC", "title": "中芯国际截至2026年3月31日止三个月未经审核业绩公布", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《关于补充披露营业收入扣除情况相关事项的公告》《2025年年度报告(修订版)》《关于华虹半导体有限公司2025年度营业收入扣除情况专项说明》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《上海市通力律师事务所关于华虹半导体有限公司2026年股东周年大会的法律意见书》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "于二零二六年五月十四日举行的股东周年大会的投票结果", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《2026年第一季度报告》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "华虹半导体二零二六年第一季度业绩公布", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "飞机购买协议(遮盖版本)", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "关于购买飞机的主要交易", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "更改2025年股东周年大会的举行地点", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "海外监管公告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "审计与风险管理委员会的职权范围及运作模式", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "章程", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "董事名单与其角色和职能", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02318", "name": "中國平安 PING AN", "title": "公司章程修订获核准及不再设立监事会及执行董事辞任", "color": "#3b82f6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2026年面向专业投资者公开发行公司债券(第三期)票面利率公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《关于补充披露营业收入扣除情况相关事项的公告》《2025年年度报告(修订版)》《关于华虹半导体有限公司2025年度营业收入扣除情况专项说明》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《上海市通力律师事务所关于华虹半导体有限公司2026年股东周年大会的法律意见书》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "于二零二六年五月十四日举行的股东周年大会的投票结果", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《2026年第一季度报告》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "华虹半导体二零二六年第一季度业绩公布", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}], "2026-05-12": [{"code": "00981", "name": "中芯國際 SMIC", "title": "海外监管公告", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《关于聘任高级管理人员的公告》", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "公司秘书及授权代表变动", "color": "#6366f1", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "海外监管公告", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "经修订年度股东会代表委任表格", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "年度股东会补充通告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "建议委任非执行董事", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "关于2026年二级资本债券(第一期)(债券通)发行完毕的公告", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "董事名单与其角色和职能", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01288", "name": "農業銀行 ABC", "title": "关于董事离任的公告", "color": "#f43f5e", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "海外监管公告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "海外监管公告-株洲中车时代电气股份有限公司关于控股股东及其一致行动人因公司部分H股股份注销事项持股比例被动增加触及5%整数倍的提示性公告", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "自愿公告注销已购回H股", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "海外监管公告 -《关于聘任高级管理人员的公告》", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "title": "公司秘书及授权代表变动", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "09903", "name": "天數智芯 ILUVATAR COREX", "title": "建议委任非执行董事", "color": "#0ea5e9", "fund": "DA", "fundColor": "#f97316"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "title": "海外监管公告", "color": "#a855f7", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-05-11": [{"code": "00981", "name": "中芯國際 SMIC", "title": "海外监管公告-《关于发行股份购买资产暨关联交易事项获得上海证券交易所并购重组审核委员会审议通过的公告》", "color": "#ec4899", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "海外监管公告 中国东方航空股份有限公司关于回购股份通知债权人的公告", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2023年面向专业机构投资者公开发行公司债券(第二期)(品种一)2026年债券回售实施公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2023年面向专业机构投资者公开发行公司债券(第二期)(品种一)2026年票面利率调整公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03750", "name": "寧德時代 CATL", "title": "海外监管公告 - 关于控股股东无偿捐赠部分公司股份的进展公告", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}], "2026-05-15": [{"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "翌日披露报表", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "title": "翌日披露报表", "color": "#f59e0b", "fund": "Lakeside", "fundColor": "#ec4899"}, {"code": "00133", "name": "招商局中國基金 CHINA MERCHANTS", "title": "资产净值", "color": "#8b5cf6", "fund": "Park", "fundColor": "#10b981"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "海外监管公告 中国东方航空股份有限公司主体与相关债项2026年度跟踪评级报告", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "海外监管公告 中国东方航空股份有限公司关于以集中竞价方式回购股份的回购报告书", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "title": "内幕消息海外监管公告2026年4月运营数据公告", "color": "#06b6d4", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "截至2026年3月31日止三个月之第一季度业绩", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "00753", "name": "中國國航 AIR CHINA", "title": "二零二六年四月的主要营运数据公告", "color": "#6366f1", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 关于召开2025年度暨2026年第一季度业绩暨现金分红说明会的公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "03908", "name": "中金公司 CICC", "title": "海外监管公告 - 2023年面向专业机构投资者公开发行公司债券(第二期)(品种一)2026年票面利率调整及债券回售实施的第二次提示性公告", "color": "#8b5cf6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "海外监管公告", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "title": "海外监管公告", "color": "#a855f7", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "title": "海外监管公告", "color": "#a855f7", "fund": "JV", "fundColor": "#8b5cf6"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "title": "二零二五年度股东周年大会结果", "color": "#a855f7", "fund": "JV", "fundColor": "#8b5cf6"}], "2026-05-05": [{"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "title": "完成发行人民币10,200,000,000元于二零二七年到期的美元结算零息可换股债券", "color": "#14b8a6", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "00388", "name": "香港交易所 HKEX", "title": "截至2026年4月30日止月份之股份发行人的证券变动月报表", "color": "#ec4899", "fund": "DA", "fundColor": "#f97316"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "title": "董事会会议召开日期", "color": "#f97316", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "适用于二零二六年五月二十日(星期三)举行的二零二五年股东周年大会的H股股东补充代表委任表格", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "2025年股东周年大会补充通告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "title": "本公司日期为2026年4月15日通函之补充通函内容有关 (1) 建议为香港鲁源提供担保;及 (2) 2025年股东周年大会补充通告", "color": "#a855f7", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "翌日披露报表", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}, {"code": "02476", "name": "勝宏科技 VGT", "title": "致非登记股东之通知信函及回条 - 以电子方式发布公司通讯之安排", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "02476", "name": "勝宏科技 VGT", "title": "致登记股东之通知信函及回条 - 以电子方式发布公司通讯之安排", "color": "#84cc16", "fund": "DA", "fundColor": "#f97316"}, {"code": "02631", "name": "天岳先進 SICC", "title": "截至二零二六年四月三十日止股份发行人的证券变动月报表", "color": "#14b8a6", "fund": "DA", "fundColor": "#f97316"}], "2026-05-25": [{"code": "01398", "name": "工商銀行 ICBC", "title": "关于2026年二级资本债券(第二期)(债券通)发行完毕的公告", "color": "#d946ef", "fund": "CDG", "fundColor": "#0ea5e9"}, {"code": "01398", "name": "工商銀行 ICBC", "title": "关于2026年二级资本债券(第二期)(债券通)发行完毕的公告", "color": "#d946ef", "fund": "DA", "fundColor": "#f97316"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "title": "建议委任第八届董事会执行董事及独立非执行董事", "color": "#f59e0b", "fund": "DA", "fundColor": "#f97316"}], "2026-05-03": [{"code": "00285", "name": "KIOXIA HOLDINGS CORP KIOXIA", "title": "截至2026年4月30日股份发行人的证券变动月报表", "color": "#22c55e", "fund": "JV", "fundColor": "#8b5cf6"}]};
+        const stockList = [{"code": "00257", "name": "光大環境 EB ENVIRONMENT", "color": "#3b82f6", "fund": "CDG"}, {"code": "00700", "name": "騰訊控股 TENCENT", "color": "#ef4444", "fund": "CDG"}, {"code": "00883", "name": "中國海洋石油 CNOOC", "color": "#10b981", "fund": "CDG"}, {"code": "00916", "name": "龍源電力 CHINA LONGYUAN", "color": "#f59e0b", "fund": "CDG"}, {"code": "00939", "name": "建設銀行 CCB", "color": "#8b5cf6", "fund": "CDG"}, {"code": "00981", "name": "中芯國際 SMIC", "color": "#ec4899", "fund": "CDG"}, {"code": "01072", "name": "東方電氣 DONGFANG ELEC", "color": "#06b6d4", "fund": "CDG"}, {"code": "01133", "name": "哈爾濱電氣 HARBIN ELECTRIC", "color": "#f97316", "fund": "CDG"}, {"code": "01138", "name": "中遠海能 COSCO SHIP ENGY", "color": "#84cc16", "fund": "CDG"}, {"code": "01347", "name": "華虹半導體 HUA HONG SEMI", "color": "#6366f1", "fund": "CDG"}, {"code": "01378", "name": "中國宏橋 CHINAHONGQIAO", "color": "#14b8a6", "fund": "CDG"}, {"code": "01398", "name": "工商銀行 ICBC", "color": "#d946ef", "fund": "CDG"}, {"code": "02050", "name": "三花智控 SANHUA", "color": "#f43f5e", "fund": "CDG"}, {"code": "02285", "name": "泉峰控股 CHERVON", "color": "#0ea5e9", "fund": "CDG"}, {"code": "02388", "name": "中銀香港 BOC HONG KONG", "color": "#a855f7", "fund": "CDG"}, {"code": "03323", "name": "中國建材 CNBM", "color": "#22c55e", "fund": "CDG"}, {"code": "09698", "name": "萬國數據－ＳＷ GDS-SW", "color": "#3b82f6", "fund": "CDG"}, {"code": "09988", "name": "阿里巴巴－Ｗ BABA-W", "color": "#ef4444", "fund": "CDG"}, {"code": "09999", "name": "網易－Ｓ NTES-S", "color": "#10b981", "fund": "CDG"}, {"code": "03378", "name": "翰思艾泰－Ｂ HANXBIO-B", "color": "#f59e0b", "fund": "Lakeside"}, {"code": "00133", "name": "招商局中國基金 CHINA MERCHANTS", "color": "#8b5cf6", "fund": "Park"}, {"code": "00388", "name": "香港交易所 HKEX", "color": "#ec4899", "fund": "DA"}, {"code": "00670", "name": "中國東方航空股份 CHINA EAST AIR", "color": "#06b6d4", "fund": "DA"}, {"code": "00697", "name": "首程控股 SHOUCHENG", "color": "#f97316", "fund": "DA"}, {"code": "00728", "name": "中國電信 CHINA TELECOM", "color": "#84cc16", "fund": "DA"}, {"code": "00753", "name": "中國國航 AIR CHINA", "color": "#6366f1", "fund": "DA"}, {"code": "00857", "name": "中國石油股份 PETROCHINA", "color": "#14b8a6", "fund": "DA"}, {"code": "00941", "name": "中國移動 CHINA MOBILE", "color": "#d946ef", "fund": "DA"}, {"code": "01288", "name": "農業銀行 ABC", "color": "#f43f5e", "fund": "DA"}, {"code": "01766", "name": "中國中車 CRRC", "color": "#0ea5e9", "fund": "DA"}, {"code": "01772", "name": "贛鋒鋰業 GANFENGLITHIUM", "color": "#a855f7", "fund": "DA"}, {"code": "01888", "name": "建滔積層板 KB LAMINATES", "color": "#22c55e", "fund": "DA"}, {"code": "02318", "name": "中國平安 PING AN", "color": "#3b82f6", "fund": "DA"}, {"code": "02338", "name": "濰柴動力 WEICHAI POWER", "color": "#ef4444", "fund": "DA"}, {"code": "02628", "name": "中國人壽 CHINA LIFE", "color": "#10b981", "fund": "DA"}, {"code": "03898", "name": "時代電氣 TIMES ELECTRIC", "color": "#f59e0b", "fund": "DA"}, {"code": "03908", "name": "中金公司 CICC", "color": "#8b5cf6", "fund": "DA"}, {"code": "01205", "name": "中信資源 CITIC RESOURCES", "color": "#ec4899", "fund": "DA"}, {"code": "00992", "name": "聯想集團 LENOVO GROUP", "color": "#06b6d4", "fund": "DA"}, {"code": "02382", "name": "舜宇光學科技 SUNNY OPTICAL", "color": "#f97316", "fund": "DA"}, {"code": "02476", "name": "勝宏科技 VGT", "color": "#84cc16", "fund": "DA"}, {"code": "02513", "name": "智譜 KNOWLEDGE ATLAS", "color": "#6366f1", "fund": "DA"}, {"code": "02631", "name": "天岳先進 SICC", "color": "#14b8a6", "fund": "DA"}, {"code": "03750", "name": "寧德時代 CATL", "color": "#d946ef", "fund": "DA"}, {"code": "09888", "name": "百度集團－ＳＷ BIDU-SW", "color": "#f43f5e", "fund": "DA"}, {"code": "09903", "name": "天數智芯 ILUVATAR COREX", "color": "#0ea5e9", "fund": "DA"}, {"code": "601628", "name": "中國人壽 CHINA LIFE INSURANCE", "color": "#64748b", "fund": "DA"}, {"code": "603256", "name": "宏和科技 GRACE FABRIC", "color": "#64748b", "fund": "DA"}, {"code": "002353", "name": "傑瑞股份 YANTAI JEREH OILFIELD", "color": "#64748b", "fund": "DA"}, {"code": "002463", "name": "滬電股份 WUS PRINTED CIRCUIT", "color": "#64748b", "fund": "DA"}, {"code": "300438", "name": "鵬輝能源 GUANGZHOU GREAT", "color": "#64748b", "fund": "DA"}, {"code": "300750", "name": "寧德時代 CONTEMPORARY", "color": "#64748b", "fund": "DA"}, {"code": "301511", "name": "德福科技 JIUJIANG DEFU", "color": "#64748b", "fund": "DA"}, {"code": "01812", "name": "KAJIMA CORP KAJIMA CORP", "color": "#a855f7", "fund": "JV"}, {"code": "00285", "name": "KIOXIA HOLDINGS CORP KIOXIA", "color": "#22c55e", "fund": "JV"}, {"code": "05713", "name": "SUMITOMO METAL MINING CO LTD", "color": "#64748b", "fund": "JV"}, {"code": "05801", "name": "FURUKAWA ELECTRIC CO LTD", "color": "#64748b", "fund": "JV"}, {"code": "05803", "name": "FUJIKURA NPV FUJIKURA NPV", "color": "#64748b", "fund": "JV"}, {"code": "06501", "name": "HITACHI LTD HITACHI LTD", "color": "#64748b", "fund": "JV"}, {"code": "06503", "name": "MITSUBISHI ELECTRIC CORP", "color": "#64748b", "fund": "JV"}, {"code": "06506", "name": "YASKAWA ELECTRIC CORP", "color": "#64748b", "fund": "JV"}, {"code": "06752", "name": "PANASONIC HOLDINGS CORP", "color": "#64748b", "fund": "JV"}, {"code": "06857", "name": "ADVANTEST CORP ADVANTEST", "color": "#64748b", "fund": "JV"}, {"code": "06920", "name": "LASERTEC CORP LASERTEC CORP", "color": "#64748b", "fund": "JV"}, {"code": "06954", "name": "FANUC CORP FANUC CORP", "color": "#64748b", "fund": "JV"}, {"code": "06981", "name": "MURATA MANUFACTURING CO LTD", "color": "#64748b", "fund": "JV"}, {"code": "07011", "name": "MITSUBISHI HEAVY INDUSTRIES", "color": "#64748b", "fund": "JV"}, {"code": "07453", "name": "RYOHIN KEIKAKU CO LTD RYOHIN", "color": "#64748b", "fund": "JV"}, {"code": "08031", "name": "MITSUI & CO LTD MITSUI & CO LTD", "color": "#3b82f6", "fund": "JV"}, {"code": "08035", "name": "TOKYO ELECTRON LTD TOKYO", "color": "#ef4444", "fund": "JV"}, {"code": "08306", "name": "MITSUBISHI UFJ FINANCIAL GRO", "color": "#64748b", "fund": "JV"}, {"code": "08316", "name": "SUMITOMO MITSUI FINANCIAL GR", "color": "#10b981", "fund": "JV"}, {"code": "08411", "name": "MIZUHO FINANCIAL GROUP INC", "color": "#f59e0b", "fund": "JV"}, {"code": "08630", "name": "SOMPO HOLDINGS INC SOMPO", "color": "#64748b", "fund": "JV"}, {"code": "09984", "name": "SOFTBANK GROUP CORP", "color": "#64748b", "fund": "JV"}];
+        const fundList = [{"name": "CDG", "color": "#0ea5e9"}, {"name": "DA", "color": "#f97316"}, {"name": "JV", "color": "#8b5cf6"}, {"name": "Lakeside", "color": "#ec4899"}, {"name": "Park", "color": "#10b981"}];
         const todayStr = "2026-06-02";
 
         let currentYear = new Date().getFullYear();
         let currentMonth = new Date().getMonth();
+        let selectedFunds = new Set(fundList.map(f => f.name));
         let selectedCodes = new Set(stockList.map(s => s.code));
 
         const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
 
         // 初始化年月下拉框
-        function initSelectors() {
+        function initSelectors() {{
             const yearSel = document.getElementById("yearSelect");
             const monthSel = document.getElementById("monthSelect");
-
             const now = new Date();
             const startYear = now.getFullYear() - 3;
             const endYear = now.getFullYear() + 3;
-
-            for (let y = startYear; y <= endYear; y++) {
+            for (let y = startYear; y <= endYear; y++) {{
                 const opt = document.createElement("option");
                 opt.value = y;
                 opt.textContent = y + "年";
                 if (y === currentYear) opt.selected = true;
                 yearSel.appendChild(opt);
-            }
-
-            for (let m = 0; m < 12; m++) {
+            }}
+            for (let m = 0; m < 12; m++) {{
                 const opt = document.createElement("option");
                 opt.value = m;
                 opt.textContent = monthNames[m];
                 if (m === currentMonth) opt.selected = true;
                 monthSel.appendChild(opt);
-            }
-        }
+            }}
+        }}
 
-        // 初始化股票筛选栏
-        function initFilterBar() {
-            const bar = document.getElementById("filterBar");
-
-            stockList.forEach(s => {
+        // 初始化基金筛选栏
+        function initFundFilter() {{
+            const bar = document.getElementById("fundFilterBar");
+            fundList.forEach(f => {{
                 const item = document.createElement("label");
                 item.className = "filter-item";
                 item.innerHTML = `
-                    <input type="checkbox" checked value="${s.code}" onchange="onFilterChange()">
-                    <span class="filter-dot" style="background-color: ${s.color};"></span>
-                    <span class="filter-text">${s.code} ${s.name}</span>
+                    <input type="checkbox" checked value="${{f.name}}" onchange="onFundFilterChange()">
+                    <span class="filter-dot" style="background-color: ${{f.color}};"></span>
+                    <span class="filter-text">${{f.name}}</span>
                 `;
                 bar.appendChild(item);
-            });
-
+            }});
             const actions = document.createElement("div");
             actions.className = "filter-actions";
             actions.innerHTML = `
-                <button class="filter-action-btn" onclick="selectAll(true)">全选</button>
-                <button class="filter-action-btn" onclick="selectAll(false)">全不选</button>
+                <button class="filter-action-btn" onclick="selectAllFunds(true)">全选</button>
+                <button class="filter-action-btn" onclick="selectAllFunds(false)">全不选</button>
             `;
             bar.appendChild(actions);
-        }
+        }}
 
-        function onFilterChange() {
-            const checkboxes = document.querySelectorAll('#filterBar input[type="checkbox"]');
-            selectedCodes = new Set();
-            checkboxes.forEach(cb => {
-                if (cb.checked) selectedCodes.add(cb.value);
-            });
+        // 初始化股票筛选栏
+        function initStockFilter() {{
+            const bar = document.getElementById("stockFilterBar");
+            // 清空现有内容（保留标签）
+            while (bar.children.length > 1) bar.removeChild(bar.lastChild);
+
+            const visibleStocks = stockList.filter(s => selectedFunds.has(s.fund));
+            visibleStocks.forEach(s => {{
+                const item = document.createElement("label");
+                item.className = "filter-item";
+                const isChecked = selectedCodes.has(s.code) ? "checked" : "";
+                item.innerHTML = `
+                    <input type="checkbox" ${{isChecked}} value="${{s.code}}" onchange="onStockFilterChange()">
+                    <span class="filter-dot" style="background-color: ${{s.color}};"></span>
+                    <span class="filter-text">${{s.code}}</span>
+                `;
+                bar.appendChild(item);
+            }});
+            const actions = document.createElement("div");
+            actions.className = "filter-actions";
+            actions.innerHTML = `
+                <button class="filter-action-btn" onclick="selectAllStocks(true)">全选</button>
+                <button class="filter-action-btn" onclick="selectAllStocks(false)">全不选</button>
+            `;
+            bar.appendChild(actions);
+        }}
+
+        function onFundFilterChange() {{
+            const checkboxes = document.querySelectorAll('#fundFilterBar input[type="checkbox"]');
+            selectedFunds = new Set();
+            checkboxes.forEach(cb => {{
+                if (cb.checked) selectedFunds.add(cb.value);
+            }});
+            // 更新股票筛选栏（只显示选中基金下的股票）
+            initStockFilter();
             renderCalendar(currentYear, currentMonth);
-        }
+        }}
 
-        function selectAll(checked) {
-            const checkboxes = document.querySelectorAll('#filterBar input[type="checkbox"]');
+        function onStockFilterChange() {{
+            const checkboxes = document.querySelectorAll('#stockFilterBar input[type="checkbox"]');
+            selectedCodes = new Set();
+            checkboxes.forEach(cb => {{
+                if (cb.checked) selectedCodes.add(cb.value);
+            }});
+            renderCalendar(currentYear, currentMonth);
+        }}
+
+        function selectAllFunds(checked) {{
+            const checkboxes = document.querySelectorAll('#fundFilterBar input[type="checkbox"]');
             checkboxes.forEach(cb => cb.checked = checked);
-            onFilterChange();
-        }
+            onFundFilterChange();
+        }}
 
-        function onYearMonthChange() {
+        function selectAllStocks(checked) {{
+            const checkboxes = document.querySelectorAll('#stockFilterBar input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = checked);
+            onStockFilterChange();
+        }}
+
+        function onYearMonthChange() {{
             currentYear = parseInt(document.getElementById("yearSelect").value);
             currentMonth = parseInt(document.getElementById("monthSelect").value);
             renderCalendar(currentYear, currentMonth);
-        }
+        }}
 
-        function goToday() {
+        function goToday() {{
             const now = new Date();
             currentYear = now.getFullYear();
             currentMonth = now.getMonth();
             document.getElementById("yearSelect").value = currentYear;
             document.getElementById("monthSelect").value = currentMonth;
             renderCalendar(currentYear, currentMonth);
-        }
+        }}
 
-        function renderCalendar(year, month) {
+        function renderCalendar(year, month) {{
             const grid = document.getElementById("calendarGrid");
             grid.innerHTML = "";
 
@@ -459,68 +519,72 @@
             const prevMonthDays = new Date(year, month, 0).getDate();
             const totalCells = 42;
 
-            for (let i = 0; i < totalCells; i++) {
-                let dayNum, dateStr, isCurrentMonth, cellMonth, cellYear;
+            for (let i = 0; i < totalCells; i++) {{
+                let dayNum, isCurrentMonth, cellMonth, cellYear;
 
-                if (i < startDayOfWeek) {
+                if (i < startDayOfWeek) {{
                     dayNum = prevMonthDays - startDayOfWeek + 1 + i;
                     const d = new Date(year, month, 1 - startDayOfWeek + i);
                     cellYear = d.getFullYear();
                     cellMonth = d.getMonth();
                     isCurrentMonth = false;
-                } else if (i < startDayOfWeek + daysInMonth) {
+                }} else if (i < startDayOfWeek + daysInMonth) {{
                     dayNum = i - startDayOfWeek + 1;
                     cellYear = year;
                     cellMonth = month;
                     isCurrentMonth = true;
-                } else {
+                }} else {{
                     dayNum = i - startDayOfWeek - daysInMonth + 1;
                     const d = new Date(year, month, daysInMonth + (i - startDayOfWeek - daysInMonth + 1));
                     cellYear = d.getFullYear();
                     cellMonth = d.getMonth();
                     isCurrentMonth = false;
-                }
+                }}
 
                 const mm = String(cellMonth + 1).padStart(2, "0");
                 const dd = String(dayNum).padStart(2, "0");
-                dateStr = `${cellYear}-${mm}-${dd}`;
-
+                const dateStr = `${{cellYear}}-${{mm}}-${{dd}}`;
                 const isToday = dateStr === todayStr;
-                let anns = (annData[dateStr] || []).filter(a => selectedCodes.has(a.code));
+
+                // 过滤：选中的基金 AND 选中的股票
+                let anns = (annData[dateStr] || []).filter(a =>
+                    selectedFunds.has(a.fund) && selectedCodes.has(a.code)
+                );
 
                 const cell = document.createElement("div");
                 cell.className = "day-cell" + (isToday ? " today" : "") + (isCurrentMonth ? "" : " other-month");
 
                 let cardsHtml = "";
-                if (anns.length > 0) {
+                if (anns.length > 0) {{
                     cardsHtml = anns.map(a => `
-                        <div class="ann-card" title="${a.title}">
+                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};">
+                            <div class="fund-tag" style="background-color: ${{a.fundColor}}15; color: ${{a.fundColor}};">${{a.fund}}</div>
                             <div class="stock-tag">
-                                <span class="stock-code" style="background-color: ${a.color}20; color: ${a.color}; border: 1px solid ${a.color}40; border-radius: 4px;">${a.code}</span>
-                                <span class="stock-name" style="color: ${a.color};">${a.name}</span>
+                                <span class="stock-code" style="background-color: ${{a.color}}20; color: ${{a.color}}; border: 1px solid ${{a.color}}40; border-radius: 4px;">${{a.code}}</span>
                             </div>
-                            <div class="ann-title">${a.title}</div>
+                            <div class="ann-title">${{a.title}}</div>
                         </div>
                     `).join("");
-                } else {
+                }} else {{
                     cardsHtml = '<div class="empty"></div>';
-                }
+                }}
 
                 cell.innerHTML = `
                     <div class="day-header-cell">
-                        <span class="day-number">${dayNum}</span>
-                        ${(anns.length > 0 && isCurrentMonth) ? `<span class="ann-count">${anns.length}</span>` : ""}
+                        <span class="day-number">${{dayNum}}</span>
+                        ${{(anns.length > 0 && isCurrentMonth) ? `<span class="ann-count">${{anns.length}}</span>` : ""}
                     </div>
-                    <div class="day-body">${cardsHtml}</div>
+                    <div class="day-body">${{cardsHtml}}</div>
                 `;
 
                 grid.appendChild(cell);
-            }
-        }
+            }}
+        }}
 
         // 初始化
         initSelectors();
-        initFilterBar();
+        initFundFilter();
+        initStockFilter();
         renderCalendar(currentYear, currentMonth);
     </script>
 </body>
