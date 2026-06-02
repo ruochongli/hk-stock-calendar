@@ -353,6 +353,8 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
             # 提取中文名
             cn_match = _cn_re.match(name)
             name_cn = cn_match.group(0) if cn_match else name
+            art_code = ann.get("art_code", "")
+            url = f"https://data.eastmoney.com/notices/detail/{art_code}/{code}.html" if art_code else ""
             js_date_map[date_str].append({
                 "code": code,
                 "name": name,
@@ -361,6 +363,7 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
                 "color": code_to_color.get(code, "#64748b"),
                 "fund": ann.get("fund", ""),
                 "fundColor": fund_to_color.get(ann.get("fund", ""), "#64748b"),
+                "url": url,
             })
 
     stocks = []
@@ -985,13 +988,13 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
                 let cardsHtml = "";
                 if (anns.length > 0) {{
                     cardsHtml = anns.map(a => `
-                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};">
+                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.url}}')window.open('${{a.url}}','_blank')">
                             <div class="fund-tag" style="background-color: ${{a.fundColor}}15; color: ${{a.fundColor}};">${{a.fund}}</div>
                             <div class="stock-tag">
                                 <span class="stock-code" style="background-color: ${{a.color}}20; color: ${{a.color}}; border: 1px solid ${{a.color}}40; border-radius: 4px;">${{a.code}}</span>
                                 <span class="stock-name" style="color: ${{a.color}}; font-size:10px;">${{a.name_cn}}</span>
                             </div>
-                            <div class="ann-title">${{a.title}}</div>
+                            <div class="ann-title">${{a.title}} <span style="color:#94a3b8;font-size:10px;">↗</span></div>
                         </div>
                     `).join("");
                 }} else {{
