@@ -436,7 +436,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
     art_code = ann.get("art_code", "")
 
     # 外部搜索链接
-    hkex_search = f"https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh"
+    hkex_search = f"https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh&stockCode={code.zfill(5)}"
     sina_url = f"https://stock.finance.sina.com.cn/hkstock/notice/{code}.html"
     eastmoney_search = f"https://data.eastmoney.com/notices/hk/{code}.html"
 

@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+
+# Logs (keep in repo for historical records, but ignore large files)
+*.log
+
+# Test files
+test_*.json
+test_*.txt
+test_*.js
+
+# OS
+.DS_Store
+Thumbs.db
