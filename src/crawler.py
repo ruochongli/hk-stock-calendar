@@ -355,6 +355,7 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
             name_cn = cn_match.group(0) if cn_match else name
             art_code = ann.get("art_code", "")
             url = f"https://data.eastmoney.com/notices/detail/{art_code}/{code}.html" if art_code else ""
+            pdf_url = f"https://pdf.dfcfw.com/pdf/H2_{art_code}_1.pdf" if art_code else ""
             js_date_map[date_str].append({
                 "code": code,
                 "name": name,
@@ -364,6 +365,7 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
                 "fund": ann.get("fund", ""),
                 "fundColor": fund_to_color.get(ann.get("fund", ""), "#64748b"),
                 "url": url,
+                "pdf_url": pdf_url,
                 "art_code": art_code,
             })
 
@@ -439,6 +441,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
     hkex_search = f"https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh&stockCode={code.zfill(5)}"
     sina_url = f"https://stock.finance.sina.com.cn/hkstock/notice/{code}.html"
     eastmoney_search = f"https://data.eastmoney.com/notices/hk/{code}.html"
+    pdf_url = f"https://pdf.dfcfw.com/pdf/H2_{art_code}_1.pdf" if art_code else ""
 
     return f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -583,6 +586,10 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
             </div>
             <div class="section-title">查看原始公告</div>
             <div class="link-list">
+                <a class="link-item" href="{pdf_url}" target="_blank">
+                    <span>📄 东方财富 PDF 直链</span>
+                    <span class="link-arrow">↗</span>
+                </a>
                 <a class="link-item" href="{eastmoney_search}" target="_blank">
                     <span>东方财富 - {name_cn} 公告列表</span>
                     <span class="link-arrow">↗</span>
@@ -597,7 +604,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
                 </a>
             </div>
             <div class="notice">
-                提示：由于东方财富详情页有访问限制，建议通过上述链接在对应平台查看原始公告及 PDF 文件。
+                提示：若上方 PDF 直链无法打开，可通过其他平台链接查看原始公告。
             </div>
         </div>
     </div>
@@ -1277,7 +1284,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, today_str: st
                 let cardsHtml = "";
                 if (anns.length > 0) {{
                     cardsHtml = anns.map(a => `
-                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.url}}')openSidebar('${{a.url}}')">
+                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.pdf_url}}')openSidebar('${{a.pdf_url}}')">
                             <div class="fund-tag" style="background-color: ${{a.fundColor}}15; color: ${{a.fundColor}};">${{a.fund}}</div>
                             <div class="stock-tag">
                                 <span class="stock-code" style="background-color: ${{a.color}}20; color: ${{a.color}}; border: 1px solid ${{a.color}}40; border-radius: 4px;">${{a.code}}</span>
