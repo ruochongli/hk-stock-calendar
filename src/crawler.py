@@ -1252,7 +1252,11 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                 const user = userInput.value.trim();
                 const pass = passInput.value.trim();
                 if (user === AUTH_USER && pass === AUTH_PASSWORD) {
-                    localStorage.setItem('hkcalendar_auth', '1');
+                    try {
+                        localStorage.setItem('hkcalendar_auth', '1');
+                    } catch (e) {
+                        console.warn('localStorage 不可用:', e);
+                    }
                     overlay.classList.add('hidden');
                     error.textContent = '';
                 } else {
