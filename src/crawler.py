@@ -245,11 +245,17 @@ def main():
     holdings = load_holdings(excel_path=args.holdings)
     holdings_map = {h["code"]: h.get("name", "") for h in holdings}
 
-    # 计算数据获取范围：从今年4月初到未来一个月末
+    # 读取已有公告数据（增量更新）
+    data_file = PROJECT_ROOT / "data" / "announcements.json"
+    existing_announcements: list[dict] = []
+    if data_file.exists():
+        with open(data_file, "r", encoding="utf-8") as f:
+            existing_announcements = json.load(f)
+        print(f"[增量] 已读取历史公告 {len(existing_announcements)} 条")
+
+    # 计算数据获取范围：最近7天到未来一个月末
     today = datetime.now().date()
-    # 起始日期：今年4月1日
-    begin_time = today.replace(month=4, day=1).strftime("%Y-%m-%d")
-    # 结束日期：下个月的最后一天
+    begin_time = (today - timedelta(days=7)).strftime("%Y-%m-%d")
     if today.month == 12:
         next_month_first = today.replace(year=today.year + 1, month=1, day=1)
     else:
@@ -289,9 +295,29 @@ def main():
     print("查询结果汇总")
     print("=" * 60)
 
+    # 合并新旧数据（按 art_code 去重）
+    seen_art_codes = set()
+    merged_announcements = []
+    for ann in existing_announcements + all_announcements:
+        art_code = ann.get("art_code", "")
+        key = art_code if art_code else f"{ann['stock_code']}_{ann.get('notice_date', '')}_{ann.get('title', '')}"
+        if key not in seen_art_codes:
+            seen_art_codes.add(key)
+            merged_announcements.append(ann)
+
+    print(f"\n历史公告: {len(existing_announcements)} 条")
+    print(f"本次新增: {len(all_announcements)} 条")
+    print(f"合并后共: {len(merged_announcements)} 条")
+
+    # 保存合并后的数据
+    data_file.parent.mkdir(exist_ok=True)
+    with open(data_file, "w", encoding="utf-8") as f:
+        json.dump(merged_announcements, f, ensure_ascii=False, indent=2)
+    print(f"[保存] 合并数据已保存到 {data_file}")
+
     if not all_lines:
         print("\n该时间段所有持仓股票均暂无新公告。\n")
-        _generate_calendar_html([], holdings)
+        _generate_calendar_html(merged_announcements, holdings)
         return
 
     for line in all_lines:
@@ -312,7 +338,7 @@ def main():
     print("=" * 60)
 
     # 生成财经日历 HTML
-    _generate_calendar_html(all_announcements, holdings)
+    _generate_calendar_html(merged_announcements, holdings)
 
 
 def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> None:
