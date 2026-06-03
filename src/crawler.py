@@ -853,6 +853,41 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             color: #334155;
             font-weight: 500;
         }}
+        /* 股票筛选栏 - 7列网格 */
+        #stockFilterBar {{
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px 8px;
+            align-items: center;
+        }}
+        #stockFilterBar .filter-label {{
+            grid-column: 1 / -1;
+            margin-right: 0;
+            margin-bottom: 4px;
+        }}
+        #stockFilterBar .filter-item {{
+            padding: 3px 6px;
+            justify-content: flex-start;
+            overflow: hidden;
+        }}
+        #stockFilterBar .filter-text {{
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }}
+        #stockFilterBar .stock-name {{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }}
+        #stockFilterBar .filter-actions {{
+            grid-column: 1 / -1;
+            margin-top: 4px;
+            margin-left: 0;
+            padding-left: 0;
+            border-left: none;
+            justify-self: start;
+        }}
         .stock-code {{
             display: inline-block;
             width: 48px;
