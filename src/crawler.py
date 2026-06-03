@@ -1981,6 +1981,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
         initStockFilter();
         initCategoryFilter();
         renderCalendar(currentYear, currentMonth);
+    </script>
 </body>
 </html>'''
 
