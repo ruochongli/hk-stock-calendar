@@ -256,6 +256,18 @@ def main():
     # 计算数据获取范围：最近7天到未来一个月末
     today = datetime.now().date()
     begin_time = (today - timedelta(days=7)).strftime("%Y-%m-%d")
+
+    # 自动补全：如果历史数据最早日期晚于今年4月1日，扩展范围补全
+    april_first = today.replace(month=4, day=1).strftime("%Y-%m-%d")
+    if existing_announcements:
+        earliest = min(
+            (d.get("notice_date", "") for d in existing_announcements if d.get("notice_date")),
+            default="",
+        )
+        if earliest and earliest > april_first:
+            begin_time = april_first
+            print(f"\n[补全] 历史数据最早为 {earliest}，扩展查询范围至 {april_first}")
+
     if today.month == 12:
         next_month_first = today.replace(year=today.year + 1, month=1, day=1)
     else:
