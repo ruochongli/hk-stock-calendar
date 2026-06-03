@@ -1327,6 +1327,33 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             transition: border-color 0.15s, box-shadow 0.15s;
             margin-bottom: 12px;
         }}
+        .auth-pass-wrap {{
+            position: relative;
+            margin-bottom: 12px;
+        }}
+        .auth-pass-wrap .auth-input {{
+            margin-bottom: 0;
+            padding-right: 40px;
+        }}
+        .auth-eye {{
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #94a3b8;
+            padding: 4px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }}
+        .auth-eye:hover {{
+            color: #64748b;
+        }}
         .auth-input:focus {{
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
@@ -1386,7 +1413,10 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             <div class="auth-title">港股公告日历</div>
             <div class="auth-subtitle">请输入账号和密码</div>
             <input type="text" class="auth-input" id="authUser" placeholder="账号" onkeydown="if(event.key==='Enter')checkAuth()" style="margin-bottom:8px;">
-            <input type="password" class="auth-input" id="authPass" placeholder="密码" onkeydown="if(event.key==='Enter')checkAuth()">
+            <div class="auth-pass-wrap">
+                <input type="password" class="auth-input" id="authPass" placeholder="密码" onkeydown="if(event.key==='Enter')checkAuth()">
+                <button type="button" class="auth-eye" id="authEye" onclick="togglePassword()">🙈</button>
+            </div>
             <button class="auth-btn" onclick="checkAuth()">进入</button>
             <div class="auth-error" id="authError"></div>
         </div>
