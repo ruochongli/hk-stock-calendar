@@ -852,42 +852,6 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             color: #334155;
         }}
         .holdings-table tr:hover td {{ background: #f8fafc; }}
-        .holdings-upload-area {{
-            border: 2px dashed #cbd5e1;
-            border-radius: 10px;
-            padding: 24px;
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 16px;
-            cursor: pointer;
-            transition: border-color 0.15s;
-        }}
-        .holdings-upload-area:hover {{ border-color: #3b82f6; }}
-        .holdings-upload-area.dragover {{ border-color: #3b82f6; background: #eff6ff; }}
-        .holdings-preview {{
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 16px;
-            max-height: 300px;
-            overflow-y: auto;
-        }}
-        .holdings-tab-bar {{
-            display: flex;
-            gap: 4px;
-            margin-bottom: 12px;
-        }}
-        .holdings-tab {{
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            background: #e2e8f0;
-            color: #64748b;
-        }}
-        .holdings-tab.active {{ background: #3b82f6; color: #fff; }}
         /* 控制栏 */
         .control-bar {{
             display: flex;
@@ -1489,26 +1453,10 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                 <button class="holdings-close" onclick="closeHoldingsModal()">×</button>
             </div>
             <div class="holdings-body">
-                <div class="holdings-tab-bar">
-                    <button class="holdings-tab active" id="tabCurrent" onclick="switchHoldingsTab('current')">当前持仓</button>
-                    <button class="holdings-tab" id="tabUpload" onclick="switchHoldingsTab('upload')">上传更新</button>
-                </div>
-                <div id="holdingsCurrentPanel">
-                    <div id="holdingsList"></div>
-                </div>
-                <div id="holdingsUploadPanel" style="display:none;">
-                    <div class="holdings-upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-                        <div style="font-size:28px;margin-bottom:8px;">📁</div>
-                        <div style="font-size:14px;font-weight:500;color:#334155;margin-bottom:4px;">点击选择 Excel 文件</div>
-                        <div style="font-size:12px;">支持 .xlsx 格式，第2个sheet为持仓汇总</div>
-                    </div>
-                    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none;" onchange="handleFileUpload(this)">
-                    <div class="holdings-preview" id="uploadPreview" style="display:none;"></div>
-                </div>
+                <div id="holdingsList"></div>
             </div>
             <div class="holdings-actions">
-                <button class="btn-primary" onclick="downloadHoldings()">⬇️ 下载当前持仓 JSON</button>
-                <button class="btn-secondary" id="downloadNewBtn" style="display:none;" onclick="downloadNewHoldings()">⬇️ 下载新持仓 JSON</button>
+                <button class="btn-primary" onclick="downloadHoldings()">⬇️ 下载 Excel</button>
                 <div style="margin-left:auto;font-size:12px;color:#94a3b8;" id="holdingsCount"></div>
             </div>
         </div>
@@ -1873,14 +1821,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             if (e && e.target !== document.getElementById('holdingsOverlay')) return;
             document.getElementById('holdingsOverlay').classList.remove('active');
         }}
-        function switchHoldingsTab(tab) {{
-            document.getElementById('tabCurrent').classList.toggle('active', tab === 'current');
-            document.getElementById('tabUpload').classList.toggle('active', tab === 'upload');
-            document.getElementById('holdingsCurrentPanel').style.display = tab === 'current' ? 'block' : 'none';
-            document.getElementById('holdingsUploadPanel').style.display = tab === 'upload' ? 'block' : 'none';
-            document.getElementById('downloadNewBtn').style.display = tab === 'upload' && uploadedHoldings ? 'block' : 'none';
-        }}
-        function renderHoldingsList() {{
+        function renderHoldingsList() {
             const container = document.getElementById('holdingsList');
             const groups = {{}};
             stockList.forEach(s => {{
@@ -1908,99 +1849,32 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             container.innerHTML = html || '<div style="color:#94a3b8;text-align:center;padding:20px;">暂无持仓数据</div>';
             document.getElementById('holdingsCount').textContent = `共 ${{total}} 只`;
         }}
-        function downloadHoldings() {{
-            const data = stockList.map(s => ({{
-                code: s.code,
-                name: s.name,
-                name_cn: s.name_cn,
-                fund: s.fund,
-                account: s.account || ''
-            }}));
-            const blob = new Blob([JSON.stringify(data, null, 2)], {{type: 'application/json'}});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'holdings_' + new Date().toISOString().slice(0,10) + '.json';
-            a.click();
-            URL.revokeObjectURL(url);
-        }}
-        let uploadedHoldings = null;
-        async function handleFileUpload(input) {{
-            const file = input.files[0];
-            if (!file) return;
-            const area = document.getElementById('uploadArea');
-            area.innerHTML = '<div style="color:#3b82f6;font-weight:500;">正在解析...</div>';
-            try {{
-                // 动态加载 SheetJS
-                if (typeof XLSX === 'undefined') {{
-                    await new Promise((resolve, reject) => {{
-                        const script = document.createElement('script');
-                        script.src = 'https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js';
-                        script.onload = resolve;
-                        script.onerror = reject;
-                        document.head.appendChild(script);
-                    }});
-                }}
-                const data = await file.arrayBuffer();
-                const workbook = XLSX.read(data, {{type: 'array'}});
-                // 使用第二个 sheet（持仓汇总）
-                const sheetName = workbook.SheetNames[1] || workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[sheetName];
-                const json = XLSX.utils.sheet_to_json(worksheet, {{header: 1}});
-                if (json.length < 2) throw new Error('表格数据为空');
-                // 解析表头，找到对应列
-                const headers = json[0].map(h => String(h).trim());
-                const colIndex = {{}};
-                headers.forEach((h, i) => {{
-                    if (h.includes('代码') || h === 'code') colIndex.code = i;
-                    if (h.includes('名称') || h === 'name') colIndex.name = i;
-                    if (h.includes('基金') || h === 'fund') colIndex.fund = i;
-                    if (h.includes('账户') || h === 'account') colIndex.account = i;
+        async function downloadHoldings() {{
+            // 动态加载 SheetJS
+            if (typeof XLSX === 'undefined') {{
+                await new Promise((resolve, reject) => {{
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js';
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
                 }});
-                // 如果没找到，按固定位置解析（TFI 格式: 代码,名称,基金,账户,...）
-                const codeIdx = colIndex.code ?? 0;
-                const nameIdx = colIndex.name ?? 1;
-                const fundIdx = colIndex.fund ?? 2;
-                const accountIdx = colIndex.account ?? 3;
-                const results = [];
-                const seen = new Set();
-                for (let i = 1; i < json.length; i++) {{
-                    const row = json[i];
-                    if (!row || !row[codeIdx]) continue;
-                    const code = String(row[codeIdx]).trim().replace(/\.0$/, '');
-                    if (!code || seen.has(code)) continue;
-                    seen.add(code);
-                    const name = String(row[nameIdx] || '').trim();
-                    const fund = String(row[fundIdx] || '').trim();
-                    const account = String(row[accountIdx] || '').trim();
-                    const cnMatch = name.match(/^[\u4e00-\u9fa5]+/);
-                    results.push({{code, name, name_cn: cnMatch ? cnMatch[0] : name, fund, account}});
-                }}
-                uploadedHoldings = results;
-                // 显示预览
-                let previewHtml = `<div style="font-weight:600;margin-bottom:8px;color:#0f172a;">解析成功：${{results.length}} 只股票</div>`;
-                previewHtml += '<table class="holdings-table"><thead><tr><th>代码</th><th>名称</th><th>基金</th><th>账户</th></tr></thead><tbody>';
-                results.slice(0, 20).forEach(r => {{
-                    previewHtml += `<tr><td style="font-family:monospace;font-weight:600;">${{r.code}}</td><td>${{r.name_cn}}</td><td>${{r.fund}}</td><td>${{r.account || '-'}}</td></tr>`;
-                }});
-                if (results.length > 20) previewHtml += `<tr><td colspan="4" style="text-align:center;color:#94a3b8;">... 还有 ${{results.length - 20}} 只 ...</td></tr>`;
-                previewHtml += '</tbody></table>';
-                document.getElementById('uploadPreview').innerHTML = previewHtml;
-                document.getElementById('uploadPreview').style.display = 'block';
-                document.getElementById('downloadNewBtn').style.display = 'block';
-                area.innerHTML = `<div style="color:#10b981;font-weight:500;">✅ 解析成功：${{results.length}} 只股票</div><div style="font-size:12px;color:#64748b;margin-top:4px;">${{file.name}}</div>`;
-            }} catch (err) {{
-                area.innerHTML = `<div style="color:#ef4444;font-weight:500;">❌ 解析失败</div><div style="font-size:12px;color:#64748b;margin-top:4px;">${{err.message}}</div>`;
-                console.error(err);
             }}
-        }}
-        function downloadNewHoldings() {{
-            if (!uploadedHoldings) return;
-            const blob = new Blob([JSON.stringify(uploadedHoldings, null, 2)], {{type: 'application/json'}});
+            const data = stockList.map(s => ({{
+                '股票代码': s.code,
+                '股票名称': s.name,
+                '基金/账户': s.fund,
+                '账户编号': s.account || ''
+            }}));
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, '持仓汇总');
+            const buf = XLSX.write(wb, {{bookType: 'xlsx', type: 'array'}});
+            const blob = new Blob([buf], {{type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'holdings_new_' + new Date().toISOString().slice(0,10) + '.json';
+            a.download = 'holdings_' + new Date().toISOString().slice(0,10) + '.xlsx';
             a.click();
             URL.revokeObjectURL(url);
         }}
