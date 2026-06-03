@@ -449,6 +449,9 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
                 "fund": h.get("fund", ""),
             })
 
+    # 按股票代码数字排序
+    stocks.sort(key=lambda s: int(s["code"]))
+
     # 基金列表
     funds_list = [{"name": f, "color": fund_to_color[f]} for f in funds]
 
@@ -837,6 +840,18 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             font-size: 13px;
             color: #334155;
             font-weight: 500;
+        }}
+        .stock-code {{
+            display: inline-block;
+            width: 48px;
+            font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            color: #1e293b;
+            margin-right: 4px;
+        }}
+        .stock-name {{
+            color: #475569;
         }}
         .filter-actions {{
             display: flex;
@@ -1361,14 +1376,15 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             while (bar.children.length > 1) bar.removeChild(bar.lastChild);
 
             const visibleStocks = stockList.filter(s => selectedFunds.has(s.fund));
-            visibleStocks.forEach(s => {{
+            visibleStocks.sort((a, b) => parseInt(a.code) - parseInt(b.code));
+            visibleStocks.forEach(s => {
                 const item = document.createElement("label");
                 item.className = "filter-item";
                 const isChecked = selectedCodes.has(s.code) ? "checked" : "";
                 item.innerHTML = `
                     <input type="checkbox" ${{isChecked}} value="${{s.code}}" onchange="onStockFilterChange()">
                     <span class="filter-dot" style="background-color: ${{s.color}};"></span>
-                    <span class="filter-text">${{s.code}} ${{s.name_cn}}</span>
+                    <span class="filter-text"><span class="stock-code">${{s.code}}</span><span class="stock-name">${{s.name_cn}}</span></span>
                 `;
                 bar.appendChild(item);
             }});
