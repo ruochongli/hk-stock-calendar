@@ -459,6 +459,7 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
                 "name_cn": name_cn,
                 "color": code_to_color.get(code, "#64748b"),
                 "fund": h.get("fund", ""),
+                "account": h.get("account", ""),
             })
 
     # 按股票代码数字排序
@@ -745,6 +746,148 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             color: #94a3b8;
             margin-top: 4px;
         }}
+        .holdings-btn {{
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s;
+        }}
+        .holdings-btn:hover {{ background: #2563eb; }}
+        /* 持仓管理模态框 */
+        .holdings-overlay {{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }}
+        .holdings-overlay.active {{ display: flex; }}
+        .holdings-modal {{
+            background: #fff;
+            border-radius: 16px;
+            width: 900px;
+            max-width: 95vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }}
+        .holdings-header {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }}
+        .holdings-title {{ font-size: 18px; font-weight: 700; color: #0f172a; }}
+        .holdings-close {{
+            background: none; border: none; font-size: 24px; color: #94a3b8;
+            cursor: pointer; line-height: 1;
+        }}
+        .holdings-body {{
+            padding: 16px 20px;
+            overflow-y: auto;
+            flex: 1;
+        }}
+        .holdings-actions {{
+            display: flex;
+            gap: 10px;
+            padding: 12px 20px;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 0 0 16px 16px;
+        }}
+        .holdings-actions button {{
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }}
+        .holdings-actions .btn-primary {{ background: #3b82f6; color: #fff; }}
+        .holdings-actions .btn-primary:hover {{ background: #2563eb; }}
+        .holdings-actions .btn-secondary {{ background: #e2e8f0; color: #334155; }}
+        .holdings-actions .btn-secondary:hover {{ background: #cbd5e1; }}
+        .holdings-group {{
+            margin-bottom: 16px;
+        }}
+        .holdings-group-title {{
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+            padding: 6px 10px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+        .holdings-group-dot {{
+            width: 10px; height: 10px; border-radius: 50%;
+        }}
+        .holdings-table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }}
+        .holdings-table th {{
+            text-align: left;
+            padding: 8px 10px;
+            color: #64748b;
+            font-weight: 500;
+            border-bottom: 1px solid #e2e8f0;
+        }}
+        .holdings-table td {{
+            padding: 7px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }}
+        .holdings-table tr:hover td {{ background: #f8fafc; }}
+        .holdings-upload-area {{
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 24px;
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }}
+        .holdings-upload-area:hover {{ border-color: #3b82f6; }}
+        .holdings-upload-area.dragover {{ border-color: #3b82f6; background: #eff6ff; }}
+        .holdings-preview {{
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+        }}
+        .holdings-tab-bar {{
+            display: flex;
+            gap: 4px;
+            margin-bottom: 12px;
+        }}
+        .holdings-tab {{
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: #e2e8f0;
+            color: #64748b;
+        }}
+        .holdings-tab.active {{ background: #3b82f6; color: #fff; }}
         /* 控制栏 */
         .control-bar {{
             display: flex;
@@ -1252,7 +1395,10 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
     <div class="container">
         <header>
             <h1>📅 港股公告日历</h1>
-            <div class="update-time">更新时间：{UPDATE_TIME}</div>
+            <div style="display:flex;gap:12px;align-items:center;">
+                <button class="holdings-btn" onclick="openHoldingsModal()">📋 持仓管理</button>
+                <div class="update-time">更新时间：{UPDATE_TIME}</div>
+            </div>
         </header>
 
         <!-- 年月选择 -->
@@ -1303,6 +1449,39 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
         <footer>
             数据来源：东方财富 · 港交所披露易同步
         </footer>
+    </div>
+
+    <!-- 持仓管理模态框 -->
+    <div class="holdings-overlay" id="holdingsOverlay" onclick="closeHoldingsModal(event)">
+        <div class="holdings-modal" onclick="event.stopPropagation()">
+            <div class="holdings-header">
+                <span class="holdings-title">📋 持仓管理</span>
+                <button class="holdings-close" onclick="closeHoldingsModal()">×</button>
+            </div>
+            <div class="holdings-body">
+                <div class="holdings-tab-bar">
+                    <button class="holdings-tab active" id="tabCurrent" onclick="switchHoldingsTab('current')">当前持仓</button>
+                    <button class="holdings-tab" id="tabUpload" onclick="switchHoldingsTab('upload')">上传更新</button>
+                </div>
+                <div id="holdingsCurrentPanel">
+                    <div id="holdingsList"></div>
+                </div>
+                <div id="holdingsUploadPanel" style="display:none;">
+                    <div class="holdings-upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                        <div style="font-size:28px;margin-bottom:8px;">📁</div>
+                        <div style="font-size:14px;font-weight:500;color:#334155;margin-bottom:4px;">点击选择 Excel 文件</div>
+                        <div style="font-size:12px;">支持 .xlsx 格式，第2个sheet为持仓汇总</div>
+                    </div>
+                    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none;" onchange="handleFileUpload(this)">
+                    <div class="holdings-preview" id="uploadPreview" style="display:none;"></div>
+                </div>
+            </div>
+            <div class="holdings-actions">
+                <button class="btn-primary" onclick="downloadHoldings()">⬇️ 下载当前持仓 JSON</button>
+                <button class="btn-secondary" id="downloadNewBtn" style="display:none;" onclick="downloadNewHoldings()">⬇️ 下载新持仓 JSON</button>
+                <div style="margin-left:auto;font-size:12px;color:#94a3b8;" id="holdingsCount"></div>
+            </div>
+        </div>
     </div>
 
     <!-- 侧边栏 -->
@@ -1361,6 +1540,8 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
         const stockList = {STOCKS_JSON};
         const fundList = {FUNDS_JSON};
         const categoryList = {CATEGORIES_JSON};
+        const fundColorMap = {{}};
+        fundList.forEach(f => fundColorMap[f.name] = f.color);
         const todayStr = "{TODAY_STR}";
 
         let currentYear = new Date().getFullYear();
@@ -1653,13 +1834,153 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             if (e.key === 'Escape') closeSidebar();
         }});
 
+        // 持仓管理
+        function openHoldingsModal() {{
+            document.getElementById('holdingsOverlay').classList.add('active');
+            renderHoldingsList();
+        }}
+        function closeHoldingsModal(e) {{
+            if (e && e.target !== document.getElementById('holdingsOverlay')) return;
+            document.getElementById('holdingsOverlay').classList.remove('active');
+        }}
+        function switchHoldingsTab(tab) {{
+            document.getElementById('tabCurrent').classList.toggle('active', tab === 'current');
+            document.getElementById('tabUpload').classList.toggle('active', tab === 'upload');
+            document.getElementById('holdingsCurrentPanel').style.display = tab === 'current' ? 'block' : 'none';
+            document.getElementById('holdingsUploadPanel').style.display = tab === 'upload' ? 'block' : 'none';
+            document.getElementById('downloadNewBtn').style.display = tab === 'upload' && uploadedHoldings ? 'block' : 'none';
+        }}
+        function renderHoldingsList() {{
+            const container = document.getElementById('holdingsList');
+            const groups = {{}};
+            stockList.forEach(s => {{
+                if (!groups[s.fund]) groups[s.fund] = [];
+                groups[s.fund].push(s);
+            }});
+            let html = '';
+            let total = 0;
+            for (const [fund, stocks] of Object.entries(groups)) {{
+                const fundColor = fundColorMap[fund] || '#64748b';
+                html += `<div class="holdings-group">
+                    <div class="holdings-group-title">
+                        <span class="holdings-group-dot" style="background:${{fundColor}}"></span>
+                        ${{fund}} (${{stocks.length}}只)
+                    </div>
+                    <table class="holdings-table">
+                        <thead><tr><th>代码</th><th>名称</th><th>账户</th></tr></thead>
+                        <tbody>`;
+                stocks.forEach(s => {{
+                    html += `<tr><td style="font-family:monospace;font-weight:600;">${{s.code}}</td><td>${{s.name_cn || s.name}}</td><td style="color:#64748b;">${{s.account || '-'}}</td></tr>`;
+                }});
+                html += '</tbody></table></div>';
+                total += stocks.length;
+            }}
+            container.innerHTML = html || '<div style="color:#94a3b8;text-align:center;padding:20px;">暂无持仓数据</div>';
+            document.getElementById('holdingsCount').textContent = `共 ${{total}} 只`;
+        }}
+        function downloadHoldings() {{
+            const data = stockList.map(s => ({{
+                code: s.code,
+                name: s.name,
+                name_cn: s.name_cn,
+                fund: s.fund,
+                account: s.account || ''
+            }}));
+            const blob = new Blob([JSON.stringify(data, null, 2)], {{type: 'application/json'}});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'holdings_' + new Date().toISOString().slice(0,10) + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }}
+        let uploadedHoldings = null;
+        async function handleFileUpload(input) {{
+            const file = input.files[0];
+            if (!file) return;
+            const area = document.getElementById('uploadArea');
+            area.innerHTML = '<div style="color:#3b82f6;font-weight:500;">正在解析...</div>';
+            try {{
+                // 动态加载 SheetJS
+                if (typeof XLSX === 'undefined') {{
+                    await new Promise((resolve, reject) => {{
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js';
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        document.head.appendChild(script);
+                    }});
+                }}
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data, {{type: 'array'}});
+                // 使用第二个 sheet（持仓汇总）
+                const sheetName = workbook.SheetNames[1] || workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const json = XLSX.utils.sheet_to_json(worksheet, {{header: 1}});
+                if (json.length < 2) throw new Error('表格数据为空');
+                // 解析表头，找到对应列
+                const headers = json[0].map(h => String(h).trim());
+                const colIndex = {{}};
+                headers.forEach((h, i) => {{
+                    if (h.includes('代码') || h === 'code') colIndex.code = i;
+                    if (h.includes('名称') || h === 'name') colIndex.name = i;
+                    if (h.includes('基金') || h === 'fund') colIndex.fund = i;
+                    if (h.includes('账户') || h === 'account') colIndex.account = i;
+                }});
+                // 如果没找到，按固定位置解析（TFI 格式: 代码,名称,基金,账户,...）
+                const codeIdx = colIndex.code ?? 0;
+                const nameIdx = colIndex.name ?? 1;
+                const fundIdx = colIndex.fund ?? 2;
+                const accountIdx = colIndex.account ?? 3;
+                const results = [];
+                const seen = new Set();
+                for (let i = 1; i < json.length; i++) {{
+                    const row = json[i];
+                    if (!row || !row[codeIdx]) continue;
+                    const code = String(row[codeIdx]).trim().replace(/\.0$/, '');
+                    if (!code || seen.has(code)) continue;
+                    seen.add(code);
+                    const name = String(row[nameIdx] || '').trim();
+                    const fund = String(row[fundIdx] || '').trim();
+                    const account = String(row[accountIdx] || '').trim();
+                    const cnMatch = name.match(/^[\u4e00-\u9fa5]+/);
+                    results.push({{code, name, name_cn: cnMatch ? cnMatch[0] : name, fund, account}});
+                }}
+                uploadedHoldings = results;
+                // 显示预览
+                let previewHtml = `<div style="font-weight:600;margin-bottom:8px;color:#0f172a;">解析成功：${{results.length}} 只股票</div>`;
+                previewHtml += '<table class="holdings-table"><thead><tr><th>代码</th><th>名称</th><th>基金</th><th>账户</th></tr></thead><tbody>';
+                results.slice(0, 20).forEach(r => {{
+                    previewHtml += `<tr><td style="font-family:monospace;font-weight:600;">${{r.code}}</td><td>${{r.name_cn}}</td><td>${{r.fund}}</td><td>${{r.account || '-'}}</td></tr>`;
+                }});
+                if (results.length > 20) previewHtml += `<tr><td colspan="4" style="text-align:center;color:#94a3b8;">... 还有 ${{results.length - 20}} 只 ...</td></tr>`;
+                previewHtml += '</tbody></table>';
+                document.getElementById('uploadPreview').innerHTML = previewHtml;
+                document.getElementById('uploadPreview').style.display = 'block';
+                document.getElementById('downloadNewBtn').style.display = 'block';
+                area.innerHTML = `<div style="color:#10b981;font-weight:500;">✅ 解析成功：${{results.length}} 只股票</div><div style="font-size:12px;color:#64748b;margin-top:4px;">${{file.name}}</div>`;
+            }} catch (err) {{
+                area.innerHTML = `<div style="color:#ef4444;font-weight:500;">❌ 解析失败</div><div style="font-size:12px;color:#64748b;margin-top:4px;">${{err.message}}</div>`;
+                console.error(err);
+            }}
+        }}
+        function downloadNewHoldings() {{
+            if (!uploadedHoldings) return;
+            const blob = new Blob([JSON.stringify(uploadedHoldings, null, 2)], {{type: 'application/json'}});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'holdings_new_' + new Date().toISOString().slice(0,10) + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }}
+
         // 初始化
         initSelectors();
         initFundFilter();
         initStockFilter();
         initCategoryFilter();
         renderCalendar(currentYear, currentMonth);
-    </script>
 </body>
 </html>'''
 
