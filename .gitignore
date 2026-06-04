@@ -21,3 +21,8 @@ test_*.js
 Thumbs.db
 columns.txt
 nul
+
+# Local scripts and logs
+*.bat
+logs/
+*.docx

@@ -20,7 +20,7 @@ if %errorlevel% neq 0 (
 echo [%date% %time%] 爬虫运行完成，开始部署... >> "%LOGFILE%"
 
 :: 推送到 GitHub Pages
-git add -A
+git add index.html notices/ data/announcements.json
 git commit -m "update: 自动更新港股公告日历 %date% %time%" >> "%LOGFILE%" 2>&1
 git push origin main >> "%LOGFILE%" 2>&1
 
