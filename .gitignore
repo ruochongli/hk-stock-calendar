@@ -20,3 +20,4 @@ test_*.js
 .DS_Store
 Thumbs.db
 columns.txt
+nul
