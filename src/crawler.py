@@ -1753,7 +1753,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                 let anns = (annData[dateStr] || []).filter(a => {
                     const fundMatch = selectedFunds.has(a.fund);
                     const codeMatch = selectedCodes.has(a.code);
-                    const catMatch = a.categories && a.categories.some(c => selectedCategories.has(c));
+                    const catMatch = !a.categories || a.categories.length === 0 || a.categories.some(c => selectedCategories.has(c));
                     return fundMatch && codeMatch && catMatch;
                 });
 
