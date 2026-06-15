@@ -538,6 +538,7 @@
         .sidebar-email-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             padding: 9px 16px;
             background: #3b82f6;
@@ -548,13 +549,17 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
         }
         .sidebar-email-btn:hover {
             background: #2563eb;
         }
-        .sidebar-email-btn:disabled {
+        .sidebar-email-btn.disabled {
             background: #94a3b8;
             cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.7;
         }
         .sidebar-email-input {
             flex: 1;
@@ -721,7 +726,7 @@
             <h1>📅 港股公告日历</h1>
             <div style="display:flex;gap:12px;align-items:center;">
                 <button class="holdings-btn" onclick="openHoldingsModal()">📋 持仓管理</button>
-                <div class="update-time">更新时间：2026-06-15 17:40</div>
+                <div class="update-time">更新时间：2026-06-15 17:48</div>
             </div>
         </header>
 
@@ -804,9 +809,9 @@
         </div>
         <div class="sidebar-footer">
             <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="ellenli@tfisec.com" placeholder="收件人邮箱，多个用逗号分隔">
-            <button class="sidebar-email-btn" id="sidebarEmailBtn" onclick="sendEmailFromSidebar()">
+            <a class="sidebar-email-btn" id="sidebarEmailLink" href="mailto:ellenli@tfisec.com" onclick="return updateSidebarEmailLink()">
                 📧 发送至邮箱
-            </button>
+            </a>
         </div>
     </div>
 
@@ -1149,14 +1154,14 @@
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             const iframe = document.getElementById('sidebarIframe');
-            const emailBtn = document.getElementById('sidebarEmailBtn');
+            const emailLink = document.getElementById('sidebarEmailLink');
             if (!url) return;
             iframe.src = url;
-            if (emailBtn) emailBtn.disabled = true;
+            if (emailLink) emailLink.classList.add('disabled');
             sidebar.classList.add('active');
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-            iframe.onload = () => { if (emailBtn) emailBtn.disabled = false; };
+            iframe.onload = () => { if (emailLink) emailLink.classList.remove('disabled'); };
         }
         function closeSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1168,10 +1173,10 @@
             currentAnnInfo = null;
             setTimeout(() => { iframe.src = ''; }, 300);
         }
-        function sendEmailFromSidebar() {
+        function updateSidebarEmailLink() {
             if (!currentAnnInfo) {
                 alert('未获取到公告信息，请重新点击公告卡片。');
-                return;
+                return false;
             }
             const recipients = (document.getElementById('sidebarEmailInput')?.value || 'ellenli@tfisec.com').trim();
             const code = currentAnnInfo.code;
@@ -1185,7 +1190,11 @@
 
 PDF 链接: ${pdfUrl}
 详情页: ${detailUrl}`;
-            window.location.href = `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const link = document.getElementById('sidebarEmailLink');
+            if (link) {
+                link.href = `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            }
+            return true;
         }
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') closeSidebar();

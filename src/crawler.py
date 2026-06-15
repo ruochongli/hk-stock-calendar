@@ -692,6 +692,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
         .email-btn {{
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             padding: 10px 18px;
             background: #3b82f6;
@@ -702,6 +703,8 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
         }}
         .email-btn:hover {{
             background: #2563eb;
@@ -734,12 +737,12 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
                 <div class="section-title">📧 发送公告至邮箱</div>
                 <input type="text" id="emailInput" class="email-input" value="ellenli@tfisec.com" placeholder="输入邮箱，多个用逗号分隔">
                 <div class="email-hint">默认发送至 ellenli@tfisec.com，可在上方添加或修改收件人</div>
-                <button class="email-btn" onclick="sendEmail()">打开邮件客户端发送</button>
+                <a class="email-btn" id="emailLink" href="mailto:ellenli@tfisec.com" onclick="return updateEmailLink()">打开邮件客户端发送</a>
             </div>
         </div>
     </div>
     <script>
-        function sendEmail() {{
+        function updateEmailLink() {{
             const code = "{code}";
             const name = "{name_cn}";
             const date = "{notice_date}";
@@ -749,7 +752,8 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
             const recipients = document.getElementById("emailInput").value || "ellenli@tfisec.com";
             const subject = `[港股公告] ${{code}} ${{name}} ${{date}} ${{title}}`;
             const body = `【${{code}}】【${{name}}】【${{date}}】发布公告【${{title}}】\n\nPDF 链接: ${{pdfUrl}}\n详情页: ${{detailUrl}}`;
-            window.top.location.href = `mailto:${{recipients}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+            document.getElementById("emailLink").href = `mailto:${{recipients}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+            return true;
         }}
     </script>
 </body>
@@ -1299,6 +1303,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
         .sidebar-email-btn {{
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             padding: 9px 16px;
             background: #3b82f6;
@@ -1309,13 +1314,17 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
         }}
         .sidebar-email-btn:hover {{
             background: #2563eb;
         }}
-        .sidebar-email-btn:disabled {{
+        .sidebar-email-btn.disabled {{
             background: #94a3b8;
             cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.7;
         }}
         .sidebar-email-input {{
             flex: 1;
@@ -1565,9 +1574,9 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
         </div>
         <div class="sidebar-footer">
             <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="ellenli@tfisec.com" placeholder="收件人邮箱，多个用逗号分隔">
-            <button class="sidebar-email-btn" id="sidebarEmailBtn" onclick="sendEmailFromSidebar()">
+            <a class="sidebar-email-btn" id="sidebarEmailLink" href="mailto:ellenli@tfisec.com" onclick="return updateSidebarEmailLink()">
                 📧 发送至邮箱
-            </button>
+            </a>
         </div>
     </div>
 
@@ -1910,14 +1919,14 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             const iframe = document.getElementById('sidebarIframe');
-            const emailBtn = document.getElementById('sidebarEmailBtn');
+            const emailLink = document.getElementById('sidebarEmailLink');
             if (!url) return;
             iframe.src = url;
-            if (emailBtn) emailBtn.disabled = true;
+            if (emailLink) emailLink.classList.add('disabled');
             sidebar.classList.add('active');
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-            iframe.onload = () => {{ if (emailBtn) emailBtn.disabled = false; }};
+            iframe.onload = () => {{ if (emailLink) emailLink.classList.remove('disabled'); }};
         }}
         function closeSidebar() {{
             const sidebar = document.getElementById('sidebar');
@@ -1929,10 +1938,10 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             currentAnnInfo = null;
             setTimeout(() => {{ iframe.src = ''; }}, 300);
         }}
-        function sendEmailFromSidebar() {{
+        function updateSidebarEmailLink() {{
             if (!currentAnnInfo) {{
                 alert('未获取到公告信息，请重新点击公告卡片。');
-                return;
+                return false;
             }}
             const recipients = (document.getElementById('sidebarEmailInput')?.value || 'ellenli@tfisec.com').trim();
             const code = currentAnnInfo.code;
@@ -1943,7 +1952,11 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             const detailUrl = currentAnnInfo.url.startsWith('http') ? currentAnnInfo.url : new URL(currentAnnInfo.url, window.location.href).href;
             const subject = `[港股公告] ${{code}} ${{name}} ${{date}} ${{title}}`;
             const body = `【${{code}}】【${{name}}】【${{date}}】发布公告【${{title}}】\n\nPDF 链接: ${{pdfUrl}}\n详情页: ${{detailUrl}}`;
-            window.location.href = `mailto:${{recipients}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+            const link = document.getElementById('sidebarEmailLink');
+            if (link) {{
+                link.href = `mailto:${{recipients}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+            }}
+            return true;
         }}
         document.addEventListener('keydown', e => {{
             if (e.key === 'Escape') closeSidebar();
