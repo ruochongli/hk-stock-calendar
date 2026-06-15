@@ -90,18 +90,11 @@ def main() -> int:
 
     log(f"发现 {len(matched)} 条 {TARGET_CODE} 公告，准备发送邮件...")
 
-    lines = []
-    for a in matched:
-        pdf_url = a.get("pdf_url", "")
-        detail_path = f"./notices/{a.get('art_code', '')}_{a['stock_code']}.html"
-        lines.append(
-            f"【{a['stock_code']}】【{a['stock_name']}】【{a['notice_date']}】发布公告【{a['title']}】"
-        )
-        if pdf_url:
-            lines.append(f"PDF 链接: {pdf_url}")
-        lines.append(f"详情页: https://ruochongli.github.io/hk-stock-calendar/{detail_path}")
-        lines.append("")
-    body = "\n".join(lines).rstrip()
+    lines = [
+        f"【{a['stock_code']}】【{a['stock_name']}】【{a['notice_date']}】发布公告【{a['title']}】\n详情页: https://ruochongli.github.io/hk-stock-calendar/notices/{a.get('art_code', '')}_{a['stock_code']}.html"
+        for a in matched
+    ]
+    body = "\n\n".join(lines)
     subject = f"[港股公告] 招商局基金({TARGET_CODE}) {target_date} 共{len(matched)}条公告"
 
     if send_email(subject, body):
