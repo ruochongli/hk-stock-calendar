@@ -749,7 +749,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
             const recipients = document.getElementById("emailInput").value || "ellenli@tfisec.com";
             const subject = `[港股公告] ${{code}} ${{name}} ${{date}} ${{title}}`;
             const body = `【${{code}}】【${{name}}】【${{date}}】发布公告【${{title}}】\n\nPDF 链接: ${{pdfUrl}}\n详情页: ${{detailUrl}}`;
-            window.location.href = `mailto:${{recipients}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
+            window.top.location.href = `mailto:${{recipients}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
         }}
     </script>
 </body>

@@ -210,7 +210,7 @@
 
 PDF 链接: ${pdfUrl}
 详情页: ${detailUrl}`;
-            window.location.href = `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.top.location.href = `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
     </script>
 </body>
