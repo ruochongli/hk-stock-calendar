@@ -356,6 +356,20 @@
     "account": "50308215"
   },
   {
+    "art_code": "AN202606151823573599",
+    "stock_code": "01398",
+    "stock_name": "工商银行",
+    "notice_date": "2026-06-15",
+    "title": "关于2026年二级资本债券(第三期)(债券通)发行完毕的公告",
+    "title_ch": "关于2026年二级资本债券(第三期)(债券通)发行完毕的公告",
+    "columns": [
+      "發行債務證券"
+    ],
+    "pdf_url": "https://pdf.dfcfw.com/pdf/H2_AN202606151823573599_1.pdf",
+    "fund": "CDG",
+    "account": "50308215"
+  },
+  {
     "art_code": "AN202606091823393932",
     "stock_code": "01398",
     "stock_name": "工商银行",
@@ -480,6 +494,20 @@
     "pdf_url": "https://pdf.dfcfw.com/pdf/H2_AN202606081823363195_1.pdf",
     "fund": "CDG",
     "account": "50308215"
+  },
+  {
+    "art_code": "AN202606151823573482",
+    "stock_code": "03378",
+    "stock_name": "翰思艾泰-B",
+    "notice_date": "2026-06-15",
+    "title": "翌日披露报表",
+    "title_ch": "翌日披露报表",
+    "columns": [
+      "股份購回"
+    ],
+    "pdf_url": "https://pdf.dfcfw.com/pdf/H2_AN202606151823573482_1.pdf",
+    "fund": "Lakeside",
+    "account": "50308228"
   },
   {
     "art_code": "AN202606121823518702",

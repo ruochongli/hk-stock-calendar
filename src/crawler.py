@@ -761,7 +761,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
                         <option value="ellenli@tfisec.com">ellenli@tfisec.com</option>
                         <option value="leonzheng@tfisec.com">leonzheng@tfisec.com</option>
                         <option value="kingsleygu@tfisec.com">kingsleygu@tfisec.com</option>
-                        <option value="funops@tfisec.com">funops@tfisec.com</option>
+                        <option value="fundops@tfisec.com">fundops@tfisec.com</option>
                     </select>
                     <input type="text" id="emailInput" class="email-input" value="" placeholder="输入邮箱，多个用逗号分隔" onchange="saveEmails()" onblur="saveEmails()">
                 </div>
@@ -1670,7 +1670,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                         <option value="ellenli@tfisec.com">ellenli@tfisec.com</option>
                         <option value="leonzheng@tfisec.com">leonzheng@tfisec.com</option>
                         <option value="kingsleygu@tfisec.com">kingsleygu@tfisec.com</option>
-                        <option value="funops@tfisec.com">funops@tfisec.com</option>
+                        <option value="fundops@tfisec.com">fundops@tfisec.com</option>
                     </select>
                     <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="" placeholder="收件人邮箱，多个用逗号分隔" onchange="saveEmails()" onblur="saveEmails()">
                 </div>
