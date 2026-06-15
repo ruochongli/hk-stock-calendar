@@ -763,7 +763,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
                         <option value="kingsleygu@tfisec.com">kingsleygu@tfisec.com</option>
                         <option value="fundops@tfisec.com">fundops@tfisec.com</option>
                     </select>
-                    <input type="text" id="emailInput" class="email-input" value="" placeholder="输入邮箱，多个用逗号分隔" onchange="saveEmails()" onblur="saveEmails()">
+                    <input type="text" id="emailInput" class="email-input" value="" placeholder="输入邮箱，多个用分号分隔" onchange="saveEmails()" onblur="saveEmails()">
                 </div>
                 <div class="email-hint">默认发送给 ellenli@tfisec.com，可直接输入或从左侧选择；修改后会自动记住</div>
                 <a class="email-btn" id="emailLink" href="mailto:ellenli@tfisec.com" onclick="return updateEmailLink()">打开邮件客户端发送</a>
@@ -793,10 +793,10 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
         function appendPresetEmail(select) {{
             const input = document.getElementById("emailInput");
             if (!input || !select.value) return;
-            const current = input.value.split(',').map(s => s.trim()).filter(Boolean);
+            const current = input.value.split(';').map(s => s.trim()).filter(Boolean);
             if (!current.includes(select.value)) {{
                 current.push(select.value);
-                input.value = current.join(', ');
+                input.value = current.join('; ');
                 saveEmails();
             }}
             select.value = '';
@@ -1672,7 +1672,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                         <option value="kingsleygu@tfisec.com">kingsleygu@tfisec.com</option>
                         <option value="fundops@tfisec.com">fundops@tfisec.com</option>
                     </select>
-                    <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="" placeholder="收件人邮箱，多个用逗号分隔" onchange="saveEmails()" onblur="saveEmails()">
+                    <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="" placeholder="收件人邮箱，多个用分号分隔" onchange="saveEmails()" onblur="saveEmails()">
                 </div>
                 <div class="email-hint">可直接输入或从左侧选择；修改后会自动记住</div>
             </div>
