@@ -1801,6 +1801,20 @@
     "account": "50308216"
   },
   {
+    "art_code": "AN202606151823572666",
+    "stock_code": "08316",
+    "stock_name": "中国红包",
+    "notice_date": "2026-06-15",
+    "title": "董事会会议通告",
+    "title_ch": "董事会会议通告",
+    "columns": [
+      "董事會召開日期"
+    ],
+    "pdf_url": "https://pdf.dfcfw.com/pdf/H2_AN202606151823572666_1.pdf",
+    "fund": "JV",
+    "account": "50308216"
+  },
+  {
     "art_code": "AN202606081823368479",
     "stock_code": "08316",
     "stock_name": "中国红包",

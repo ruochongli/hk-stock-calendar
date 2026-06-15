@@ -1317,6 +1317,20 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             background: #94a3b8;
             cursor: not-allowed;
         }}
+        .sidebar-email-input {{
+            flex: 1;
+            min-width: 0;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #0f172a;
+            background: #fff;
+            outline: none;
+        }}
+        .sidebar-email-input:focus {{
+            border-color: #3b82f6;
+        }}
         /* 密码锁屏 */
         .auth-overlay {{
             position: fixed;
@@ -1550,7 +1564,8 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             <iframe class="sidebar-iframe" id="sidebarIframe" src=""></iframe>
         </div>
         <div class="sidebar-footer">
-            <button class="sidebar-email-btn" id="sidebarEmailBtn" onclick="sendEmailFromSidebar()" title="调用详情页内的邮件功能">
+            <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="ellenli@tfisec.com" placeholder="收件人邮箱，多个用逗号分隔">
+            <button class="sidebar-email-btn" id="sidebarEmailBtn" onclick="sendEmailFromSidebar()">
                 📧 发送至邮箱
             </button>
         </div>
@@ -1844,8 +1859,10 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
 
                 let cardsHtml = "";
                 if (anns.length > 0) {{
-                    cardsHtml = anns.map(a => `
-                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.url}}')openSidebar('${{a.url}}')">
+                    cardsHtml = anns.map(a => {{
+                        const safe = (s) => String(s || '').replace(/"/g, '&quot;').replace(/'/g, "&#39;");
+                        return `
+                        <div class="ann-card" title="${{safe(a.title)}}" style="border-left-color: ${{a.fundColor}};" data-url="${{safe(a.url)}}" data-code="${{safe(a.code)}}" data-name="${{safe(a.name)}}" data-name-cn="${{safe(a.name_cn)}}" data-title="${{safe(a.title)}}" data-pdf-url="${{safe(a.pdf_url)}}" data-fund="${{safe(a.fund)}}" data-date="${{safe(dateStr)}}" onclick="openSidebarFromCard(this)">
                             <div class="fund-tag" style="background-color: ${{a.fundColor}}15; color: ${{a.fundColor}};">${{a.fund}}</div>
                             <div class="stock-tag">
                                 <span class="stock-code" style="background-color: ${{a.color}}20; color: ${{a.color}}; border: 1px solid ${{a.color}}40; border-radius: 4px;">${{a.code}}</span>
@@ -1853,7 +1870,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                             </div>
                             <div class="ann-title">${{a.title}} <span style="color:#94a3b8;font-size:10px;">↗</span></div>
                         </div>
-                    `).join("");
+                    `;}}).join("");
                 }} else {{
                     cardsHtml = '<div class="empty"></div>';
                 }}
@@ -1871,6 +1888,24 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
         }}
 
         // 侧边栏
+        let currentAnnInfo = null;
+
+        function openSidebarFromCard(el) {{
+            const url = el.dataset.url;
+            if (!url) return;
+            currentAnnInfo = {{
+                url: url,
+                code: el.dataset.code,
+                name: el.dataset.name,
+                nameCn: el.dataset.nameCn,
+                title: el.dataset.title,
+                pdfUrl: el.dataset.pdfUrl,
+                fund: el.dataset.fund,
+                date: el.dataset.date,
+            }};
+            openSidebar(url);
+        }}
+
         function openSidebar(url) {{
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -1891,15 +1926,24 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
+            currentAnnInfo = null;
             setTimeout(() => {{ iframe.src = ''; }}, 300);
         }}
         function sendEmailFromSidebar() {{
-            const iframe = document.getElementById('sidebarIframe');
-            if (iframe && iframe.contentWindow && typeof iframe.contentWindow.sendEmail === 'function') {{
-                iframe.contentWindow.sendEmail();
-            }} else {{
-                alert('详情页尚未加载完成，请稍后再试。');
+            if (!currentAnnInfo) {{
+                alert('未获取到公告信息，请重新点击公告卡片。');
+                return;
             }}
+            const recipients = (document.getElementById('sidebarEmailInput')?.value || 'ellenli@tfisec.com').trim();
+            const code = currentAnnInfo.code;
+            const name = currentAnnInfo.nameCn || currentAnnInfo.name;
+            const date = currentAnnInfo.date;
+            const title = currentAnnInfo.title;
+            const pdfUrl = currentAnnInfo.pdfUrl;
+            const detailUrl = currentAnnInfo.url.startsWith('http') ? currentAnnInfo.url : new URL(currentAnnInfo.url, window.location.href).href;
+            const subject = `[港股公告] ${{code}} ${{name}} ${{date}} ${{title}}`;
+            const body = `【${{code}}】【${{name}}】【${{date}}】发布公告【${{title}}】\n\nPDF 链接: ${{pdfUrl}}\n详情页: ${{detailUrl}}`;
+            window.location.href = `mailto:${{recipients}}?subject=${{encodeURIComponent(subject)}}&body=${{encodeURIComponent(body)}}`;
         }}
         document.addEventListener('keydown', e => {{
             if (e.key === 'Escape') closeSidebar();
