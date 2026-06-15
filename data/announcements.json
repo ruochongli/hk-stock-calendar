@@ -607,6 +607,20 @@
     "account": "50307207"
   },
   {
+    "art_code": "AN202606151823572263",
+    "stock_code": "00697",
+    "stock_name": "首程控股",
+    "notice_date": "2026-06-15",
+    "title": "翌日披露报表",
+    "title_ch": "翌日披露报表",
+    "columns": [
+      "股份購回"
+    ],
+    "pdf_url": "https://pdf.dfcfw.com/pdf/H2_AN202606151823572263_1.pdf",
+    "fund": "DA",
+    "account": "50307207"
+  },
+  {
     "art_code": "AN202606121823513260",
     "stock_code": "00697",
     "stock_name": "首程控股",

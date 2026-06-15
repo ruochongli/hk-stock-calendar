@@ -1845,7 +1845,7 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                 let cardsHtml = "";
                 if (anns.length > 0) {{
                     cardsHtml = anns.map(a => `
-                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.pdf_url}}')openSidebar('${{a.pdf_url}}')">
+                        <div class="ann-card" title="${{a.title}}" style="border-left-color: ${{a.fundColor}};" onclick="if('${{a.url}}')openSidebar('${{a.url}}')">
                             <div class="fund-tag" style="background-color: ${{a.fundColor}}15; color: ${{a.fundColor}};">${{a.fund}}</div>
                             <div class="stock-tag">
                                 <span class="stock-code" style="background-color: ${{a.color}}20; color: ${{a.color}}; border: 1px solid ${{a.color}}40; border-radius: 4px;">${{a.code}}</span>
