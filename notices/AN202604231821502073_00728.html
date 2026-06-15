@@ -122,6 +122,48 @@
             background: #f8fafc;
             border-radius: 8px;
         }
+        .email-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .email-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #0f172a;
+            background: #fff;
+            outline: none;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .email-input:focus {
+            border-color: #3b82f6;
+        }
+        .email-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        .email-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .email-btn:hover {
+            background: #2563eb;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +188,30 @@
                     <span class="link-arrow">↗</span>
                 </a>
             </div>
+            <div class="email-section">
+                <div class="section-title">📧 发送公告至邮箱</div>
+                <input type="text" id="emailInput" class="email-input" value="ellenli@tfisec.com" placeholder="输入邮箱，多个用逗号分隔">
+                <div class="email-hint">默认发送至 ellenli@tfisec.com，可在上方添加或修改收件人</div>
+                <button class="email-btn" onclick="sendEmail()">打开邮件客户端发送</button>
+            </div>
         </div>
     </div>
+    <script>
+        function sendEmail() {
+            const code = "00728";
+            const name = "中国电信";
+            const date = "2026-04-23";
+            const title = "海外监管公告 - 中国电信股份有限公司独立董事提名人及候选人声明(梁旭明)";
+            const pdfUrl = "https://pdf.dfcfw.com/pdf/H2_AN202604231821502073_1.pdf";
+            const detailUrl = window.location.href;
+            const recipients = document.getElementById("emailInput").value || "ellenli@tfisec.com";
+            const subject = `[港股公告] ${code} ${name} ${date} ${title}`;
+            const body = `【${code}】【${name}】【${date}】发布公告【${title}】
+
+PDF 链接: ${pdfUrl}
+详情页: ${detailUrl}`;
+            window.location.href = `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+    </script>
 </body>
 </html>
