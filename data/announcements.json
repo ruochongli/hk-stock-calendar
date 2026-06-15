@@ -1,5 +1,20 @@
 [
   {
+    "art_code": "AN202606151823573185",
+    "stock_code": "00700",
+    "stock_name": "腾讯控股",
+    "notice_date": "2026-06-15",
+    "title": "翌日披露报表 - 已发行股份变动及股份购回",
+    "title_ch": "翌日披露报表 - 已发行股份变动及股份购回",
+    "columns": [
+      "股份購回",
+      "其他"
+    ],
+    "pdf_url": "https://pdf.dfcfw.com/pdf/H2_AN202606151823573185_1.pdf",
+    "fund": "CDG",
+    "account": "50308215"
+  },
+  {
     "art_code": "AN202606121823513750",
     "stock_code": "00700",
     "stock_name": "腾讯控股",

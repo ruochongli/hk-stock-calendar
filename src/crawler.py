@@ -686,8 +686,28 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
         }}
         .email-hint {{
             font-size: 12px;
-            color: #94a3b8;
+            color: #64748b;
             margin-bottom: 10px;
+            line-height: 1.4;
+        }}
+        .email-input-row {{
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }}
+        .email-preset {{
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #0f172a;
+            background: #fff;
+            outline: none;
+            flex-shrink: 0;
+            cursor: pointer;
+        }}
+        .email-preset:focus {{
+            border-color: #3b82f6;
         }}
         .email-btn {{
             display: inline-flex;
@@ -735,13 +755,54 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
             </div>
             <div class="email-section">
                 <div class="section-title">📧 发送公告至邮箱</div>
-                <input type="text" id="emailInput" class="email-input" value="ellenli@tfisec.com" placeholder="输入邮箱，多个用逗号分隔">
-                <div class="email-hint">默认发送至 ellenli@tfisec.com，可在上方添加或修改收件人</div>
+                <div class="email-input-row">
+                    <select class="email-preset" id="emailPreset" onchange="appendPresetEmail(this)">
+                        <option value="">快速添加</option>
+                        <option value="ellenli@tfisec.com">ellenli@tfisec.com</option>
+                        <option value="leonzheng@tfisec.com">leonzheng@tfisec.com</option>
+                        <option value="kingsleygu@tfisec.com">kingsleygu@tfisec.com</option>
+                        <option value="funops@tfisec.com">funops@tfisec.com</option>
+                    </select>
+                    <input type="text" id="emailInput" class="email-input" value="" placeholder="输入邮箱，多个用逗号分隔" onchange="saveEmails()" onblur="saveEmails()">
+                </div>
+                <div class="email-hint">默认发送给 ellenli@tfisec.com，可直接输入或从左侧选择；修改后会自动记住</div>
                 <a class="email-btn" id="emailLink" href="mailto:ellenli@tfisec.com" onclick="return updateEmailLink()">打开邮件客户端发送</a>
             </div>
         </div>
     </div>
     <script>
+        const EMAIL_STORAGE_KEY = 'hkcalendar_email_recipients';
+        const DEFAULT_EMAILS = 'ellenli@tfisec.com';
+        function loadSavedEmails() {{
+            const input = document.getElementById("emailInput");
+            if (!input) return;
+            try {{
+                const saved = localStorage.getItem(EMAIL_STORAGE_KEY);
+                input.value = saved || DEFAULT_EMAILS;
+            }} catch (e) {{
+                input.value = DEFAULT_EMAILS;
+            }}
+        }}
+        function saveEmails() {{
+            const input = document.getElementById("emailInput");
+            if (!input) return;
+            try {{
+                localStorage.setItem(EMAIL_STORAGE_KEY, input.value);
+            }} catch (e) {{}}
+        }}
+        function appendPresetEmail(select) {{
+            const input = document.getElementById("emailInput");
+            if (!input || !select.value) return;
+            const current = input.value.split(',').map(s => s.trim()).filter(Boolean);
+            if (!current.includes(select.value)) {{
+                current.push(select.value);
+                input.value = current.join(', ');
+                saveEmails();
+            }}
+            select.value = '';
+        }}
+        loadSavedEmails();
+
         function updateEmailLink() {{
             const code = "{code}";
             const name = "{name_cn}";
@@ -1297,8 +1358,37 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             background: #f8fafc;
             flex-shrink: 0;
             display: flex;
-            justify-content: flex-end;
+            flex-direction: column;
             gap: 10px;
+        }}
+        .email-field {{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }}
+        .email-input-row {{
+            display: flex;
+            gap: 8px;
+        }}
+        .email-preset {{
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #0f172a;
+            background: #fff;
+            outline: none;
+            flex-shrink: 0;
+            cursor: pointer;
+        }}
+        .email-preset:focus {{
+            border-color: #3b82f6;
+        }}
+        .email-hint {{
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.4;
         }}
         .sidebar-email-btn {{
             display: inline-flex;
@@ -1573,7 +1663,19 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             <iframe class="sidebar-iframe" id="sidebarIframe" src=""></iframe>
         </div>
         <div class="sidebar-footer">
-            <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="ellenli@tfisec.com" placeholder="收件人邮箱，多个用逗号分隔">
+            <div class="email-field">
+                <div class="email-input-row">
+                    <select class="email-preset" id="sidebarEmailPreset" onchange="appendPresetEmail(this)">
+                        <option value="">快速添加</option>
+                        <option value="ellenli@tfisec.com">ellenli@tfisec.com</option>
+                        <option value="leonzheng@tfisec.com">leonzheng@tfisec.com</option>
+                        <option value="kingsleygu@tfisec.com">kingsleygu@tfisec.com</option>
+                        <option value="funops@tfisec.com">funops@tfisec.com</option>
+                    </select>
+                    <input type="text" id="sidebarEmailInput" class="sidebar-email-input" value="" placeholder="收件人邮箱，多个用逗号分隔" onchange="saveEmails()" onblur="saveEmails()">
+                </div>
+                <div class="email-hint">可直接输入或从左侧选择；修改后会自动记住</div>
+            </div>
             <a class="sidebar-email-btn" id="sidebarEmailLink" href="mailto:ellenli@tfisec.com" onclick="return updateSidebarEmailLink()">
                 📧 发送至邮箱
             </a>
@@ -1618,6 +1720,39 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
                 }
             };
         })();
+
+        // 邮件收件人记忆
+        const EMAIL_STORAGE_KEY = 'hkcalendar_email_recipients';
+        const DEFAULT_EMAILS = 'ellenli@tfisec.com';
+        function loadSavedEmails() {{
+            const input = document.getElementById('sidebarEmailInput');
+            if (!input) return;
+            try {{
+                const saved = localStorage.getItem(EMAIL_STORAGE_KEY);
+                input.value = saved || DEFAULT_EMAILS;
+            }} catch (e) {{
+                input.value = DEFAULT_EMAILS;
+            }}
+        }}
+        function saveEmails() {{
+            const input = document.getElementById('sidebarEmailInput');
+            if (!input) return;
+            try {{
+                localStorage.setItem(EMAIL_STORAGE_KEY, input.value);
+            }} catch (e) {{}}
+        }}
+        function appendPresetEmail(select) {{
+            const input = document.getElementById('sidebarEmailInput');
+            if (!input || !select.value) return;
+            const current = input.value.split(',').map(s => s.trim()).filter(Boolean);
+            if (!current.includes(select.value)) {{
+                current.push(select.value);
+                input.value = current.join(', ');
+                saveEmails();
+            }}
+            select.value = '';
+        }}
+        loadSavedEmails();
 
         // 嵌入数据
         const annData = {DATA_JSON};
