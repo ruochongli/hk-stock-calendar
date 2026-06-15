@@ -8,6 +8,10 @@ echo ==========================================
 python src/crawler.py
 
 echo.
+echo  检查 133 招商局基金公告并发送邮件通知...
+python scripts/notify_stock_133.py
+
+echo.
 echo ==========================================
 echo  爬虫运行完成。
 echo.

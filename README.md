@@ -54,11 +54,14 @@ Excel 格式要求（第二个 sheet）：
 
 直接双击 `run.bat`
 
+运行完成后会自动检查 **133 招商局基金** 当日公告，如有则发邮件到 `ellenli@tfisec.com`。
+
 #### 方式二：命令行运行
 
 ```bash
 cd stock_crawler
 python src/crawler.py
+python scripts/notify_stock_133.py
 ```
 
 ### 3. 查看结果
@@ -102,27 +105,66 @@ python src/crawler.py
 
 ## 设置每天自动运行（Windows 任务计划程序）
 
+### 推荐：一键创建定时任务
+
+直接双击 `setup_task.bat`（建议右键**以管理员身份运行**），会自动创建一个每天 9:00 运行的定时任务：
+
+- 任务名：`HK-Stock-Calendar-Auto-Update`
+- 执行内容：`auto_run.bat`
+- 运行效果：自动爬取公告 → 推送到 GitHub Pages
+
+`auto_run.bat` 会静默运行爬虫，并把 `index.html`、`notices/`、`data/announcements.json` 自动提交推送到 GitHub。
+
+### 手动创建（备用）
+
 1. 按 `Win + S`，搜索并打开 **"任务计划程序"**
 2. 右侧点击 **"创建基本任务"**
 3. **名称**：港股公告爬虫
 4. **触发器**：选择 **"每天"**，设置运行时间（如早上 9:00）
 5. **操作**：选择 **"启动程序"**
-   - 程序或脚本：`C:\Users\ellenli\stock_crawler\run.bat`
+   - 程序或脚本：`C:\Users\ellenli\stock_crawler\auto_run.bat`
    - 起始于（可选）：`C:\Users\ellenli\stock_crawler`
 6. 完成创建
 
-> 提示：如果需要后台静默运行（不弹窗），可将 `run.bat` 中的 `pause` 删除，并在任务计划程序中勾选 **"不管用户是否登录都要运行"**。
+> 提示：`auto_run.bat` 已设计为后台静默运行，无需删除 `pause`。
+
+---
+
+## GitHub Pages 健康检查 Loop
+
+Pages 偶尔会因为网络、GitHub 延迟或推送失败出现 404。可以启用自动健康检查：
+
+- **检查脚本**：`scripts/check_pages_health.py`
+- **手动运行**：双击 `check_pages.bat`
+- **创建定时任务**：右键以管理员身份运行 `scripts/setup_pages_check.bat`
+
+默认行为：
+
+- 每天 **3:00** 访问 `https://ruochongli.github.io/hk-stock-calendar/`
+- 如果 HTTP 不是 200，自动 `git push` 重推现有 `index.html`
+- 结果写入 `logs/pages_health_YYYYMMDD.log`
+- 异常或修复失败时**发邮件到 ellenli@tfisec.com**（通过 Outlook；如果 Outlook 不可用，降级为 Windows 通知）
+
+> 注意：健康检查只做"重推"，不会重新运行爬虫，因此不依赖 Excel 持仓文件。
 
 ## 项目结构
 
 ```
 stock_crawler/
 ├── config/
-│   └── holdings.json      # 持仓配置
+│   └── holdings.json      # 持仓配置（自动生成/手动维护）
 ├── src/
-│   └── crawler.py         # 主程序
+│   └── crawler.py         # 主程序：读取持仓、爬取公告、生成日历
+├── data/
+│   └── announcements.json # 公告原始数据（自动生成）
+├── notices/               # 公告详情 HTML 缓存（自动生成）
 ├── logs/                  # 运行日志（自动生成）
-├── run.bat                # Windows 一键运行脚本
+├── index.html             # 财经日历网页（自动生成，也是 GitHub Pages 入口）
+├── run.bat                # 一键运行爬虫并生成本地日历
+├── auto_run.bat           # 定时任务用：爬取 + 自动推送到 GitHub Pages
+├── setup_task.bat         # 创建 Windows 定时任务（每天 9:00 自动更新）
+├── deploy.bat             # 手动部署/首次部署到 GitHub Pages
+├── GITHUB_PAGES_SETUP.md  # GitHub Pages 部署详细指南
 ├── requirements.txt       # Python 依赖
 └── README.md              # 本文件
 ```
