@@ -537,10 +537,7 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
     fund_color = fund_to_color.get(fund, "#64748b")
     art_code = ann.get("art_code", "")
 
-    # 外部搜索链接
-    hkex_search = f"https://www1.hkexnews.hk/search/titlesearch.xhtml?lang=zh&stockCode={code.zfill(5)}"
-    sina_url = f"https://stock.finance.sina.com.cn/hkstock/notice/{code}.html"
-    eastmoney_search = f"https://data.eastmoney.com/notices/hk/{code}.html"
+    # PDF 直链
     pdf_url = f"https://pdf.dfcfw.com/pdf/H2_{art_code}_1.pdf" if art_code else ""
 
     return f'''<!DOCTYPE html>
@@ -690,21 +687,6 @@ def _build_notice_detail(ann: dict, code_to_color: dict, fund_to_color: dict, cn
                     <span>📄 东方财富 PDF 直链</span>
                     <span class="link-arrow">↗</span>
                 </a>
-                <a class="link-item" href="{eastmoney_search}" target="_blank">
-                    <span>东方财富 - {name_cn} 公告列表</span>
-                    <span class="link-arrow">↗</span>
-                </a>
-                <a class="link-item" href="{sina_url}" target="_blank">
-                    <span>新浪财经 - {name_cn} 公告列表</span>
-                    <span class="link-arrow">↗</span>
-                </a>
-                <a class="link-item" href="{hkex_search}" target="_blank">
-                    <span>港交所披露易 - 标题搜索</span>
-                    <span class="link-arrow">↗</span>
-                </a>
-            </div>
-            <div class="notice">
-                提示：若上方 PDF 直链无法打开，可通过其他平台链接查看原始公告。
             </div>
         </div>
     </div>
