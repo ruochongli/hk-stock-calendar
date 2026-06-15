@@ -17471,5 +17471,31 @@
     ],
     "fund": "JV",
     "account": "50308216"
+  },
+  {
+    "art_code": "AN202606151823570030",
+    "stock_code": "00133",
+    "stock_name": "招商局中国基金",
+    "notice_date": "2026-06-15",
+    "title": "资产净值",
+    "title_ch": "资产净值",
+    "columns": [
+      "資產淨值"
+    ],
+    "fund": "Park",
+    "account": "50308219"
+  },
+  {
+    "art_code": "AN202606151823562330",
+    "stock_code": "02513",
+    "stock_name": "智谱",
+    "notice_date": "2026-06-15",
+    "title": "自愿公告",
+    "title_ch": "自愿公告",
+    "columns": [
+      "其他-雜項"
+    ],
+    "fund": "DA",
+    "account": "50308224"
   }
 ]
