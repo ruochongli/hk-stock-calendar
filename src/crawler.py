@@ -1287,6 +1287,36 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             height: 100%;
             border: none;
         }}
+        .sidebar-footer {{
+            padding: 12px 18px;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }}
+        .sidebar-email-btn {{
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }}
+        .sidebar-email-btn:hover {{
+            background: #2563eb;
+        }}
+        .sidebar-email-btn:disabled {{
+            background: #94a3b8;
+            cursor: not-allowed;
+        }}
         /* 密码锁屏 */
         .auth-overlay {{
             position: fixed;
@@ -1518,6 +1548,11 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
         </div>
         <div class="sidebar-body">
             <iframe class="sidebar-iframe" id="sidebarIframe" src=""></iframe>
+        </div>
+        <div class="sidebar-footer">
+            <button class="sidebar-email-btn" id="sidebarEmailBtn" onclick="sendEmailFromSidebar()" title="调用详情页内的邮件功能">
+                📧 发送至邮箱
+            </button>
         </div>
     </div>
 
@@ -1840,11 +1875,14 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             const iframe = document.getElementById('sidebarIframe');
+            const emailBtn = document.getElementById('sidebarEmailBtn');
             if (!url) return;
             iframe.src = url;
+            if (emailBtn) emailBtn.disabled = true;
             sidebar.classList.add('active');
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+            iframe.onload = () => {{ if (emailBtn) emailBtn.disabled = false; }};
         }}
         function closeSidebar() {{
             const sidebar = document.getElementById('sidebar');
@@ -1854,6 +1892,14 @@ def _build_html(data_json: str, stocks_json: str, funds_json: str, categories_js
             overlay.classList.remove('active');
             document.body.style.overflow = '';
             setTimeout(() => {{ iframe.src = ''; }}, 300);
+        }}
+        function sendEmailFromSidebar() {{
+            const iframe = document.getElementById('sidebarIframe');
+            if (iframe && iframe.contentWindow && typeof iframe.contentWindow.sendEmail === 'function') {{
+                iframe.contentWindow.sendEmail();
+            }} else {{
+                alert('详情页尚未加载完成，请稍后再试。');
+            }}
         }}
         document.addEventListener('keydown', e => {{
             if (e.key === 'Escape') closeSidebar();
