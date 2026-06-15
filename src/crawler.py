@@ -202,14 +202,16 @@ def fetch_announcements(stock_code: str, begin_time: str = None, end_time: str =
         notice_date_raw = item.get("notice_date", "")
         notice_date = notice_date_raw.split()[0] if notice_date_raw else ""
 
+        art_code = item.get("art_code", "")
         announcements.append({
-            "art_code": item.get("art_code", ""),
+            "art_code": art_code,
             "stock_code": stock_info.get("stock_code", stock_code),
             "stock_name": stock_info.get("short_name", ""),
             "notice_date": notice_date,
             "title": item.get("title", "").strip(),
             "title_ch": item.get("title_ch", "").strip(),
             "columns": [col.get("column_name", "") for col in item.get("columns", [])],
+            "pdf_url": f"https://pdf.dfcfw.com/pdf/H2_{art_code}_1.pdf" if art_code else "",
         })
 
     return announcements
@@ -307,10 +309,11 @@ def main():
     print("查询结果汇总")
     print("=" * 60)
 
-    # 合并新旧数据（按 art_code 去重）
+    # 合并新旧数据（按 art_code 去重，新数据优先覆盖旧数据）
     seen_art_codes = set()
     merged_announcements = []
-    for ann in existing_announcements + all_announcements:
+    # 先放新获取的数据，确保字段最新（如 pdf_url）
+    for ann in all_announcements + existing_announcements:
         art_code = ann.get("art_code", "")
         key = art_code if art_code else f"{ann['stock_code']}_{ann.get('notice_date', '')}_{ann.get('title', '')}"
         if key not in seen_art_codes:
@@ -368,12 +371,12 @@ def _generate_calendar_html(announcements: list[dict], holdings: list[dict]) -> 
         "#f43f5e", "#0ea5e9", "#a855f7", "#22c55e",
     ]
     code_to_color = {}
-    color_idx = 0
     for ann in announcements:
         code = ann["stock_code"]
         if code not in code_to_color:
-            code_to_color[code] = stock_colors[color_idx % len(stock_colors)]
-            color_idx += 1
+            # 基于股票代码数字选择稳定颜色，避免公告顺序影响
+            color_idx = int(code) % len(stock_colors)
+            code_to_color[code] = stock_colors[color_idx]
 
     # 为每个基金分配颜色
     fund_colors = [
